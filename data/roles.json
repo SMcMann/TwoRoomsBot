@@ -1,0 +1,12 @@
+[
+    {
+        "name": "President",
+        "color": "Blue",
+        "rules": "­You are a primary character. Blue Team wins if you do not gain the \"dead\" condition."
+    },
+    {
+        "name": "Bomber",
+        "color": "Red",
+        "rules": "­You are a primary character. Everyone in the same room as you at the end of the game gains the \"dead\" condition. The Red Team wins if the President gains the \"dead\" condition. \nNote: it is possible that the Bomber receives the “dead” condition before the end of the game. If this happens, then the Bomber does not detonate, failing to provide the \"dead\" condition to everyone in the same room at the end of the game."
+    }
+]
