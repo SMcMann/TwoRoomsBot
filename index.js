@@ -16,6 +16,10 @@ for (const file of commandFiles) {
 
   const cooldowns = new Discord.Collection();
 
+const characters = require("./data/roles.json");
+const special_chars = require("./data/specialroles.json");
+const assignments = new Discord.Collection();
+
 client.once('ready', () => {
 
   console.log('Ready!');

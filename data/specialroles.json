@@ -1,0 +1,17 @@
+[
+    {
+        "name": "Red Team",
+        "color": "Red",
+        "rules": "You are on Red Team. You win if the President gains the \"dead\" condition."
+    },
+    {
+        "name": "Blue Team",
+        "color": "Blue",
+        "rules": "You are on Blue Team. You win if the President does not gain the \"dead\" condition."
+    },
+    {
+        "name": "Gambler",
+        "color": "Gray",
+        "rules": "At the end of the last round, before all players reveal their cards, you must publicly announce which team (Red Team, Blue Team, or neither) you think won the game. Win only if you are correct."
+    }
+]
