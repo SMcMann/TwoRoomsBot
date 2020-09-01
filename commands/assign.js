@@ -56,8 +56,7 @@ module.exports = {
             curr_player.nickname !== null ? username = curr_player.nickname : username = curr_player.user.username; //Gets current nickname or username
             curr_player.send({files: [cards[char_pick.name.toLowerCase().replace(/\s+/g, '')]]})
                 .then(gameSize++) // Increases the player count
-                .catch(console.error); // Shows error if we have a send error
-            curr_player.send(`**Role:** ${char_pick.name}\n**Share Color:** ${char_pick.color}\n**Team:** ${char_pick.alignment} Team\n\n**[- ${char_pick.name} Rules -]**\n${char_pick.rules}\n\nGood luck, don't fail the ${char_pick.color}!`)
+                .then(curr_player.send(`**Role:** ${char_pick.name}\n**Share Color:** ${char_pick.color}\n**Team:** ${char_pick.alignment} Team\n\n**[- ${char_pick.name} Rules -]**\n${char_pick.rules}\n\nGood luck, don't fail the ${char_pick.color}!`))
                 .then(console.log(`  ${char_pick.name} was assigned to ${username}...`))
                 .catch(console.error); // Shows error if we have a send error
         }
