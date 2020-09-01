@@ -1,7 +1,8 @@
 const Discord = require('discord.js');
-const characters = require("../data/roles.json");
-const special_chars = require("../data/specialroles.json");
-const assignments = require("../data/database");
+const characters = require('../data/roles.json');
+const special_chars = require('../data/specialroles.json');
+const assignments = require('../data/database');
+const cards = require('../image/cards');
 
 module.exports = {
     name: 'assign', //THIS MUST BE THE SAME NAME OF THE FILE/COMMAND
@@ -10,8 +11,9 @@ module.exports = {
     args: false, 
     execute(message, args){
         //Make a Collection of members with the Player role
-        const player_base = message.guild.members.cache.filter(p => p.roles.cache.some(r => r.name === "OMG Con Player"));
-
+        let gameSize = 0
+        const player_base = message.guild.members.cache.filter(p => p.roles.cache.some(r => r.name === "OMG Con Player") && p.presence.status === 'online');
+        
         const players = [...player_base.values()];
         const playerCount = players.length;
         let DTS = 0; //A flag for whether the Decoy/Target/Sniper are in the game
@@ -48,8 +50,12 @@ module.exports = {
                 character: char_pick
             });
             //DM the player their role
-            curr_player.send(`You are the ${char_pick.name}!\n${char_pick.rules}\nGood luck!`);
+            curr_player.send({files: [cards[char_pick.name.toLowerCase().replace(/\s+/g, '')]]})
+                .then(gameSize++) // Increases the player count
+                .catch(console.error); // Shows error if we have a send error
+            curr_player.send(`**Role:**  ${char_pick.name}\n**Visible Color:** ${char_pick.color}\n**Team:** ${char_pick.color} Team\n\n**[- ${char_pick.name} Rules -]**\n${char_pick.rules}\n\nGood luck, don't fail the ${char_pick.color}!`)
+                .catch(console.error); // Shows error if we have a send error
         }
-
+        message.reply(`${gameSize} roles assigned for this game!`);
     }//execute
 }
