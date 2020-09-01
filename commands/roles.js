@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const rolesArray = require('../data/roles.json');
 const specialRoles = require('../data/specialroles.json');
 
+
 let roles = [...rolesArray, ...specialRoles];
 
 module.exports = {
@@ -10,10 +11,15 @@ module.exports = {
     description: 'This command returns the availible roles.',
     args: false, 
     execute(message, args){
-        let msg = 'Two Room and a Boom Roles: \n'
+        message.reply('here are the Two Room and a Boom Roles: \n')
         for (role of roles) {
-            msg = `${msg} :white_small_square: ${role.name} | ${role.color} | ${role.rules}\n` 
+            let embed = {
+                color: 0x0099ff,
+                title: `Role: ${role.name}`,
+                description: `${role.rules}`,
+                timestamp: new Date()
+            };
+            message.channel.send({ embed }); // this is how you send a Private message
         }
-        message.reply(msg); // this is how you send a Private message
     }//execute
 }
