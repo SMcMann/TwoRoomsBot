@@ -1,5 +1,9 @@
 const Discord = require('discord.js');
-const characters = require('../data/roles.json');
+//Temporary change for testing Psychologist
+const getCharacters = require('../data/roles.json');
+const characters = [getCharacters[6], getCharacters[11]];
+//const characters = require('../data/roles.json');
+
 const special_chars = require('../data/specialroles.json');
 const assignments = require('../data/database');
 const cards = require('../image/cards');

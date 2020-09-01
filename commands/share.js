@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const assignments = require("../data/database");
-const { findPlayer } = require('../data/database');
+const { editDB, findPlayer } = require('../data/database');
 
 module.exports = {
     name: 'share', //THIS MUST BE THE SAME NAME OF THE FILE/COMMAND
@@ -35,7 +35,11 @@ module.exports = {
         if (cmd === 'colour') cmd = 'color';
         if (cmd === 'role') cmd = 'card';
 
-        // TO-DO block users with SHY boolean TRUE
+        // Block users with SHY boolean TRUE
+        if (player.character.shy) {
+            player.player.user.send("Sorry, you can't share. You have the 'Shy' condition. Try seeing a Psychologist.");
+            return;
+        }
         switch (cmd) {
             case('color'):
                 target.player.user.send(`${message.author.username}'s color is ${player.character.color}`)
@@ -45,12 +49,23 @@ module.exports = {
                 // TO-DO change any flags in the DB that needs to change due to COLOR share...    
                 break;
             case('card'):
-                // TO-DO block users with COY boolean TRUE
+                if (player.character.coy) {
+                    player.player.user.send("Sorry, you can't card share. You have the 'Coy' condition. Try seeing a Psychologist.");
+                    return;
+                }
                 target.player.user.send(`${message.author.username}'s role is ${player.character.name} and color is ${player.character.color}!`)
                     .then(console.log(`${message.author.username} shared their card with ${user}`))
                     .then(message.reply(`Your card was successfully shared with ${target.player.user.username}`))
                     .catch(console.error);
                 // TO-DO change any flags in the DB that needs to change due to CARD share...
+                if (player.character.name == "Red Psychologist" || player.character.name == "Blue Psychologist") {
+                    console.log("Attempting to remove conditions")
+                        .then(editDB(target.player.username, "coy", false))
+                        .then(console.log("coy removed"))
+                        .then(editDB(target.player.username,"shy",false))
+                        .then(console.log("shy removed"))
+                        .catch(console.error);
+                }
                 break;
             default:
                 message.reply(`You must specify what type of share you want to do.\n - color\n - card`)

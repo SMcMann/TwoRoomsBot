@@ -10,6 +10,11 @@ function findPlayer (payload) {
 
 }
 
+function editDB (player, target, edit) {
+    let editee = findPlayer(player);
+    editee[target] = edit;
+}
+
 function addToDB (payload) {
     database.push(payload);
 }
@@ -18,4 +23,4 @@ function clearDB () {
     database.length = 0;
 }
 
-module.exports = {database, addToDB, clearDB, findPlayer};
+module.exports = {database, addToDB, editDB, clearDB, findPlayer};
