@@ -1,8 +1,7 @@
 const Discord = require('discord.js');
 const characters = require("../data/roles.json");
 const special_chars = require("../data/specialroles.json");
-let assignments = [];//TEMPORARY - FOR TESTING
-//Needs to be moved to a more accessable location
+let assignments = require("../data/database");
 
 module.exports = {
     name: 'assign', //THIS MUST BE THE SAME NAME OF THE FILE/COMMAND
@@ -39,9 +38,8 @@ module.exports = {
                 char_pick = characters[counter];
             }
             //Add the assignment to the Collection for use in other commands
-            assignments.push({
-                id: curr_player.user.id,
-                screenname: curr_player.user.username,
+            assignments.addToDB({
+                player: curr_player,
                 character: char_pick
             });
             //DM the player their role
