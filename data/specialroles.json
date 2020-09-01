@@ -2,16 +2,37 @@
     {
         "name": "Red Team",
         "color": "Red",
+        "alignment": "Red",
         "rules": "You are on Red Team. You win if the President gains the \"dead\" condition."
     },
     {
         "name": "Blue Team",
         "color": "Blue",
+        "alignment": "Blue",
         "rules": "You are on Blue Team. You win if the President does not gain the \"dead\" condition."
     },
     {
         "name": "Gambler",
         "color": "Gray",
-        "rules": "At the end of the last round, before all players reveal their cards, you must publicly announce which team (Red Team, Blue Team, or neither) you think won the game. Win only if you are correct."
+        "alignment": "Gray",
+        "rules": "At the end of the last round, before all players (including the Sniper if they are in the game) reveal their cards, you must publicly announce which team (Red Team, Blue Team, or neither) you think won the game. Win only if you are correct."
+    },
+    {
+        "name": "Decoy",
+        "color": "Gray",
+        "alignment": "Gray",
+        "rules": "You win if the Sniper shoots you at the end of the last round."
+    },
+    {
+        "name": "Target",
+        "color": "Gray",
+        "alignment": "Gray",
+        "rules": "You win if the Sniper does not shoot you at the end of the last round."
+    },
+    {
+        "name": "Sniper",
+        "color": "Gray",
+        "alignment": "Gray",
+        "rules": "At the end of the last round, before all players reveal their character cards and after the Gambler has made their guess (if they are in the game), you must publicly announce which player you are shooting. The selected player does not have to be in the same room as you. You win if the player you selected is the Target."
     }
 ]

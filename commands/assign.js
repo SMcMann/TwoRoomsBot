@@ -31,6 +31,9 @@ module.exports = {
                     //Assign Blue Team
                     char_pick = special_chars[1];
                 }
+            } else if (randomized_players.length - characters.length >= 3 && counter >= characters.length && counter < characters.length + 3) {
+                //Special Case: Enough room for Decoy/Target/Sniper (special_chars indices 3/4/5)
+                char_pick = special_chars[counter - characters.length + 3];
             } else {
                 //Regular Case
                 char_pick = characters[counter];
