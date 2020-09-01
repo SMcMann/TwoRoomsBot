@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const characters = require("../data/roles.json");
 const special_chars = require("../data/specialroles.json");
-let assignments = require("../data/database");
+const assignments = require("../data/database");
 
 module.exports = {
     name: 'assign', //THIS MUST BE THE SAME NAME OF THE FILE/COMMAND
@@ -12,13 +12,17 @@ module.exports = {
         //Make a Collection of members with the Player role
         const player_base = message.guild.members.cache.filter(p => p.roles.cache.some(r => r.name === "OMG Con Player"));
 
-        //Turn into an array in a random order (maybe?)
-        const randomized_players = player_base.random(player_base.size);
-        for (let counter = 0; counter < randomized_players.length; counter++) {
+        const players = [...player_base.values()];
+        const playerCount = players.length;
+        let DTS = 0; //A flag for whether the Decoy/Target/Sniper are in the game
+        for (let counter = 0; counter < playerCount; counter++) {
+            //Pick a random player from players
+            let rand = Math.floor(Math.random() * players.length);
+            let curr_player = players[rand];
+            players.splice(rand,1);
             //Assign a role to the player
-            let curr_player = randomized_players[counter];
             let char_pick;
-            if (counter == randomized_players.length - 1 && counter % 2 == 0) {
+            if (counter == playerCount.length - 1 && counter % 2 == DTS) {
                 //Special Case: Odd player count - Assign Gambler
                 char_pick = special_chars[2];
             } else if (counter >= characters.length) {
@@ -30,14 +34,15 @@ module.exports = {
                     //Assign Blue Team
                     char_pick = special_chars[1];
                 }
-            } else if (randomized_players.length - characters.length >= 3 && counter >= characters.length && counter < characters.length + 3) {
+            } else if (playerCount.length - characters.length >= 3 && counter >= characters.length && counter < characters.length + 3) {
                 //Special Case: Enough room for Decoy/Target/Sniper (special_chars indices 3/4/5)
                 char_pick = special_chars[counter - characters.length + 3];
+                DTS = 1; //Now, the Gambler will be added if there are an even number of players
             } else {
                 //Regular Case
                 char_pick = characters[counter];
             }
-            //Add the assignment to the Collection for use in other commands
+            //Add the assignment to the database for use in other commands
             assignments.addToDB({
                 player: curr_player,
                 character: char_pick

@@ -5,7 +5,7 @@ function addToDB (payload) {
 }
 
 function clearDB () {
-    database = [];
+    database.length = 0;
 }
 
 module.exports = {database, addToDB, clearDB};
