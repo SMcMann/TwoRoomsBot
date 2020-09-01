@@ -23,6 +23,10 @@ module.exports = {
             if (actual_member.roles.cache.some(r => r.name == server.roles.gray)) {
                 actual_member.roles.remove(message.guild.roles.cache.filter(r => r.name == server.roles.gray));
             }
+            //Remove Leaders
+            if (actual_member.roles.cache.some(r => r.name == server.roles.leader)) {
+                actual_member.roles.remove(message.guild.roles.cache.filter(r => r.name == server.roles.leader));
+            }
         }
 
         //Reset database
