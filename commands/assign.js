@@ -1,4 +1,8 @@
 const Discord = require('discord.js');
+const characters = require("../data/roles.json");
+const special_chars = require("../data/specialroles.json");
+let assignments = [];//TEMPORARY - FOR TESTING
+//Needs to be moved to a more accessable location
 
 module.exports = {
     name: 'assign', //THIS MUST BE THE SAME NAME OF THE FILE/COMMAND
@@ -10,10 +14,10 @@ module.exports = {
         const player_base = message.guild.members.cache.filter(p => p.roles.cache.some(r => r.name === "OMG Con Player"));
 
         //Turn into an array in a random order (maybe?)
-        const randomized_players = player_base.random(player_base.size)
-        console.log(randomized_players);
+        const randomized_players = player_base.random(player_base.size);
         for (let counter = 0; counter < randomized_players.length; counter++) {
             //Assign a role to the player
+            let curr_player = randomized_players[counter];
             let char_pick;
             if (counter == randomized_players.length - 1 && counter % 2 == 0) {
                 //Special Case: Odd player count - Assign Gambler
@@ -32,9 +36,14 @@ module.exports = {
                 char_pick = characters[counter];
             }
             //Add the assignment to the Collection for use in other commands
-            assignments.set(p.displayName,{player: randomized_players[counter], character: char_pick});
+            assignments.push({
+                id: curr_player.user.id,
+                screenname: curr_player.user.username,
+                character: char_pick
+            });
             //DM the player their role
-            randomized_players.send(`You are the ${char_pick.name}. Good luck!`);
+            curr_player.send(`You are the ${char_pick.name}!\n${char_pick.rules}\nGood luck!`);
         }
+
     }//execute
 }
