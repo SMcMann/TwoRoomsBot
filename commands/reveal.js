@@ -21,7 +21,9 @@ module.exports = {
             } else {
                 new_role = message.guild.roles.cache.filter(r => r.name == "Gray Team");
             }
-            member.player.roles.add(new_role);
+            member.player.roles.add(new_role)
+                .then(console.log(`  ${member.username} assigned to ${new_role}...`))
+                .catch(console.error); // Shows error if we have a send error;
         }
     }//execute
 }

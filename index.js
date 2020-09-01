@@ -20,7 +20,7 @@ for (const file of commandFiles) {
 client.once('ready', () => {
 
   console.log('Ready!');
-  client.user.setActivity("Moderating Two Rooms", { type: 'PLAYING' });
+  client.user.setActivity("Two Rooms & a Boom", { type: 'WATCHING' });
  });
 
  

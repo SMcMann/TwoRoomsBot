@@ -10,9 +10,11 @@ module.exports = {
     description: 'Assign a character to every member with the Player role',
     args: false, 
     execute(message, args){
+        console.log(`Assigning Roles...`)
+
         //Make a Collection of members with the Player role
         let gameSize = 0
-        const player_base = message.guild.members.cache.filter(p => p.roles.cache.some(r => r.name === "OMG Con Player") && p.presence.status === 'online');
+        const player_base = message.guild.members.cache.filter(p => p.roles.cache.some(r => r.name === "OMG Con Player"));
         
         const players = [...player_base.values()];
         const playerCount = players.length;
@@ -50,12 +52,16 @@ module.exports = {
                 character: char_pick
             });
             //DM the player their role
+            let username
+            curr_player.nickname !== null ? username = curr_player.nickname : username = curr_player.user.username; //Gets current nickname or username
             curr_player.send({files: [cards[char_pick.name.toLowerCase().replace(/\s+/g, '')]]})
                 .then(gameSize++) // Increases the player count
                 .catch(console.error); // Shows error if we have a send error
-            curr_player.send(`**Role:**  ${char_pick.name}\n**Visible Color:** ${char_pick.color}\n**Team:** ${char_pick.color} Team\n\n**[- ${char_pick.name} Rules -]**\n${char_pick.rules}\n\nGood luck, don't fail the ${char_pick.color}!`)
+            curr_player.send(`**Role:** ${char_pick.name}\n**Share Color:** ${char_pick.color}\n**Team:** ${char_pick.alignment} Team\n\n**[- ${char_pick.name} Rules -]**\n${char_pick.rules}\n\nGood luck, don't fail the ${char_pick.color}!`)
+                .then(console.log(`  ${char_pick.name} was assigned to ${username}...`))
                 .catch(console.error); // Shows error if we have a send error
         }
         message.reply(`${gameSize} roles assigned for this game!`);
+        console.log(`${gameSize} roles assigned for this game...`);
     }//execute
 }
