@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-let assignments = require("../data/database");
+const assignments = require("../data/database");
 /*
 assignments.database[i] = {
     player: curr_player,
@@ -13,14 +13,15 @@ module.exports = {
     args: false, 
     execute(message, args){
         for (let member of assignments.database) {
-            let r = member.player.roles.cache;
+            let new_role;
             if (member.character.alignment == "Red") {
-                r.add(message.guild.roles.cache.filter(r => r.name == "Red Team"));
+                new_role = message.guild.roles.cache.filter(r => r.name == "Red Team");
             } else if (member.character.alignment == "Blue") {
-                r.add(message.guild.roles.cache.filter(r => r.name == "Blue Team"));
+                new_role = message.guild.roles.cache.filter(r => r.name == "Blue Team");
             } else {
-                r.add(message.guild.roles.cache.filter(r => r.name == "Gray Team"));
+                new_role = message.guild.roles.cache.filter(r => r.name == "Gray Team");
             }
+            member.player.roles.add(new_role);
         }
     }//execute
 }
