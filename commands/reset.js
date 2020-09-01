@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const assignments = require("../data/database");
+const server = require("../data/server.json");
 
 module.exports = {
     name: 'reset', //THIS MUST BE THE SAME NAME OF THE FILE/COMMAND
@@ -11,16 +12,16 @@ module.exports = {
         for (let member of message.guild.members.cache) {
             let actual_member = member[1];
             //Remove Red Team
-            if (actual_member.roles.cache.some(r => r.name == "Red Team")) {
-                actual_member.roles.remove(message.guild.roles.cache.filter(r => r.name == "Red Team"));
+            if (actual_member.roles.cache.some(r => r.name == server.roles.red)) {
+                actual_member.roles.remove(message.guild.roles.cache.filter(r => r.name == server.roles.red));
             }
             //Remove Blue Team
-            if (actual_member.roles.cache.some(r => r.name == "Blue Team")) {
-                actual_member.roles.remove(message.guild.roles.cache.filter(r => r.name == "Blue Team"));
+            if (actual_member.roles.cache.some(r => r.name == server.roles.blue)) {
+                actual_member.roles.remove(message.guild.roles.cache.filter(r => r.name == server.roles.blue));
             }
             //Remove Gray Team
-            if (actual_member.roles.cache.some(r => r.name == "Gray Team")) {
-                actual_member.roles.remove(message.guild.roles.cache.filter(r => r.name == "Gray Team"));
+            if (actual_member.roles.cache.some(r => r.name == server.roles.gray)) {
+                actual_member.roles.remove(message.guild.roles.cache.filter(r => r.name == server.roles.gray));
             }
         }
 

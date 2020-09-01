@@ -1,0 +1,24 @@
+{
+    "roles": [
+        {
+            "red": "Red Team"
+        },
+        {
+            "blue": "Blue Team"
+        },
+        {
+            "gray": "Gray Team"
+        },
+        {
+            "player": "OMG Con Player"
+        }
+    ],
+    "channels": [
+        {
+            "room 1": "Two Rooms Room 1"
+        },
+        {
+            "room 2": "Two Rooms Room 2"
+        }
+    ]
+}

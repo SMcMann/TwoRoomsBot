@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const server = require("../data/server.json");
 const assignments = require("../data/database");
 /*
 assignments.database[i] = {
@@ -15,11 +16,11 @@ module.exports = {
         for (let member of assignments.database) {
             let new_role;
             if (member.character.alignment == "Red") {
-                new_role = message.guild.roles.cache.filter(r => r.name == "Red Team");
+                new_role = message.guild.roles.cache.filter(r => r.name == server.roles.red);
             } else if (member.character.alignment == "Blue") {
-                new_role = message.guild.roles.cache.filter(r => r.name == "Blue Team");
+                new_role = message.guild.roles.cache.filter(r => r.name == server.roles.blue);
             } else {
-                new_role = message.guild.roles.cache.filter(r => r.name == "Gray Team");
+                new_role = message.guild.roles.cache.filter(r => r.name == server.roles.gray);
             }
             member.player.roles.add(new_role)
                 .then(console.log(`  ${member.username} assigned to ${new_role}...`))
