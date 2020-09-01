@@ -3,13 +3,13 @@
         "name": "President",
         "color": "Blue",
         "alignment": "Blue",
-        "rules": "­You are a primary character. Blue Team wins if you do not gain the \"dead\" condition."
+        "rules": "­You are a primary character. Blue Team wins if you do not gain the “dead” condition."
     },
     {
         "name": "Bomber",
         "color": "Red",
         "alignment": "Red",
-        "rules": "­You are a primary character. Everyone in the same room as you at the end of the game gains the \"dead\" condition. The Red Team wins if the President gains the \"dead\" condition. \nNote: it is possible that the Bomber receives the “dead” condition before the end of the game. If this happens, then the Bomber does not detonate, failing to provide the \"dead\" condition to everyone in the same room at the end of the game."
+        "rules": "­You are a primary character. Everyone in the same room as you at the end of the game gains the “dead” condition. The Red Team wins if the President gains the “dead” condition. \n\n**Note:** It is possible that the Bomber receives the “dead” condition before the end of the game. If this happens, then the Bomber does not detonate, failing to provide the \"dead” condition to everyone in the same room at the end of the game."
     },
     {
         "name": "Doctor",
@@ -39,36 +39,36 @@
         "name": "Red Coyboy",
         "color": "Red",
         "alignment": "Red",
-        "rules": "You begin with the \"coy\" condition. Players with the \"coy\" condition may ONLY color share unless a character’s power forces otherwise. Note: The \"coy\" condition is a psych condition and can be cured by a Psychologist."
+        "rules": "You begin with the “coy” condition. Players with the “coy” condition may ONLY color share unless a character’s power forces otherwise. Note: The “coy” condition is a psych condition and can be cured by a Psychologist."
     },
     {
         "name": "Blue Coyboy",
         "color": "Blue",
         "alignment": "Blue",
-        "rules": "You begin with the \"coy\" condition. Players with the \"coy\" condition may ONLY color share unless a character’s power forces otherwise. Note: The \"coy\" condition is a psych condition and can be cured by a Psychologist."
+        "rules": "You begin with the “coy” condition. Players with the “coy” condition may ONLY color share unless a character’s power forces otherwise. Note: The “coy” condition is a psych condition and can be cured by a Psychologist."
     },
     {
         "name": "Blue Shyguy",
         "color": "Blue",
         "alignment": "Blue",
-        "rules": "You begin with the \"shy\" condition. Players with the \"shy\" condition may not reveal any part of their card to any player. Note: The \"shy\" condition is a psych condition and can be cured by a Psychologist."
+        "rules": "You begin with the “shy” condition. Players with the “shy” condition may not reveal any part of their card to any player. Note: The “shy” condition is a psych condition and can be cured by a Psychologist."
     },
     {
         "name": "Red Shyguy",
         "color": "Red",
         "alignment": "Red",
-        "rules": "You begin with the \"shy\" condition. Players with the \"shy\" condition may not reveal any part of their card to any player. Note: The \"shy\" condition is a psych condition and can be cured by a Psychologist."
+        "rules": "You begin with the “shy” condition. Players with the “shy” condition may not reveal any part of their card to any player. Note: The “shy” condition is a psych condition and can be cured by a Psychologist."
     },
     {
         "name": "Red Psychologist",
         "color": "Red",
         "alignment": "Red",
-        "rules": "When you privately reveal your card to a character with a psych condition (e.g. \"shy\", \"coy\", etc.), that character may then immediately card share with you. If they do, their psych condition is removed."
+        "rules": "When you privately reveal your card to a character with a psych condition (e.g. “shy”, “coy”, etc.), that character may then immediately card share with you. If they do, their psych condition is removed."
     },
     {
         "name": "Blue Psychologist",
         "color": "Blue",
         "alignment": "Blue",
-        "rules": "When you privately reveal your card to a character with a psych condition (e.g. \"shy\", \"coy\", etc.), that character may then immediately card share with you. If they do, their psych condition is removed."
+        "rules": "When you privately reveal your card to a character with a psych condition (e.g. “shy”, “coy”, etc.), that character may then immediately card share with you. If they do, their psych condition is removed."
     }
 ]
