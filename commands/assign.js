@@ -14,6 +14,7 @@ module.exports = {
 
         const players = [...player_base.values()];
         const playerCount = players.length;
+        let DTS = 0; //A flag for whether the Decoy/Target/Sniper are in the game
         for (let counter = 0; counter < playerCount; counter++) {
             //Pick a random player from players
             let rand = Math.floor(Math.random() * players.length);
@@ -21,7 +22,7 @@ module.exports = {
             players.splice(rand,1);
             //Assign a role to the player
             let char_pick;
-            if (counter == playerCount.length - 1 && counter % 2 == 0) {
+            if (counter == playerCount.length - 1 && counter % 2 == DTS) {
                 //Special Case: Odd player count - Assign Gambler
                 char_pick = special_chars[2];
             } else if (counter >= characters.length) {
@@ -36,6 +37,7 @@ module.exports = {
             } else if (playerCount.length - characters.length >= 3 && counter >= characters.length && counter < characters.length + 3) {
                 //Special Case: Enough room for Decoy/Target/Sniper (special_chars indices 3/4/5)
                 char_pick = special_chars[counter - characters.length + 3];
+                DTS = 1; //Now, the Gambler will be added if there are an even number of players
             } else {
                 //Regular Case
                 char_pick = characters[counter];
