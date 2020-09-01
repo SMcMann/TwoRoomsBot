@@ -59,12 +59,9 @@ module.exports = {
                     .catch(console.error);
                 // TO-DO change any flags in the DB that needs to change due to CARD share...
                 if (player.character.name == "Red Psychologist" || player.character.name == "Blue Psychologist") {
-                    console.log("Attempting to remove conditions")
-                        .then(editDB(target.player.username, "coy", false))
-                        .then(console.log("coy removed"))
-                        .then(editDB(target.player.username,"shy",false))
-                        .then(console.log("shy removed"))
-                        .catch(console.error);
+                    console.log("Attempting to remove conditions");
+                    editDB(target.player.user.username, "coy", false);
+                    editDB(target.player.user.username, "shy",false);
                 }
                 break;
             default:

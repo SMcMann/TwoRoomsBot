@@ -10,9 +10,14 @@ function findPlayer (payload) {
 
 }
 
-function editDB (player, target, edit) {
-    let editee = findPlayer(player);
-    editee[target] = edit;
+function editDB (payload, target, edit) {
+    //Probably inefficient
+    let x;
+    for (x = 0; x < database.length; x++) {
+        if (database[x].player.user.username === payload || database[x].player.nickname === payload) break;
+    }
+    database[x][target] = edit;
+    console.log(`Updated ${database[x].player.user.username}[${target}] to: ${database[x][target]}`);
 }
 
 function addToDB (payload) {
