@@ -4,12 +4,14 @@ const { editDB, findPlayer } = require('../data/database');
 
 module.exports = {
     name: 'share', //THIS MUST BE THE SAME NAME OF THE FILE/COMMAND
+    aliases: ['look', 'send', 'whisper'],
     cooldown: 0,
     description: 'Share your team or color with another user in your room.',
     args: true, 
     execute(message, args){
+        message.delete({ timeout: 2000 })
         let user; // Creates target user variable
-        let array = [...args]; // Copies the args into an array
+        let array = [...args]; // Copies the args into a new array to be edited
         array.shift(); // Removes the command Arg
         
         // FOR Loop recombines the username back into a string
@@ -17,6 +19,13 @@ module.exports = {
             el.trim(); // Removes any whitespace on the element....
             el === array[0] ? user = el : user = `${user} ${el}` // Reconstructs string
         };
+
+        // If statement checks for a mention instead of a user, and switches the mention for the mentioned user
+        if (user.startsWith('<@')) {
+            let mention = message.mentions.users.first();
+            user = mention.username
+            console.log(`Mention detected, username now: ${user}`)
+        }
 
         let target = findPlayer(user); // Finds the DB save of the target
         let initiator = findPlayer(message.author.username); // Finds the DB save of current user
@@ -50,7 +59,7 @@ module.exports = {
                         sentMessage.react('📇');
                         sentMessage.react('🖌️');
                         const filter = (reaction, user) => user.id === target.player.id// 
-                        const collector = sentMessage.createReactionCollector(filter, { time: 40000, max: 1 });
+                        const collector = sentMessage.createReactionCollector(filter, { time: 40000, max: 2 });
                         collector.on('collect', r => {
                             if (r.emoji.name === '🖌️') {
                                 console.log(`${target.player.user.username} has shared color back...`);
@@ -79,7 +88,7 @@ module.exports = {
                         sentMessage.react('📇');
                         sentMessage.react('🖌️');
                         const filter = (reaction, user) => user.id === target.player.id;
-                        const collector = sentMessage.createReactionCollector(filter, { time: 40000, max: 1 });
+                        const collector = sentMessage.createReactionCollector(filter, { time: 40000, max: 2 });
                         collector.on('collect', r => {
                             if (r.emoji.name === '🖌️') {
                                 console.log(`${target.player.user.username} has shared color back...`);
@@ -106,7 +115,7 @@ module.exports = {
                 }
                 break;
             default:
-                message.reply(`You must specify what type of share you want to do.\n - color\n - card`)
+                message.reply(`**Command Stucture:** \`!share card <user>\`\nYou must specify what type of share you want to do.\n - color\n - card`)
         }
         return;
     }//execute
