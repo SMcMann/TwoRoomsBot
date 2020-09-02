@@ -1,13 +1,20 @@
 const format = require('../scripts/formatting')
 const winConditions = require("../data/winConditions.json");
-const checkMarks = require("../scripts/formatting");
 let database = [];
 let goals = [...winConditions];
 
 function findPlayer (payload) {
-    if (database.length > 0) {
-        let player = database.find(el => el.player.user.username === payload || el.player.nickname === payload);
-        return player;
+    if (database.length > 0 && payload !== null) {
+        let player = undefined;
+        for (let record of database) {
+            if (record.player.nickname !== null && record.player.nickname.toLowerCase() === payload.toLowerCase()) {
+                player = record;
+                return player;
+            } else if (record.player.user.username.toLowerCase() === payload.toLowerCase()) {
+                player = record;
+                return player;
+            }
+        }
     } else {
         return undefined;
     }
