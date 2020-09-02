@@ -9,7 +9,11 @@ module.exports = {
     description: 'Share your team or color with another user in your room.',
     args: true, 
     execute(message, args){
-        message.delete({ timeout: 2000 })
+        if (message.channel.type !== 'dm') message.delete({ timeout: 2000 })
+        if (args.length < 2) {
+            message.author.send(`**Command Stucture:** \`!share card <user>\`\nYou must specify what type of share you want to do.\n - color\n - card`);
+            return;
+        }
         let user; // Creates target user variable
         let array = [...args]; // Copies the args into a new array to be edited
         array.shift(); // Removes the command Arg
@@ -32,10 +36,10 @@ module.exports = {
         
         // Invalid user check
         if (target !== undefined) {
-            message.reply(`${user} is a valid target!`);
+            console.log(`${user} is a valid target!`);
         } else {
             // Errors out if the user isn't found in the database
-            message.reply(`${user} is not a valid share target!`);
+            message.author.send(`${user} is not a valid share target!`);
             return;
         }
 
@@ -54,12 +58,12 @@ module.exports = {
             case('color'):
                 target.player.user.send(`${message.author.username}'s has shared their color with you!\n **Color:** ${initiator.character.color}!\n\n if you would like to recepricate?\n📇 Share Card\n 🖌️ Share Color`)
                     .then(console.log(`${message.author.username} shared their color with ${user}`))
-                    .then(message.reply(`Your color was successfully shared with ${target.player.user.username}`))
+                    .then(message.author.send(`Your color was successfully shared with ${target.player.user.username}`))
                     .then(sentMessage => {
                         sentMessage.react('📇');
                         sentMessage.react('🖌️');
                         const filter = (reaction, user) => user.id === target.player.id// 
-                        const collector = sentMessage.createReactionCollector(filter, { time: 40000, max: 2 });
+                        const collector = sentMessage.createReactionCollector(filter, { time: 600000, max: 2 });
                         collector.on('collect', r => {
                             if (r.emoji.name === '🖌️') {
                                 console.log(`${target.player.user.username} has shared color back...`);
@@ -88,7 +92,7 @@ module.exports = {
                         sentMessage.react('📇');
                         sentMessage.react('🖌️');
                         const filter = (reaction, user) => user.id === target.player.id;
-                        const collector = sentMessage.createReactionCollector(filter, { time: 40000, max: 2 });
+                        const collector = sentMessage.createReactionCollector(filter, { time: 600000, max: 2 });
                         collector.on('collect', r => {
                             if (r.emoji.name === '🖌️') {
                                 console.log(`${target.player.user.username} has shared color back...`);
@@ -105,7 +109,7 @@ module.exports = {
                         }) // End collector
                     }) // End Reaction listner
                     .then(console.log(`${message.author.username} shared their card with ${user}`))
-                    .then(message.reply(`Your card was successfully shared with ${target.player.user.username}`))
+                    .then(message.author.send(`Your card was successfully shared with ${target.player.user.username}`))
                     .catch(console.error); // End send
                 // TO-DO change any flags in the DB that needs to change due to CARD share...
                 if (initiator.character.name == "Red Psychologist" || initiator.character.name == "Blue Psychologist") {
@@ -115,7 +119,7 @@ module.exports = {
                 }
                 break;
             default:
-                message.reply(`**Command Stucture:** \`!share card <user>\`\nYou must specify what type of share you want to do.\n - color\n - card`)
+                message.author.send(`**Command Stucture:** \`!share card <user>\`\nYou must specify what type of share you want to do.\n - color\n - card`)
         }
         return;
     }//execute

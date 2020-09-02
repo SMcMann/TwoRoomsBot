@@ -14,6 +14,7 @@ module.exports = {
     description: 'Assign a character to every member with the Player role',
     args: false, 
     execute(message, args){
+        if (message.channel.type === 'dm') return;
         message.delete({ timeout: 500 })
         database.clearDB(); // Clears the old game
         console.log(`Assigning Roles...`)

@@ -13,6 +13,7 @@ module.exports = {
     description: 'Changes member roles to one of Red Team/Blue Team/Gray Team for post game discussion.',
     args: false, 
     execute(message, args){
+        if (message.channel.type === 'dm') return;
         for (let member of assignments.database) {
             let new_role;
             if (member.character.alignment == "Red") {

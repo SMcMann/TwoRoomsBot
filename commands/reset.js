@@ -8,6 +8,8 @@ module.exports = {
     description: 'Reset assignment database, as well as Red Team/Blue Team/Gray Team roles',
     args: false, 
     execute(message, args){
+        if (message.channel.type === 'dm') return;
+        message.delete({ timeout: 500 })
         //Reset roles
         for (let member of message.guild.members.cache) {
             let actual_member = member[1];
@@ -31,5 +33,6 @@ module.exports = {
 
         //Reset database
         assignments.clearDB();
+        message.reply('the game is fully reset!')
     }//execute
 }

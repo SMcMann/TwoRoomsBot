@@ -7,7 +7,7 @@ module.exports = {
     description: 'Sends the requester a report of the current game state',
     args: false, 
     execute(message, args){
-        message.delete({ timeout: 500 })
+        if (message.channel.type !== 'dm') message.delete({ timeout: 2000 })
         console.log(`${message.author.username} has requested the game report...`)
         message.author.send(database.gameReport())
             .then(console.log(`${message.author.username} has been sent the game report...`))

@@ -21,7 +21,7 @@ module.exports = {
     description: 'Sends the user the commands',
     args: false, 
     execute(message, args){
-        message.delete({ timeout: 500 })
+        if (message.channel.type !== 'dm') message.delete({ timeout: 2000 })
         let header = `**[- Bot Command List -]**\nThanks for asking for help, the answer is 42 and below are the bot commands.\n`
         let adminHeader = `:small_red_triangle_down: Admin Commands\n`
         let adminBody = ''

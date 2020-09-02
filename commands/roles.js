@@ -11,6 +11,7 @@ module.exports = {
     description: 'This command returns the availible roles.',
     args: false, 
     execute(message, args){
+        if (message.channel.type !== 'dm') return;
         message.reply('here are the Two Room and a Boom Roles: \n')
         for (role of roles) {
             let embed = {

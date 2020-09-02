@@ -23,6 +23,7 @@ module.exports = {
     description: 'Used for a leader abdicating their position or nominating someone to ursurp the current leader.',
     args: true,
     execute(message, args){
+        if (message.channel.type === 'dm') return;
         let user; // Creates target user variable
         let array = [...args]; // Copies the args into an array
         array.shift(); // Removes the command Arg
