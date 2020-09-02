@@ -1,0 +1,36 @@
+[
+    {
+        "group": "Blue",
+        "conditions": [
+            {
+                "name": "Living President",
+                "desc": "The President Lives",
+                "status": true,
+                "active": true
+            },
+            {
+                "name": "Doctor Appointment",
+                "desc": "Meet with the on-site doctor",
+                "status": false,
+                "active": false
+            }
+        ]
+    },
+    {
+        "group": "Red",
+        "conditions": [
+            {
+                "name": "Dead President",
+                "desc": "The President is Dead",
+                "status": false,
+                "active": true
+            },
+            {
+                "name": "Engineered Blast",
+                "desc": "Tune-up the bomb with the on-sight engineer",
+                "status": false,
+                "active": false
+            }
+        ]
+    }
+]
