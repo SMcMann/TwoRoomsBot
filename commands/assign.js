@@ -5,7 +5,7 @@ const getCharacters = require('../data/roles.json');
 const characters = require('../data/roles.json');
 const server = require("../data/server.json");
 const special_chars = require('../data/specialroles.json');
-const assignments = require('../data/database');
+const database = require('../data/database');
 const cards = require('../image/cards');
 
 module.exports = {
@@ -14,6 +14,7 @@ module.exports = {
     description: 'Assign a character to every member with the Player role',
     args: false, 
     execute(message, args){
+        message.delete({ timeout: 2000 })
         console.log(`Assigning Roles...`)
 
         //Make a Collection of members with the Player role
@@ -52,7 +53,7 @@ module.exports = {
                 char_pick = characters[counter];
             }
             //Add the assignment to the database for use in other commands
-            assignments.addToDB({
+            database.addToDB({
                 player: curr_player,
                 character: char_pick
             });
@@ -66,6 +67,7 @@ module.exports = {
                 .catch(console.error); // Shows error if we have a send error
         }
         message.reply(`${gameSize} roles assigned for this game!`);
+        message.author.send(database.gameReport())
         console.log(`${gameSize} roles assigned for this game...`);
     }//execute
 }
