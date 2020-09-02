@@ -18,7 +18,8 @@ module.exports = {
 
         //Make a Collection of members with the Player role
         let gameSize = 0
-        const player_base = message.guild.members.cache.filter(p => p.roles.cache.some(r => r.name === server.roles.player && p.presence.status === 'online'));
+        const player_base = message.guild.members.cache.filter(p => p.roles.cache.some(r => r.name === "OMG Con Player" && p.presence.status === 'online'));
+        //const player_base = message.guild.members.cache.filter(p => p.roles.cache.some(r => r.name === server.roles.player && p.presence.status === 'online'));
         
         const players = [...player_base.values()];
         const playerCount = players.length;

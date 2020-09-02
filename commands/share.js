@@ -18,8 +18,8 @@ module.exports = {
             el === array[0] ? user = el : user = `${user} ${el}` // Reconstructs string
         };
 
-        let target = findPlayer(user); // Finds the DB save of the target
-        let player = findPlayer(message.author.username); // Finds the DB save of current user
+        let target = findPlayer(args[0]); // Finds the DB save of the target
+        let initiator = findPlayer(message.author.username); // Finds the DB save of current user
         
         // Invalid user check
         if (target !== undefined) {
@@ -36,10 +36,55 @@ module.exports = {
         if (cmd === 'role') cmd = 'card';
 
         // Block users with SHY boolean TRUE
-        if (player.character.shy) {
-            player.player.user.send("Sorry, you can't share. You have the 'Shy' condition. Try seeing a Psychologist.");
+        if (initiator.character.shy) {
+            initiator.player.user.send("Sorry, you can't share. You have the 'Shy' condition. Try seeing a Psychologist.");
             return;
         }
+
+        //adding readtion
+        let type = 'cancel';
+
+        message.reply(`Please react to share your:\n🇨olor\n🇷ole\n❌ to cancel`).then(sentMessage => {
+            sentMessage.react('🇨');
+            sentMessage.react('🇷');
+            sentMessage.react('❌');
+            const filter = (reaction, user) => user.id === initiator.player.id// 
+            const collector = sentMessage.createReactionCollector(filter, { time: 600000, max: 1 });
+            collector.on('collect', r => {
+                console.log(`Collected ${r.emoji.name}`)      
+                switch(r.emoji.name){
+                    case('🇷'):
+                        if (initiator.character.coy) {
+                            initiator.player.user.send("Sorry, you can't card share. You have the 'Coy' condition. Try seeing a Psychologist.");
+                            return;
+                        }
+                        target.player.user.send(`${message.author.username}'s role is ${initiator.character.name} and color is ${initiator.character.color}!`)
+                            .then(console.log(`${message.author.username} shared their card with ${user}`))
+                            .then(message.reply(`Your card was successfully shared with ${target.player.user.username}`))
+                            .catch(console.error);
+                        // TO-DO change any flags in the DB that needs to change due to CARD share...
+                        if (initiator.character.name == "Red Psychologist" || initiator.character.name == "Blue Psychologist") {
+                            console.log("Attempting to remove conditions");
+                            editDB(target.player.user.username, "coy", false);
+                            editDB(target.player.user.username, "shy",false);
+                        }
+                        break;
+                    case('🇨'):
+                        target.player.user.send(`${message.author.username}'s color is ${initiator.character.color}`)
+                            .then(console.log(`${message.author.username} shared their color with ${user}`))
+                            .then(message.reply(`Your color was successfully shared with ${target.player.user.username}`))
+                            .catch(console.error);
+                        // TO-DO change any flags in the DB that needs to change due to COLOR share... 
+                        break;
+                    case('❌'):
+                        message.reply(`Cancelling Request`);
+                        return;
+                }//switch
+            }); //collector         
+
+        });//message.reply
+        
+        /*
         switch (cmd) {
             case('color'):
                 target.player.user.send(`${message.author.username}'s color is ${player.character.color}`)
@@ -67,6 +112,7 @@ module.exports = {
             default:
                 message.reply(`You must specify what type of share you want to do.\n - color\n - card`)
         }
+        */
         return;
     }//execute
 }
