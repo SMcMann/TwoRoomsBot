@@ -33,7 +33,7 @@ module.exports = {
 
         //Abort if voting for someone not in the same room
         if (target.voice.channel.id != initiator.voice.channel.id) {
-            message.reply(`Sorry, you cannot vote ${target.displayName} as leader. You are not in the same room.`);
+            message.reply(`Sorry, you cannot vote ${target.user.username} as leader. You are not in the same room.`);
             return;
         }
 
