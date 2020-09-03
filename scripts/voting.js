@@ -48,10 +48,11 @@ function runGroupVote(sentMessage, target, curr_leader) {
     sentMessage.react('👍');
     sentMessage.react('👎');
     const voteRoom = target.voice.channel.members;
+    const majority = Math.ceil(voteRoom.size / 2);
     const filter = (reaction, user) => !user.bot && voteRoom.get(user.id).voice.channel.id == target.voice.channel.id;
     const leaderR = sentMessage.guild.roles.cache.filter(r => r.name == server.roles.leader);
     let posVotes = 0;
-    const collector = sentMessage.createReactionCollector(filter, { time: 15000 });
+    const collector = sentMessage.createReactionCollector(filter, { max: majority, time: 15000 });
     collector.on('collect', r => {
         if (r.emoji.name === '👍') {
             posVotes++;
