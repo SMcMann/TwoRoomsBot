@@ -6,7 +6,7 @@
                 "name": "Living President",
                 "desc": "The President Lives",
                 "status": true,
-                "active": true,
+                "active": false,
                 "character": "President"
             },
             {
@@ -25,7 +25,7 @@
                 "name": "Dead President",
                 "desc": "The President is Dead",
                 "status": false,
-                "active": true,
+                "active": false,
                 "character": "Bomber"
             },
             {

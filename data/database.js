@@ -90,13 +90,13 @@ function checkCondition(target, condition) {
     return currentUser.character[condition]
 }
 
-function updateGoal(name,statAct,bool) {
+function updateGoal(character,statAct,bool) {
     //Iterate through goals
     for (let g of goals) {
         //Iterate through that goal's conditions
         for (let c of g.conditions) {
             //If a match is found
-            if (c.name == name) {
+            if (c.character == character) {
                 //Update the status/active
                 c[statAct] = bool;
                 console.log(`${c.name} ${statAct} updated to ${bool}.`);

@@ -58,7 +58,7 @@ module.exports = {
             }
 
             if (charPick.winCon) {
-                //updateGoal()
+                updateGoal(charPick.name,"active",true);
             }
             
             assigned.push(charPick.name);
