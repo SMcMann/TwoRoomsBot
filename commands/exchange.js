@@ -14,7 +14,7 @@ module.exports = {
     description: 'Share your team or color with another user in your room.',
     args: true, 
     execute(message, args){
-        if (message.channel.type !== 'dm') message.delete({ timeout:2000 });
+        if (message.channel.type !== 'dm') message.delete({ timeout: 500 });
         if (!checkLive()) {
             message.reply('No game is active, contact a moderator!');
             return;
