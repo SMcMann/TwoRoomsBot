@@ -18,6 +18,9 @@ module.exports = {
         database.clearDB(); // Clears the old game
         console.log(`Assigning Roles...`)
 
+        //TODO: Optional(?) argument to indicate a simple game (Pres/Bomb/Red T/Blue T)
+        const simple = false;
+
         //Make a Collection of members with the Player role
         let gameSize = 0
         const player_base = message.guild.members.cache.filter(p => p.roles.cache.some(r => r.name === "OMG Con Player" && p.presence.status === 'online'));
@@ -40,8 +43,9 @@ module.exports = {
                 //Special Case: Enough room for Decoy/Target/Sniper (special_chars indices 3/4/5)
                 char_pick = special_chars[counter - characters.length + 3];
                 DTS = 1; //Now, the Gambler will be added if there are an even number of players
-            } else if (counter >= characters.length) {
+            } else if (counter >= characters.length || (counter > 1 && simple)) {
                 //Special Case: Out of characters to assign - Assign team characters
+                //    or, if simple, assign generic roles to the rest of the players
                 if (counter % 2 == 0) {
                     //Assign Red Team
                     char_pick = special_chars[0];
