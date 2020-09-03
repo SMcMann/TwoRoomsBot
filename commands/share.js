@@ -1,5 +1,6 @@
-const { editDB, findPlayer, checkCondition, flipCondition } = require('../data/database');
+const { findPlayer, checkCondition } = require('../data/database');
 const { getUserFromArgs } = require('../scripts/args');
+const { shareColor, shareCard } = require('../scripts/shareFuctions');
 
 const cmdError = `**Command Stucture:** \`!share card <user>\`\nYou must specify what type of share you want to do.\n - color\n - card`
 const cardAliases = ['role', 'all']
@@ -53,66 +54,14 @@ module.exports = {
         // Switch statement checks for share type and executes
         switch (cmd) {
             case('color'):
-                target.player.user.send(`${message.author.username}'s has shared their color with you!\n **Color:** ${initiator.character.color}!\n\n if you would like to recepricate?\n📇 Share Card\n 🖌️ Share Color`)
-                    .then(console.log(`${message.author.username} shared their color with ${user}`))
-                    .then(message.author.send(`Your color was successfully shared with ${target.player.user.username}`))
-                    .then(sentMessage => {
-                        sentMessage.react('📇');
-                        sentMessage.react('🖌️');
-                        const filter = (reaction, user) => user.id === target.player.id// 
-                        const collector = sentMessage.createReactionCollector(filter, { time: 600000, max: 2 });
-                        collector.on('collect', r => {
-                            if (r.emoji.name === '🖌️') {
-                                console.log(`${target.player.user.username} has shared color back...`);
-                                initiator.player.user.send(`${target.player.user.username} has shared their color with you!\n **Color:** ${target.character.color}!`)
-                                    .then(target.player.user.send(`You shared color with ${message.author.username}!`))
-                                    .catch(console.error);
-                            }
-                            if (r.emoji.name === '📇') {
-                                console.log(`${target.player.user.username} has shared card back...`);
-                                initiator.player.user.send(`${target.player.user.username} has shared their card with you!\n**Role:** ${target.character.name}!\n **Color:** ${target.character.color}!`)
-                                    .then(target.player.user.send(`You shared card with ${message.author.username}!`))
-                                    .catch(console.error);
-                            }
-                        }) // End collector
-                    }) // End Reaction listner
-                    .catch(console.error);
+                shareColor(initiator, target, false);
                 break;
             case('card'):
                 if (checkCondition(initiator,'coy')) {
                     initiator.player.user.send("Sorry, you can't card share. You have the 'Coy' condition. Try seeing a Psychologist.");
                     return;
                 };
-                target.player.user.send(`${message.author.username} has shared their card with you!\n**Role:** ${initiator.character.name}!\n **Color:** ${initiator.character.color}!\n\n if you would like to recepricate?\n📇 Share Card\n 🖌️ Share Color`)
-                    .then(sentMessage => {
-                        sentMessage.react('📇');
-                        sentMessage.react('🖌️');
-                        const filter = (reaction, user) => user.id === target.player.id;
-                        const collector = sentMessage.createReactionCollector(filter, { time: 600000, max: 2 });
-                        collector.on('collect', r => {
-                            if (r.emoji.name === '🖌️') {
-                                console.log(`${target.player.user.username} has shared color back...`);
-                                initiator.player.user.send(`${target.player.user.username} has shared their color with you!\n **Color:** ${target.character.color}!`)
-                                    .then(target.player.user.send(`You shared color with ${message.author.username}!`))
-                                    .catch(console.error);
-                            }
-                            if (r.emoji.name === '📇') {
-                                console.log(`${target.player.user.username} has shared card back...`);
-                                initiator.player.user.send(`${target.player.user.username} has shared their card with you!\n**Role:** ${target.character.name}!\n **Color:** ${target.character.color}!`)
-                                    .then(target.player.user.send(`You shared card with ${message.author.username}!`))
-                                    .catch(console.error);
-                            }
-                        }) // End collector
-                    }) // End Reaction listner
-                    .then(console.log(`${message.author.username} shared their card with ${user}`))
-                    .then(message.author.send(`Your card was successfully shared with ${target.player.user.username}`))
-                    .catch(console.error); // End send
-                // TO-DO change any flags in the DB that needs to change due to CARD share...
-                if (initiator.character.name == "Red Psychologist" || initiator.character.name == "Blue Psychologist") {
-                    console.log("Attempting to remove conditions");
-                    editDB(target.player.user.username, "coy", false);
-                    editDB(target.player.user.username, "shy",false);
-                }
+                shareCard(initiator, target, false);
                 break;
             default:
                 message.author.send(cmdError)

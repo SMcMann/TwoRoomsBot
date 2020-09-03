@@ -94,7 +94,7 @@ function flipCondition(target, condition) {
 
 function checkCondition(target, condition) {
     let currentUser = database.find(el => el.player.id === target.player.id);
-    console.log(`Checking ${currentUser.player.id} for the ${condition} flag`);
+    console.log(`Checking ${currentUser.player.user.username} for the ${condition} flag`);
     return currentUser.character[condition]
 }
 
