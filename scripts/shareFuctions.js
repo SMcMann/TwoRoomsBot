@@ -1,8 +1,14 @@
-const { flipCondition } = require("../data/database");
+const { flipCondition, checkCondition } = require("../data/database");
 
 function shareColor(initiator, target, response) {
     let targetName = target.player.nickname === null ? target.player.user.username : target.player.nickname;
     let initiatorName = initiator.player.nickname === null ? initiator.player.user.username : initiator.player.nickname;
+    
+    // Block users with SHY boolean TRUE
+    if (checkCondition(initiator, 'shy')) {
+        initiator.player.user.send("Sorry, you are too shy to share. You have the 'shy' condition. Try seeing a Psychologist.");
+        return;
+    }
 
     target.player.user.send(`${initiatorName} has shared their color with you!\n**Color:** ${initiator.character.color}${!response ? `!\n\n if you would like to recepricate?\n📇 Share Card\n 🖌️ Share Color` : `!`}`)
         .then(sentMessage => {
@@ -30,6 +36,17 @@ function shareCard(initiator, target, response) {
     let targetName = target.player.nickname === null ? target.player.user.username : target.player.nickname;
     let initiatorName = initiator.player.nickname === null ? initiator.player.user.username : initiator.player.nickname;
 
+    // Block users with SHY boolean TRUE
+    if (checkCondition(initiator, 'shy')) {
+        initiator.player.user.send("Sorry, you are too shy to share. You have the 'shy' condition. Try seeing a Psychologist.");
+        return;
+    }
+
+    if (checkCondition(initiator,'coy')) {
+        initiator.player.user.send("That's not very coy... try sharing your color instead! You have the 'Coy' condition seeing a Psychologist could also help.");
+        return;
+    };
+
     target.player.user.send(`${initiatorName} has shared their card with you!\n**Role:** ${initiator.character.name}\n**Color:** ${initiator.character.color}${!response ? `!\n\n if you would like to recepricate?\n📇 Share Card\n 🖌️ Share Color` : `!`}`)
         .then(sentMessage => {
             if (!response) {
@@ -51,7 +68,7 @@ function shareCard(initiator, target, response) {
         .then(initiator.player.user.send(`Your card was successfully shared with ${targetName}`))
         .then(() => {
             if (initiator.character.name == "Red Psychologist" || initiator.character.name == "Blue Psychologist") {
-                console.log(`${initiatorName} is giving a conducting counsling...`);
+                console.log(`${initiatorName} is conducting counsling...`);
                 if (target.character.coy) flipCondition(target, 'coy');
                 if (target.character.shy) flipCondition(target, 'shy');
             }

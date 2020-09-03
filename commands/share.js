@@ -1,10 +1,10 @@
-const { findPlayer, checkCondition } = require('../data/database');
+const { findPlayer } = require('../data/database');
 const { getUserFromArgs } = require('../scripts/args');
 const { shareColor, shareCard } = require('../scripts/shareFuctions');
 
 const cmdError = `**Command Stucture:** \`!share card <user>\`\nYou must specify what type of share you want to do.\n - color\n - card`
-const cardAliases = ['role', 'all']
-const colorAliases = ['colour', 'team']
+const cardAliases = ['role', 'all'];
+const colorAliases = ['colour', 'team'];
 
 module.exports = {
     name: 'share', //THIS MUST BE THE SAME NAME OF THE FILE/COMMAND
@@ -44,12 +44,6 @@ module.exports = {
             message.author.send(`${user} is not a valid share target!`);
             return;
         }
-
-        // Block users with SHY boolean TRUE
-        if (checkCondition(initiator, 'shy')) {
-            initiator.player.user.send("Sorry, you can't share. You have the 'shy' condition. Try seeing a Psychologist.");
-            return;
-        }
         
         // Switch statement checks for share type and executes
         switch (cmd) {
@@ -57,10 +51,6 @@ module.exports = {
                 shareColor(initiator, target, false);
                 break;
             case('card'):
-                if (checkCondition(initiator,'coy')) {
-                    initiator.player.user.send("Sorry, you can't card share. You have the 'Coy' condition. Try seeing a Psychologist.");
-                    return;
-                };
                 shareCard(initiator, target, false);
                 break;
             default:
