@@ -1,9 +1,8 @@
-const Discord = require('discord.js');
 const database = require('../data/database');
 
 module.exports = {
     name: 'report', //THIS MUST BE THE SAME NAME OF THE FILE/COMMAND
-    aliases: [],
+    aliases: ['gamereport'],
     cooldown: 0,
     description: 'Sends the requester a report of the current game state',
     args: false, 

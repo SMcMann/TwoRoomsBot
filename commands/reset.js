@@ -1,4 +1,3 @@
-const Discord = require('discord.js');
 const assignments = require("../data/database");
 //const server = require("../data/server.json");
 const { roles } = require("../data/serverValues");
@@ -15,7 +14,7 @@ function removeRole (player,roleName) {
 
 module.exports = {
     name: 'reset', //THIS MUST BE THE SAME NAME OF THE FILE/COMMAND
-    aliases: [],
+    aliases: ['end'],
     cooldown: 0,
     description: 'Reset assignment database, as well as Red Team/Blue Team/Gray Team roles',
     args: false, 

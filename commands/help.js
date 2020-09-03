@@ -1,5 +1,3 @@
-const Discord = require('discord.js');
-
 const admincmds = [
     `:white_small_square: \`!assign\` - Resets and starts a game.`,
     `:white_small_square: \`!reset\` - Removes all roles and clears DB.`,
@@ -13,7 +11,6 @@ const playercmds = [
     `:white_small_square: \`!roles\` - Floods you with all roles in the game.`,
     `:white_small_square: \`!vote <user>\` - Nominates the user to become the room leader.`
 ]
-
 
 module.exports = {
     name: 'help', //THIS MUST BE THE SAME NAME OF THE FILE/COMMAND
