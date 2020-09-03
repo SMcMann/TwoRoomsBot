@@ -1,7 +1,8 @@
 const getCharacters = require('../data/roles.json');
 // const characters = [getCharacters[6], getCharacters[11]]; //Temporary change for testing Psychologist
 const characters = require('../data/roles.json');
-const server = require("../data/server.json");
+//const server = require("../data/server.json");
+const { roles } = require("../data/serverValues");
 const special_chars = require('../data/specialroles.json');
 const database = require('../data/database');
 const cards = require('../image/cards');
@@ -23,8 +24,8 @@ module.exports = {
 
         //Make a Collection of members with the Player role
         let gameSize = 0
-        const player_base = message.guild.members.cache.filter(p => p.roles.cache.some(r => r.name === "OMG Con Player" && p.presence.status === 'online'));
-        //const player_base = message.guild.members.cache.filter(p => p.roles.cache.some(r => r.name === server.roles.player && p.presence.status === 'online'));
+        //const player_base = message.guild.members.cache.filter(p => p.roles.cache.some(r => r.name === "OMG Con Player" && p.presence.status === 'online'));
+        const player_base = message.guild.members.cache.filter(p => p.roles.cache.some(r => r.name === roles.player && p.presence.status === 'online'));
         
         const players = [...player_base.values()];
         const playerCount = players.length;

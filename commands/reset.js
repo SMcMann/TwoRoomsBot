@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const assignments = require("../data/database");
-const server = require("../data/server.json");
+//const server = require("../data/server.json");
+const { roles } = require("../data/serverValues");
 
 function removeRole (player,roleName) {
     let removal = new Promise(resolve => {
@@ -25,9 +26,9 @@ module.exports = {
         for (let member of message.guild.members.cache) {
             let currMember = member[1];
             removeRole(currMember,server.roles.red)
-                .then(removeRole(currMember,server.roles.blue))
-                .then(removeRole(currMember,server.roles.gray))
-                .then(removeRole(currMember,server.roles.leader))
+                .then(removeRole(currMember,roles.blue))
+                .then(removeRole(currMember,roles.gray))
+                .then(removeRole(currMember,roles.leader))
                 .catch(console.error);
         }
 

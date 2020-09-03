@@ -1,12 +1,9 @@
 const Discord = require('discord.js');
-const server = require("../data/server.json");
+//const server = require("../data/server.json");
+const { roles, getRole }  = require("../data/serverValues");
 const assignments = require("../data/database");
-/*
-assignments.database[i] = {
-    player: curr_player,
-    character: char_pick
-}
-*/
+
+
 module.exports = {
     name: 'reveal', //THIS MUST BE THE SAME NAME OF THE FILE/COMMAND
     aliases: [],
@@ -18,11 +15,11 @@ module.exports = {
         for (let member of assignments.database) {
             let new_role;
             if (member.character.alignment == "Red") {
-                new_role = message.guild.roles.cache.filter(r => r.name == server.roles.red);
+                new_role = getRole(message.guild,roles.red);
             } else if (member.character.alignment == "Blue") {
-                new_role = message.guild.roles.cache.filter(r => r.name == server.roles.blue);
+                new_role = getRole(message.guild,roles.blue);
             } else {
-                new_role = message.guild.roles.cache.filter(r => r.name == server.roles.gray);
+                new_role = getRole(message.guild,roles.gray);
             }
             member.player.roles.add(new_role)
                 .then(console.log(`  ${member.username} assigned to ${new_role}...`))
