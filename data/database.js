@@ -99,20 +99,21 @@ function updateGoal(name,statAct,bool) {
             if (c.name == name) {
                 //Update the status/active
                 c[statAct] = bool;
+                console.log(`${c.name} ${statAct} updated to ${bool}.`);
                 return;
             }
         }
     }
 }
 
-function activateCharacter(name,channel) {
+function toggleCharacter(name) {
     for (let c of characters) {
         if (c.name == name) {
             c.active = !c.active;
-            channel.send(`${name} has been set to ${c.active}`);
+            console.log(`${name} has been set to ${c.active}`);
         }
     }
 }
 
-module.exports = { characters, activateCharacter, 
+module.exports = { characters, toggleCharacter, 
     database, addToDB, clearDB, findPlayer, gameReport, checkCondition, flipCondition, updateGoal };

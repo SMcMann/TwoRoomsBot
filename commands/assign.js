@@ -1,10 +1,10 @@
-const getCharacters = require('../data/roles.json');
+const getCharacters = require('../data/characters.json');
 // const characters = [getCharacters[6], getCharacters[11], getCharacters[10], getCharacters[9]]; //Temporary change for testing Psychologist
 const characters = require('../data/characters.json');
 //const server = require("../data/server.json");
 const { roles } = require("../data/serverValues");
-const special_chars = require('../data/specialroles.json');
-const database = require('../data/database');
+const specialChars = require('../data/specialroles.json');
+const { updateGoal, clearDB, addToDB, gameReport } = require('../data/database');
 const cards = require('../image/cards');
 
 module.exports = {
@@ -16,11 +16,13 @@ module.exports = {
     execute(message, args){
         if (message.channel.type === 'dm') return;
         message.delete({ timeout: 500 })
-        database.clearDB(); // Clears the old game
+        clearDB(); // Clears the old game
         console.log(`Assigning Roles...`)
 
-        //TODO: Optional(?) argument to indicate a simple game (Pres/Bomb/Red T/Blue T)
-        const simple = false;
+        let activeChars = [];
+        for (let c of characters) {
+            if (c.active) activeChars.push(c);
+        }
 
         //Make a Collection of members with the Player role
         let gameSize = 0
@@ -29,51 +31,59 @@ module.exports = {
         
         const players = [...player_base.values()];
         const playerCount = players.length;
-        let DTS = 0; //A flag for whether the Decoy/Target/Sniper are in the game
-        for (let counter = 0; counter < playerCount; counter++) {
-            //Pick a random player from players
-            let rand = Math.floor(Math.random() * players.length);
-            let curr_player = players[rand];
-            players.splice(rand,1);
-            //Assign a role to the player
-            let char_pick;
-            if (counter == playerCount - 1 && counter % 2 == DTS) {
-                //Special Case: Odd player count - Assign Gambler
-                char_pick = special_chars[2];
-            } else if (playerCount.length - characters.length >= 3 && counter >= characters.length && counter < characters.length + 3) {
-                //Special Case: Enough room for Decoy/Target/Sniper (special_chars indices 3/4/5)
-                char_pick = special_chars[counter - characters.length + 3];
-                DTS = 1; //Now, the Gambler will be added if there are an even number of players
-            } else if (counter >= characters.length || (counter > 1 && simple)) {
-                //Special Case: Out of characters to assign - Assign team characters
-                //    or, if simple, assign generic roles to the rest of the players
-                if (counter % 2 == 0) {
-                    //Assign Red Team
-                    char_pick = special_chars[0];
-                } else {
-                    //Assign Blue Team
-                    char_pick = special_chars[1];
+        let assigned = [];
+        let gamblerN = 0;//Flag for whether the gambler is needed on even or odd
+        while (players.length > 0) {
+            let charPick = activeChars[assigned.length];
+            if (players.length == 1 && assigned.length % 2 == gamblerN) {
+                //Special Case: Gambler
+                charPick = specialChars[2];
+            }
+            if (assigned.length < activeChars.length) {
+                if (charPick.linked > 0) {
+                    gamblerN = 1 - gamblerN;//Swap even/odd (only important for Decoy/Target/Sniper)
+                    //Check for links in assigned
+                    let linksLeft = charPick.linked.length;
+                    for (let l of charPick.linked) {
+                        if (assigned.includes(l)) linksLeft--;
+                    }
+                    if (linksLeft >= players.length) {
+                        //There's not enough room to put this one and all of its links
+                        assigned.push(""); //Increment assigned to go to next activeChar
+                        continue;
+                    }
                 }
             } else {
-                //Regular Case
-                char_pick = characters[counter];
+                //The rest of the players are regular teammembers
+                charPick = specialChars[players.length % 2];
             }
+
+            if (charPick.winCon) {
+                //updateGoal()
+            }
+            
+            assigned.push(charPick.name);
+            //Pick a random player
+            let rand = Math.floor(Math.random() * players.length);
+            let currPlayer = players[rand];
+            players.splice(rand,1);
+
             //Add the assignment to the database for use in other commands
-            database.addToDB({
-                player: curr_player,
-                character: char_pick
+            addToDB({
+                player: currPlayer,
+                character: charPick
             });
             //DM the player their role
             let username
-            curr_player.nickname !== null ? username = curr_player.nickname : username = curr_player.user.username; //Gets current nickname or username
-            curr_player.send({files: [cards[char_pick.name.toLowerCase().replace(/\s+/g, '')]]}).then(
-            curr_player.send(`**Role:** ${char_pick.name}\n**Share Color:** ${char_pick.color}\n**Team:** ${char_pick.alignment} Team\n\n**[- ${char_pick.name} Rules -]**\n${char_pick.rules}\n\nGood luck, don't fail the ${char_pick.color}!`))
-                .then(console.log(`  ${char_pick.name} was assigned to ${username}...`))
+            currPlayer.nickname !== null ? username = currPlayer.nickname : username = currPlayer.user.username; //Gets current nickname or username
+            currPlayer.send({files: [cards[charPick.name.toLowerCase().replace(/\s+/g, '')]]}).then(
+            currPlayer.send(`**Role:** ${charPick.name}\n**Share Color:** ${charPick.color}\n**Team:** ${charPick.alignment} Team\n\n**[- ${charPick.name} Rules -]**\n${charPick.rules}\n\nGood luck, don't fail the ${charPick.color}!`))
+                .then(console.log(`  ${charPick.name} was assigned to ${username}...`))
                 .then(gameSize++) // Increases the player count
                 .catch(console.error); // Shows error if we have a send error
         }
         message.reply(`${gameSize} roles assigned for this game!`);
-        message.author.send(database.gameReport())
+        message.author.send(gameReport())
         console.log(`${gameSize} roles assigned for this game...`);
     }//execute
 }
