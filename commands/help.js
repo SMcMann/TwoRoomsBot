@@ -18,6 +18,7 @@ const playercmds = [
 module.exports = {
     name: 'help', //THIS MUST BE THE SAME NAME OF THE FILE/COMMAND
     cooldown: 0,
+    aliases: [],
     description: 'Sends the user the commands',
     args: false, 
     execute(message, args){

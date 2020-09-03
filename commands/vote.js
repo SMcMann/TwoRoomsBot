@@ -19,6 +19,7 @@ function setVoting(channel,set) {
 
 module.exports = {
     name: 'vote', //THIS MUST BE THE SAME NAME OF THE FILE/COMMAND
+    aliases: [],
     cooldown: 0,
     description: 'Used for a leader abdicating their position or nominating someone to ursurp the current leader.',
     args: true,
