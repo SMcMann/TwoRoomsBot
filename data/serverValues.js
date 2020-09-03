@@ -10,7 +10,7 @@ const channels = {
         room2: "Two Rooms Room 2"
 };
 
-function getRole(guild,roleName) {
+function getRole(guild, roleName) {
     return guild.roles.cache.filter(r => r.name == roleName);
 }
 

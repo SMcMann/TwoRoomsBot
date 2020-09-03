@@ -28,7 +28,7 @@ module.exports = {
         //Reset roles
         for (let member of message.guild.members.cache) {
             let currMember = member[1];
-            removeRole(currMember,server.roles.red)
+            removeRole(currMember, roles.red)
                 .then(removeRole(currMember,roles.blue))
                 .then(removeRole(currMember,roles.gray))
                 .then(removeRole(currMember,roles.leader))
