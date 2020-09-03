@@ -3,7 +3,7 @@ const getCharacters = require('../data/characters.json');
 const characters = require('../data/characters.json');
 const { roles } = require("../data/serverValues");
 const specialChars = require('../data/specialroles.json');
-const { updateGoal, clearDB, addToDB, gameReport } = require('../data/database');
+const { updateGoal, clearDB, addToDB, gameReport, live, toggleLive } = require('../data/database');
 const cards = require('../image/cards');
 
 module.exports = {
@@ -84,5 +84,6 @@ module.exports = {
         message.reply(`${gameSize} roles assigned for this game!`);
         message.author.send(gameReport())
         console.log(`${gameSize} roles assigned for this game...`);
+        if (!live) toggleLive(message);
     }//execute
 }
