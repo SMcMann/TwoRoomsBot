@@ -1,7 +1,5 @@
-const Discord = require('discord.js');
-//Temporary change for testing Psychologist
 const getCharacters = require('../data/roles.json');
-// const characters = [getCharacters[6], getCharacters[11]];
+// const characters = [getCharacters[6], getCharacters[11]]; //Temporary change for testing Psychologist
 const characters = require('../data/roles.json');
 const server = require("../data/server.json");
 const special_chars = require('../data/specialroles.json');
