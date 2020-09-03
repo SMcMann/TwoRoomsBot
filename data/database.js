@@ -1,7 +1,9 @@
 const format = require('../scripts/formatting')
 const winConditions = require("../data/winConditions.json");
+const importChars = require("../data/characters.json");
 let database = [];
 let goals = [...winConditions];
+let characters = [...importChars];
 
 function findPlayer (payload) {
     if (database.length > 0 && payload !== null) {
@@ -88,4 +90,29 @@ function checkCondition(target, condition) {
     return currentUser.character[condition]
 }
 
-module.exports = { database, addToDB, clearDB, findPlayer, gameReport, checkCondition, flipCondition };
+function updateGoal(name,statAct,bool) {
+    //Iterate through goals
+    for (let g of goals) {
+        //Iterate through that goal's conditions
+        for (let c of g.conditions) {
+            //If a match is found
+            if (c.name == name) {
+                //Update the status/active
+                c[statAct] = bool;
+                return;
+            }
+        }
+    }
+}
+
+function activateCharacter(name,channel) {
+    for (let c of characters) {
+        if (c.name == name) {
+            c.active = !c.active;
+            channel.send(`${name} has been set to ${c.active}`);
+        }
+    }
+}
+
+module.exports = { characters, activateCharacter, 
+    database, addToDB, clearDB, findPlayer, gameReport, checkCondition, flipCondition, updateGoal };

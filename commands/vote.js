@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
-const server = require("../data/server.json");
+//const server = require("../data/server.json");
+const { roles } = require("../data/serverValues");
 const { findPlayer } = require("../data/database");
 const { runSoloVote, runGroupVote, channelVoting } = require("../scripts/voting");
 const { getUserFromArgs } = require("../scripts/args");
@@ -43,7 +44,7 @@ module.exports = {
             return;
         }
 
-        let curr_leader = initiator.voice.channel.members.find(p => p.roles.cache.some(r => r.name == server.roles.leader));
+        let curr_leader = initiator.voice.channel.members.find(p => p.roles.cache.some(r => r.name == roles.leader));
 
         if (!curr_leader) {
             //Initialize first leader
@@ -57,7 +58,7 @@ module.exports = {
                     .then(sentMessage => { runSoloVote(sentMessage, target) })
                     .catch(console.error);
             }
-        } else if (initiator.roles.cache.some(r => r.name == server.roles.leader)) {
+        } else if (initiator.roles.cache.some(r => r.name == roles.leader)) {
             //The current leader is abdicating their position
             message.channel.send(`${initiator.user.username} is abdicating their position! They are offering it to ${target.user.username}.\n`+
                 `<@!${target.user.id}>, do you accept?`)
