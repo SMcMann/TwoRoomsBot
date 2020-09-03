@@ -7,6 +7,7 @@ let roles = [...rolesArray, ...specialRoles];
 
 module.exports = {
     name: 'roles', //THIS MUST BE THE SAME NAME OF THE FILE/COMMAND
+    aliases: [],
     cooldown: 0,
     description: 'This command returns the availible roles.',
     args: false, 
