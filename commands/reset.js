@@ -2,6 +2,16 @@ const Discord = require('discord.js');
 const assignments = require("../data/database");
 const server = require("../data/server.json");
 
+function removeRole (player,roleName) {
+    let removal = new Promise(resolve => {
+        if (player.roles.cache.some(r => r.name == roleName)) {
+            player.roles.remove(player.guild.roles.cache.filter(r => r.name == roleName));
+        }
+        resolve("Removed");//Idk?
+    })
+    return removal;
+}
+
 module.exports = {
     name: 'reset', //THIS MUST BE THE SAME NAME OF THE FILE/COMMAND
     aliases: [],
@@ -13,23 +23,12 @@ module.exports = {
         message.delete({ timeout: 500 })
         //Reset roles
         for (let member of message.guild.members.cache) {
-            let actual_member = member[1];
-            //Remove Red Team
-            if (actual_member.roles.cache.some(r => r.name == server.roles.red)) {
-                actual_member.roles.remove(message.guild.roles.cache.filter(r => r.name == server.roles.red));
-            }
-            //Remove Blue Team
-            if (actual_member.roles.cache.some(r => r.name == server.roles.blue)) {
-                actual_member.roles.remove(message.guild.roles.cache.filter(r => r.name == server.roles.blue));
-            }
-            //Remove Gray Team
-            if (actual_member.roles.cache.some(r => r.name == server.roles.gray)) {
-                actual_member.roles.remove(message.guild.roles.cache.filter(r => r.name == server.roles.gray));
-            }
-            //Remove Leaders
-            if (actual_member.roles.cache.some(r => r.name == server.roles.leader)) {
-                actual_member.roles.remove(message.guild.roles.cache.filter(r => r.name == server.roles.leader));
-            }
+            let currMember = member[1];
+            removeRole(currMember,server.roles.red)
+                .then(removeRole(currMember,server.roles.blue))
+                .then(removeRole(currMember,server.roles.gray))
+                .then(removeRole(currMember,server.roles.leader))
+                .catch(console.error);
         }
 
         //Reset database
