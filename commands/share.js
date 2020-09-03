@@ -1,28 +1,29 @@
-const Discord = require('discord.js');
-const assignments = require("../data/database");
-const { editDB, findPlayer } = require('../data/database');
+const { editDB, findPlayer, checkCondition, flipCondition } = require('../data/database');
+const { getUserFromArgs } = require('../scripts/args');
+
+const cmdError = `**Command Stucture:** \`!share card <user>\`\nYou must specify what type of share you want to do.\n - color\n - card`
+const cardAliases = ['role', 'all']
+const colorAliases = ['colour', 'team']
 
 module.exports = {
     name: 'share', //THIS MUST BE THE SAME NAME OF THE FILE/COMMAND
-    aliases: ['look', 'send', 'whisper'],
+    aliases: ['show', 'send', 'whisper'],
     cooldown: 0,
     description: 'Share your team or color with another user in your room.',
     args: true, 
     execute(message, args){
         if (message.channel.type !== 'dm') message.delete({ timeout: 2000 })
         if (args.length < 2) {
-            message.author.send(`**Command Stucture:** \`!share card <user>\`\nYou must specify what type of share you want to do.\n - color\n - card`);
+            message.author.send(cmdError);
             return;
         }
-        let user; // Creates target user variable
-        let array = [...args]; // Copies the args into a new array to be edited
-        array.shift(); // Removes the command Arg
-        
-        // FOR Loop recombines the username back into a string
-        for (let el of array) {
-            el.trim(); // Removes any whitespace on the element....
-            el === array[0] ? user = el : user = `${user} ${el}` // Reconstructs string
-        };
+
+        let cmd = args[0];
+        if (colorAliases.some(el => el === cmd.toLowerCase())) cmd = 'color';
+        if (cardAliases.some(el => el === cmd.toLowerCase())) cmd = 'card';
+
+        args.shift(); // Removes the command Arg
+        let user = getUserFromArgs(args) // Creates target user variable
 
         // If statement checks for a mention instead of a user, and switches the mention for the mentioned user
         if (user.startsWith('<@')) {
@@ -43,17 +44,13 @@ module.exports = {
             return;
         }
 
-        // Switch statement checks for share type and executes
-        let cmd = args[0];
-        if (cmd === 'colour') cmd = 'color';
-        if (cmd === 'role') cmd = 'card';
-
         // Block users with SHY boolean TRUE
-        if (initiator.character.shy) {
-            initiator.player.user.send("Sorry, you can't share. You have the 'Shy' condition. Try seeing a Psychologist.");
+        if (checkCondition(initiator, 'shy')) {
+            initiator.player.user.send("Sorry, you can't share. You have the 'shy' condition. Try seeing a Psychologist.");
             return;
         }
         
+        // Switch statement checks for share type and executes
         switch (cmd) {
             case('color'):
                 target.player.user.send(`${message.author.username}'s has shared their color with you!\n **Color:** ${initiator.character.color}!\n\n if you would like to recepricate?\n📇 Share Card\n 🖌️ Share Color`)
@@ -80,13 +77,12 @@ module.exports = {
                         }) // End collector
                     }) // End Reaction listner
                     .catch(console.error);
-                // TO-DO change any flags in the DB that needs to change due to COLOR share...    
                 break;
             case('card'):
-                if (initiator.character.coy) {
+                if (checkCondition(initiator,'coy')) {
                     initiator.player.user.send("Sorry, you can't card share. You have the 'Coy' condition. Try seeing a Psychologist.");
                     return;
-                }
+                };
                 target.player.user.send(`${message.author.username} has shared their card with you!\n**Role:** ${initiator.character.name}!\n **Color:** ${initiator.character.color}!\n\n if you would like to recepricate?\n📇 Share Card\n 🖌️ Share Color`)
                     .then(sentMessage => {
                         sentMessage.react('📇');
@@ -119,7 +115,7 @@ module.exports = {
                 }
                 break;
             default:
-                message.author.send(`**Command Stucture:** \`!share card <user>\`\nYou must specify what type of share you want to do.\n - color\n - card`)
+                message.author.send(cmdError)
         }
         return;
     }//execute
