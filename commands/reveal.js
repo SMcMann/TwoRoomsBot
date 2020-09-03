@@ -12,6 +12,7 @@ module.exports = {
     args: false, 
     execute(message, args){
         if (message.channel.type === 'dm') return;
+        if (!live) message.reply('No game is active, I have nothing to reveal!');
         for (let member of assignments.database) {
             let new_role;
             if (member.character.alignment == "Red") {

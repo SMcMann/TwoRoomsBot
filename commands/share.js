@@ -14,6 +14,7 @@ module.exports = {
     args: true, 
     execute(message, args){
         if (message.channel.type !== 'dm') message.delete({ timeout: 2000 })
+        if (!live) message.reply('No game is active, contact a moderator to get a game started!');
         if (args.length < 2) {
             message.author.send(cmdError);
             return;

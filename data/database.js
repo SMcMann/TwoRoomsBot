@@ -5,6 +5,8 @@ let database = [];
 let goals = [...winConditions];
 let characters = [...importChars];
 
+let live = false;
+
 function findPlayer (payload) {
     if (database.length > 0 && payload !== null) {
         let player = undefined;
@@ -115,5 +117,5 @@ function toggleCharacter(name) {
     }
 }
 
-module.exports = { characters, toggleCharacter, 
+module.exports = { live, characters, toggleCharacter, 
     database, addToDB, clearDB, findPlayer, gameReport, checkCondition, flipCondition, updateGoal };

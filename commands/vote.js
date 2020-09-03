@@ -13,6 +13,7 @@ module.exports = {
     args: true,
     execute(message, args){
         if (message.channel.type === 'dm') return;
+        if (!live) message.reply('No game is active, there is nobody to vote on. Contact a moderator to get a game going!');
         let user = getUserFromArgs([...args]);
 
         // If statement checks for a mention instead of a user, and switches the mention for the mentioned user
@@ -32,8 +33,8 @@ module.exports = {
         }
 
         //Abort if voting for someone not in the same room
-        if (target.voice.channel.id != initiator.voice.channel.id) {
-            message.reply(`Sorry, you cannot vote ${target.user.username} as leader. You are not in the same room.`);
+        if (target.voice.channel === null || target.voice.channel.id !== initiator.voice.channel.id) {
+            message.reply(`Sorry, you cannot vote ${target.user.username} as leader. You are not in the same room (Voice Channel).`);
             return;
         }
 

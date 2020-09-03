@@ -8,6 +8,7 @@ module.exports = {
     args: false, 
     execute(message, args){
         if (message.channel.type !== 'dm') message.delete({ timeout: 2000 })
+        if (!live) message.reply('No game is active, you must initate a game to get a report!');
         console.log(`${message.author.username} has requested the game report...`)
         message.author.send(database.gameReport())
             .then(console.log(`${message.author.username} has been sent the game report...`))
