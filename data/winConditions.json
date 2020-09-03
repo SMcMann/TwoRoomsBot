@@ -6,13 +6,15 @@
                 "name": "Living President",
                 "desc": "The President Lives",
                 "status": true,
-                "active": true
+                "active": true,
+                "character": "President"
             },
             {
                 "name": "Doctor Appointment",
                 "desc": "Meet with the on-site doctor",
                 "status": false,
-                "active": false
+                "active": false,
+                "character": "Doctor"
             }
         ]
     },
@@ -23,13 +25,15 @@
                 "name": "Dead President",
                 "desc": "The President is Dead",
                 "status": false,
-                "active": true
+                "active": true,
+                "character": "Bomber"
             },
             {
                 "name": "Engineered Blast",
                 "desc": "Tune-up the bomb with the on-sight engineer",
                 "status": false,
-                "active": false
+                "active": false,
+                "character":  "Engineer"
             }
         ]
     }
