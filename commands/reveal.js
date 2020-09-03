@@ -8,7 +8,7 @@ assignments.database[i] = {
 */
 module.exports = {
     name: 'reveal', //THIS MUST BE THE SAME NAME OF THE FILE/COMMAND
-    aliases: [],
+    aliases: ['debrief'],
     cooldown: 0,
     description: 'Changes member roles to one of Red Team/Blue Team/Gray Team for post game discussion.',
     args: false, 

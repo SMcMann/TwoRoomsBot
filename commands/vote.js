@@ -6,7 +6,7 @@ const { getUserFromArgs } = require("../scripts/args");
 
 module.exports = {
     name: 'vote', //THIS MUST BE THE SAME NAME OF THE FILE/COMMAND
-    aliases: [],
+    aliases: ['nominate'],
     cooldown: 0,
     alias: ['elect'],
     description: 'Used for a leader abdicating their position or nominating someone to ursurp the current leader.',
