@@ -1,7 +1,7 @@
 
 //const server = require("../data/server.json");
 const { roles, getRole }  = require("../data/serverValues");
-const { database, live } = require("../data/database");
+const { database, checkLive } = require("../data/database");
 
 
 module.exports = {
@@ -12,7 +12,15 @@ module.exports = {
     args: false, 
     execute(message, args){
         if (message.channel.type === 'dm') return;
-        if (!live) message.reply('No game is active, I have nothing to reveal!');
+        message.delete({ timeout: 2000 })
+
+        if (!checkLive()) {
+            message.reply('No game is active, I have nothing to reveal!');
+            return;
+        };
+
+        console.log('Revealing game results!')
+
         for (let member of database) {
             let new_role;
             if (member.character.alignment == "Red") {
@@ -23,7 +31,7 @@ module.exports = {
                 new_role = getRole(message.guild,roles.gray);
             }
             member.player.roles.add(new_role)
-                .then(console.log(`  ${member.username} assigned to ${new_role}...`))
+                .then(console.log(`  ${member.player.user.username} assigned to ${member.character.alignment} team...`))
                 .catch(console.error); // Shows error if we have a send error;
         }
     }//execute

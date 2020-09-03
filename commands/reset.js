@@ -1,4 +1,4 @@
-const { clearDB, live }= require("../data/database");
+const { clearDB, live, checkLive, toggleLive }= require("../data/database");
 //const server = require("../data/server.json");
 const { roles } = require("../data/serverValues");
 
@@ -20,7 +20,10 @@ module.exports = {
     args: false, 
     execute(message, args){
         if (message.channel.type === 'dm') return;
-        if (!live) message.reply('No game is active, you need to make a game to reset it!');
+        if (!checkLive()) {
+            message.reply('No game is active, you need to make a game to reset it!');
+            return;
+        }   
         message.delete({ timeout: 500 })
         //Reset roles
         for (let member of message.guild.members.cache) {
@@ -33,7 +36,8 @@ module.exports = {
         }
 
         //Reset database
-        { clearDB, live }clearDB();
+        clearDB();
+        if (checkLive()) toggleLive(message);
         message.reply('the game is fully reset!')
     }//execute
 }

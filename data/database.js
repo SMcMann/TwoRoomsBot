@@ -117,5 +117,15 @@ function toggleCharacter(name) {
     }
 }
 
-module.exports = { live, characters, toggleCharacter, 
+function checkLive() {
+    return live;
+}
+
+function toggleLive(message) {
+    live = !live
+    if (live) message.reply('game is now live!');
+    if (!live) message.reply('game has concluded...');
+    return;
+}
+module.exports = { live, characters, toggleCharacter, toggleLive, checkLive,
     database, addToDB, clearDB, findPlayer, gameReport, checkCondition, flipCondition, updateGoal };

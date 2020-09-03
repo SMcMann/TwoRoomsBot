@@ -1,6 +1,6 @@
 //const server = require("../data/server.json");
 const { roles } = require("../data/serverValues");
-const { findPlayer, live } = require("../data/database");
+const { findPlayer, checkLive } = require("../data/database");
 const { runSoloVote, runGroupVote, channelVoting } = require("../scripts/voting");
 const { getUserFromArgs } = require("../scripts/args");
 
@@ -13,7 +13,10 @@ module.exports = {
     args: true,
     execute(message, args){
         if (message.channel.type === 'dm') return;
-        if (!live) message.reply('No game is active, there is nobody to vote on. Contact a moderator to get a game going!');
+        if (!checkLive()) {
+            message.reply('No game is active, there is nobody to vote on. Contact a moderator to get a game going!');
+            return;
+        }
         let user = getUserFromArgs([...args]);
 
         // If statement checks for a mention instead of a user, and switches the mention for the mentioned user

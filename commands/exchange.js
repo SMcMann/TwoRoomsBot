@@ -1,4 +1,4 @@
-const { findPlayer, checkCondition, live } = require('../data/database');
+const { findPlayer, checkCondition, checkLive } = require('../data/database');
 const { getUserFromArgs } = require('../scripts/args');
 const { shareColor, shareCard } = require('../scripts/shareFuctions');
 const dice = require('../scripts/dice');
@@ -15,7 +15,10 @@ module.exports = {
     args: true, 
     execute(message, args){
         if (message.channel.type !== 'dm') message.delete({ timeout:2000 });
-        if (!live) message.reply('No game is active, contact a moderator!');
+        if (!checkLive()) {
+            message.reply('No game is active, contact a moderator!');
+            return;
+        }
         if (args.length < 2) {
             message.author.send(cmdError);
             return;

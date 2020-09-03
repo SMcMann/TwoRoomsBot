@@ -1,4 +1,4 @@
-const { gameReport, live } = require('../data/database');
+const { gameReport, checkLive } = require('../data/database');
 
 module.exports = {
     name: 'report', //THIS MUST BE THE SAME NAME OF THE FILE/COMMAND
@@ -8,7 +8,10 @@ module.exports = {
     args: false, 
     execute(message, args){
         if (message.channel.type !== 'dm') message.delete({ timeout: 2000 })
-        if (!live) message.reply('No game is active, you must initate a game to get a report!');
+        if (!checkLive()) {
+            message.reply('No game is active, you must initate a game to get a report!');
+            return;
+        };
         console.log(`${message.author.username} has requested the game report...`)
         message.author.send(gameReport())
             .then(console.log(`${message.author.username} has been sent the game report...`))
