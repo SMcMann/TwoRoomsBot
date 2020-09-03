@@ -8,6 +8,7 @@ const admincmds = [
 const playercmds = [
     `:white_small_square: \`!share color <user>\`- Sends your color to specified user privately`,
     `:white_small_square: \`!share card <user>\` - Sends your role name and color to specified user privately`,
+    `:white_small_square: \`!exchange card <user>\` - Sends a request to share information simultaniously to the specified user privately`,
     `:white_small_square: \`!roles\` - Floods you with all roles in the game.`,
     `:white_small_square: \`!vote <user>\` - Nominates the user to become the room leader.`
 ]

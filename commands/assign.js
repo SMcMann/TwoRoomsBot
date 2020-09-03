@@ -1,7 +1,6 @@
 const getCharacters = require('../data/characters.json');
 // const characters = [getCharacters[6], getCharacters[11], getCharacters[10], getCharacters[9]]; //Temporary change for testing Psychologist
 const characters = require('../data/characters.json');
-//const server = require("../data/server.json");
 const { roles } = require("../data/serverValues");
 const specialChars = require('../data/specialroles.json');
 const { updateGoal, clearDB, addToDB, gameReport } = require('../data/database');
