@@ -1,5 +1,4 @@
 function getUserFromArgs(args) {
-    args.shift(); // Removes the command Arg
     let user
         
     // FOR Loop recombines the username back into a string
