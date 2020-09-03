@@ -1,4 +1,3 @@
-const Discord = require('discord.js');
 //const server = require("../data/server.json");
 const { roles } = require("../data/serverValues");
 const { findPlayer } = require("../data/database");

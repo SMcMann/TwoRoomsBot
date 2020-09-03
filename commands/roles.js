@@ -1,4 +1,3 @@
-const Discord = require('discord.js');
 const rolesArray = require('../data/characters.json');
 const specialRoles = require('../data/specialroles.json');
 
