@@ -1,7 +1,7 @@
 
 //const server = require("../data/server.json");
 const { roles, getRole }  = require("../data/serverValues");
-const assignments = require("../data/database");
+const { database, live } = require("../data/database");
 
 
 module.exports = {
@@ -13,7 +13,7 @@ module.exports = {
     execute(message, args){
         if (message.channel.type === 'dm') return;
         if (!live) message.reply('No game is active, I have nothing to reveal!');
-        for (let member of assignments.database) {
+        for (let member of database) {
             let new_role;
             if (member.character.alignment == "Red") {
                 new_role = getRole(message.guild,roles.red);

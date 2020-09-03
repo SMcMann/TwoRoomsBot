@@ -1,4 +1,4 @@
-const assignments = require("../data/database");
+const { clearDB, live }= require("../data/database");
 //const server = require("../data/server.json");
 const { roles } = require("../data/serverValues");
 
@@ -33,7 +33,7 @@ module.exports = {
         }
 
         //Reset database
-        assignments.clearDB();
+        { clearDB, live }clearDB();
         message.reply('the game is fully reset!')
     }//execute
 }

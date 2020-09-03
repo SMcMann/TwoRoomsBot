@@ -1,4 +1,4 @@
-const { findPlayer } = require('../data/database');
+const { findPlayer, live } = require('../data/database');
 const { getUserFromArgs } = require('../scripts/args');
 const { shareColor, shareCard } = require('../scripts/shareFuctions');
 

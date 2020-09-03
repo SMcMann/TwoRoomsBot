@@ -1,6 +1,6 @@
 //const server = require("../data/server.json");
 const { roles } = require("../data/serverValues");
-const { findPlayer } = require("../data/database");
+const { findPlayer, live } = require("../data/database");
 const { runSoloVote, runGroupVote, channelVoting } = require("../scripts/voting");
 const { getUserFromArgs } = require("../scripts/args");
 
