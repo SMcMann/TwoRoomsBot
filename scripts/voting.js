@@ -44,13 +44,14 @@ function runSoloVote(sentMessage, target, curr_leader) {
 }
 
 function runGroupVote(sentMessage, target, curr_leader) {
-    setVoting(target.channel,true);
+    setVoting(target.voice.channel,true);
     sentMessage.react('👍');
     sentMessage.react('👎');
-    const filter = (reaction, user) => user.voice.channel.id == target.voice.channel.id;
-    const leaderR = message.guild.roles.cache.filter(r => r.name == server.roles.leader);
+    const voteRoom = target.voice.channel.members;
+    const filter = (reaction, user) => !user.bot && voteRoom.get(user.id).voice.channel.id == target.voice.channel.id;
+    const leaderR = sentMessage.guild.roles.cache.filter(r => r.name == server.roles.leader);
     let posVotes = 0;
-    const collector = sentMessage.createReactionCollector(filter, { time: 30000 });
+    const collector = sentMessage.createReactionCollector(filter, { time: 15000 });
     collector.on('collect', r => {
         if (r.emoji.name === '👍') {
             posVotes++;
@@ -58,8 +59,8 @@ function runGroupVote(sentMessage, target, curr_leader) {
     }) // End collector
     collector.on('end', collected => {
         console.log("Vote ended.");
-        setVoting(initiator.voice.channel,false);
-        const roomSize = initiator.voice.channel.members.size;
+        setVoting(target.voice.channel,false);
+        const roomSize = voteRoom.size;
         if (posVotes >= roomSize/2) {
             sentMessage.channel.send(`${target.user.username} has been elected as the new leader of this room! Roles have been updated`);
             if (curr_leader) {

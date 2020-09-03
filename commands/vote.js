@@ -57,19 +57,19 @@ module.exports = {
                     .then(sentMessage => { runSoloVote(sentMessage, target) })
                     .catch(console.error);
             }
-        } else if (message.author.roles.cache.some(r => r.name == server.roles.leader)) {
+        } else if (initiator.roles.cache.some(r => r.name == server.roles.leader)) {
             //The current leader is abdicating their position
-            message.channel.send(`${initiator.displayName} is abdicating their position! They are offering it to ${target.displayName}.\n`+
+            message.channel.send(`${initiator.user.username} is abdicating their position! They are offering it to ${target.user.username}.\n`+
                 `<@!${target.user.id}>, do you accept?`)
-                .then(console.log(`${initiator.displayName} abdicated leadership in ${initiator.voice.channel.name}`))
+                .then(console.log(`${initiator.user.username} abdicated leadership in ${initiator.voice.channel.name}`))
                 .then(sentMessage => { runSoloVote(sentMessage, target, curr_leader) })
                 .catch(console.error);
         } else {
             //Nomination for ursupring
             let posVotes = 0;
-            message.channel.send(`${author.displayName} has nominated ${target.displayName} for leader.\n`+
+            message.channel.send(`${initiator.user.username} has nominated ${target.user.username} to ursurp the leader.\n`+
                 "Cast your vote by reacting to this message.")
-                .then(console.log(`${initiator.displayName} started vote in ${initiator.voice.channel.name}`))
+                .then(console.log(`${initiator.user.username} started vote in ${initiator.voice.channel.name}`))
                 .then(sentMessage => { runGroupVote(sentMessage, target, curr_leader) })
                 .catch(console.error);
         }
