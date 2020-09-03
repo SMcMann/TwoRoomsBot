@@ -1,5 +1,3 @@
-const Discord = require('discord.js');
-
 module.exports = {
     name: 'example', //THIS MUST BE THE SAME NAME OF THE FILE/COMMAND
     aliases: [],

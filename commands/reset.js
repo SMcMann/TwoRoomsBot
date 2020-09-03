@@ -1,4 +1,3 @@
-const Discord = require('discord.js');
 const assignments = require("../data/database");
 const server = require("../data/server.json");
 
