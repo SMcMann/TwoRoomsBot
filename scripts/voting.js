@@ -1,3 +1,5 @@
+const server = require("../data/server.json");
+
 let voting = {
     room1: false,
     room2: false
@@ -14,27 +16,30 @@ function channelVoting(channel) {
 }
 
 function runSoloVote(sentMessage, target, curr_leader) {
-    setVoting(target.channel,true);
+    setVoting(target.voice.channel,true);
     sentMessage.react('👍');
     sentMessage.react('👎');
     const filter = (reaction, user) => user.id == target.user.id;
-    const leaderR = message.guild.roles.cache.filter(r => r.name == server.roles.leader);
+    const leaderR = sentMessage.guild.roles.cache.filter(r => r.name == server.roles.leader);
     const collector = sentMessage.createReactionCollector(filter, { max: 1, time: 15000 });
     collector.on('collect', r => {
         if (r.emoji.name === '👍') {
-            sentMessage.reply(`${target.displayName} accepted! Roles have been updated.`)
+            sentMessage.channel.send(`${target.user.username} accepted! Roles have been updated.`)
             if (curr_leader) {
                 curr_leader.roles.remove(leaderR);
             }
             target.roles.add(leaderR)
         }
         if (r.emoji.name === '👎') {
-            sentMessage.reply(`${target.displayName} has declined the nomination.`);
+            sentMessage.channel.send(`${target.user.username} has declined the nomination.`);
         }
     }) // End collector
     collector.on('end', collected => {
         console.log("Vote ended.");
-        setVoting(initiator.voice.channel,false);
+        if (collected.size == 0) {
+            sentMessage.channel.send(`${target.user.username} didn't respond fast enough.`)
+        }
+        setVoting(target.voice.channel,false);
     }) //End end collector
 }
 
@@ -56,13 +61,13 @@ function runGroupVote(sentMessage, target, curr_leader) {
         setVoting(initiator.voice.channel,false);
         const roomSize = initiator.voice.channel.members.size;
         if (posVotes >= roomSize/2) {
-            sentMessage.reply(`${target.displayName} has been elected as the new leader of this room! Roles have been updated`);
+            sentMessage.channel.send(`${target.user.username} has been elected as the new leader of this room! Roles have been updated`);
             if (curr_leader) {
                 curr_leader.roles.remove(leaderR);
             }
             target.roles.add(leaderR);
         } else {
-            sentMessage.reply(`${target.displayName} did not receive enough votes to be elected leader.`);
+            sentMessage.channel.send(`${target.user.username} did not receive enough votes to be elected leader.`);
         }
     }) //End end collector
 }
