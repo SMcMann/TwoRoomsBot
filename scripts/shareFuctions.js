@@ -48,7 +48,7 @@ function shareCard(initiator, target, response) {
             } // End Response
         }) // End Reaction listner
         .then(console.log(`${initiatorName} shared their card with ${targetName}`))
-        .then(message.author.send(`Your card was successfully shared with ${targetName}`))
+        .then(initiator.player.user.send(`Your card was successfully shared with ${targetName}`))
         .then(() => {
             if (initiator.character.name == "Red Psychologist" || initiator.character.name == "Blue Psychologist") {
                 console.log(`${initiatorName} is giving a conducting counsling...`);
