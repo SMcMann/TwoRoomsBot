@@ -20,10 +20,10 @@ module.exports = {
     args: false, 
     execute(message, args){
         if (message.channel.type === 'dm') return;
-        if (!checkLive()) {
+        /*if (!checkLive()) {
             message.reply('No game is active, you need to make a game to reset it!');
             return;
-        }   
+        } */  
         message.delete({ timeout: 500 })
         //Reset roles
         for (let member of message.guild.members.cache) {

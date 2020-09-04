@@ -9,10 +9,10 @@ let characters = [...importChars,...importSpecial];
 let live = false;
 
 function findPlayerByCharacter(character) {
-    if (database.length > 0 && payload !== null) {
+    if (database.length > 0 && character !== null) {
         for (let record of database) {
             if (record.character.name == character) {
-                return player;
+                return record;
             }
         }
     }
@@ -92,7 +92,7 @@ function flipCondition(target, condition) {
     let index = database. findIndex(el => el.player.user.id === target.player.id);
     let currentUser = database.find(el => el.player.id === target.player.id);
     currentUser.character[condition] = !currentUser.character[condition]
-    target.player.user.send(`You are ${currentUser.character[condition] === true ? condition : `no longer ${condition}`}!`);
+    //target.player.user.send(`You are ${currentUser.character[condition] === true ? condition : `no longer ${condition}`}!`);
     database[index] = currentUser;
     console.log(`The ${currentUser.character.name.toLowerCase()} is ${currentUser.character[condition] === true ? condition : `not ${condition}`}!`);
     return;

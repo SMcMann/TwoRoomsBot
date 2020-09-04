@@ -68,11 +68,16 @@ module.exports = {
             players.splice(rand,1);
 
             //Add the assignment to the database for use in other commands
+            let voiceChannel = currPlayer.voice.channel;
+            //If voice is not undefined, set it to the channel name
+            if (voiceChannel) voiceChannel = voiceChannel.name;
             addToDB({
                 player: currPlayer,
-                character: charPick
+                character: charPick,
+                currChannel: voiceChannel
             });
             //DM the player their role
+            /*
             let username
             currPlayer.nickname !== null ? username = currPlayer.nickname : username = currPlayer.user.username; //Gets current nickname or username
             currPlayer.send({files: [cards[charPick.name.toLowerCase().replace(/\s+/g, '')]]}).then(
@@ -80,6 +85,7 @@ module.exports = {
                 .then(console.log(`  ${charPick.name} was assigned to ${username}...`))
                 .then(gameSize++) // Increases the player count
                 .catch(console.error); // Shows error if we have a send error
+            */
         }
         message.reply(`${gameSize} roles assigned for this game!`);
         message.author.send(gameReport())
