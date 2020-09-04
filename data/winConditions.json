@@ -7,6 +7,7 @@
                 "desc": "The President Lives",
                 "status": true,
                 "active": false,
+                "value": "",
                 "character": "President"
             },
             {
@@ -14,6 +15,7 @@
                 "desc": "Meet with the on-site doctor",
                 "status": false,
                 "active": false,
+                "value": "",
                 "character": "Doctor"
             }
         ]
@@ -26,6 +28,7 @@
                 "desc": "The President is Dead",
                 "status": false,
                 "active": false,
+                "value": "",
                 "character": "Bomber"
             },
             {
@@ -33,7 +36,21 @@
                 "desc": "Tune-up the bomb with the on-sight engineer",
                 "status": false,
                 "active": false,
+                "value": "",
                 "character":  "Engineer"
+            }
+        ]
+    },
+    {
+        "group": "Gray",
+        "conditions": [
+            {
+                "name": "Wild Guess",
+                "desc": "The Gambler makes a correct prediction",
+                "status": false,
+                "active": false,
+                "value": "",
+                "character": "Gambler"
             }
         ]
     }

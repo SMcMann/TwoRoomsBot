@@ -8,6 +8,7 @@
         "active": true,
         "coy": false,
         "shy": false,
+        "dead": false,
         "rules": "­You are a primary character. Blue Team wins if you do not gain the “dead” condition."
     },
     {
@@ -19,6 +20,7 @@
         "active": true,
         "coy": false,
         "shy": false,
+        "dead": false,
         "rules": "­You are a primary character. Everyone in the same room as you at the end of the game gains the “dead” condition. The Red Team wins if the President gains the “dead” condition. \n\n**Note:** It is possible that the Bomber receives the “dead” condition before the end of the game. If this happens, then the Bomber does not detonate, failing to provide the \"dead” condition to everyone in the same room at the end of the game."
     },
     {
@@ -30,6 +32,7 @@
         "active": true,
         "coy": false,
         "shy": false,
+        "dead": false,
         "rules": "When playing with the Doctor, the Blue Team has the following additional win condition: the President must card share with the Doctor before the end of the game or the Blue Team loses. At the end of the game, the President will be asked if he/she card shared with the Doctor. At that time both players will verify or deny having card shared."
     },
     {
@@ -41,6 +44,7 @@
         "active": true,
         "coy": false,
         "shy": false,
+        "dead": false,
         "rules": "When playing with the Engineer, the Red Team has the following additional win condition: the Bomber must card share with the Engineer before the end of the game or the Red Team loses. At the end of the game, the Bomber will be asked if he/she card shared with the Engineer. At that time both players will verify or deny having card shared."
     },
     {
@@ -52,6 +56,7 @@
         "active": true,
         "coy": false,
         "shy": false,
+        "dead": false,
         "rules": "This is a special character card that is the color of the opposite team. This means that the red Spy has an allegiance to the Red Team, but their card is blue."
     },
     {
@@ -63,6 +68,7 @@
         "active": true,
         "coy": false,
         "shy": false,
+        "dead": false,
         "rules": "This is a special character card that is the color of the opposite team. This means that the blue Spy has an allegiance to the Blue Team, but their card is red."
     },
     {
@@ -74,6 +80,7 @@
         "active": true,
         "coy": true,
         "shy": false,
+        "dead": false,
         "rules": "You begin with the “coy” condition. Players with the “coy” condition may ONLY color share unless a character’s power forces otherwise. Note: The “coy” condition is a psych condition and can be cured by a Psychologist."
     },
     {
@@ -85,6 +92,7 @@
         "active": true,
         "coy": true,
         "shy": false,
+        "dead": false,
         "rules": "You begin with the “coy” condition. Players with the “coy” condition may ONLY color share unless a character’s power forces otherwise. Note: The “coy” condition is a psych condition and can be cured by a Psychologist."
     },
     {
@@ -96,6 +104,7 @@
         "active": true,
         "coy": false,
         "shy": true,
+        "dead": false,
         "rules": "You begin with the “shy” condition. Players with the “shy” condition may not reveal any part of their card to any player. Note: The “shy” condition is a psych condition and can be cured by a Psychologist."
     },
     {
@@ -107,6 +116,7 @@
         "active": true,
         "coy": false,
         "shy": true,
+        "dead": false,
         "rules": "You begin with the “shy” condition. Players with the “shy” condition may not reveal any part of their card to any player. Note: The “shy” condition is a psych condition and can be cured by a Psychologist."
     },
     {
@@ -118,6 +128,7 @@
         "active": true,
         "coy": false,
         "shy": false,
+        "dead": false,
         "rules": "When you privately reveal your card to a character with a psych condition (e.g. “shy”, “coy”, etc.), that character may then immediately card share with you. If they do, their psych condition is removed."
     },
     {
@@ -129,6 +140,7 @@
         "active": true,
         "coy": false,
         "shy": false,
+        "dead": false,
         "rules": "When you privately reveal your card to a character with a psych condition (e.g. “shy”, “coy”, etc.), that character may then immediately card share with you. If they do, their psych condition is removed."
     },
     {
@@ -140,6 +152,7 @@
         "active": true,
         "coy": false,
         "shy": false,
+        "dead": false,
         "rules": "You win if the Sniper shoots you at the end of the last round."
     },
     {
@@ -151,6 +164,7 @@
         "active": true,
         "coy": false,
         "shy": false,
+        "dead": false,
         "rules": "You win if the Sniper does not shoot you at the end of the last round."
     },
     {
@@ -162,6 +176,7 @@
         "active": true,
         "coy": false,
         "shy": false,
+        "dead": false,
         "rules": "At the end of the last round, before all players reveal their character cards and after the Gambler has made their guess (if they are in the game), you must publicly announce which player you are shooting. The selected player does not have to be in the same room as you. You win if the player you selected is the Target."
     }
 ]

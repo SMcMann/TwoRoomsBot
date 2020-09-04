@@ -1,11 +1,23 @@
 const format = require('../scripts/formatting')
 const winConditions = require("../data/winConditions.json");
 const importChars = require("../data/characters.json");
+const importSpecial = require("../data/specialroles.json");
 let database = [];
 let goals = [...winConditions];
-let characters = [...importChars];
+let characters = [...importChars,...importSpecial];
 
 let live = false;
+
+function findPlayerByCharacter(character) {
+    if (database.length > 0 && payload !== null) {
+        for (let record of database) {
+            if (record.character.name == character) {
+                return player;
+            }
+        }
+    }
+    return undefined;
+}
 
 function findPlayer (payload) {
     if (database.length > 0 && payload !== null) {
@@ -92,7 +104,7 @@ function checkCondition(target, condition) {
     return currentUser.character[condition]
 }
 
-function updateGoal(character,statAct,bool) {
+function updateGoal(character,parameter,value) {
     //Iterate through goals
     for (let g of goals) {
         //Iterate through that goal's conditions
@@ -100,9 +112,23 @@ function updateGoal(character,statAct,bool) {
             //If a match is found
             if (c.character == character) {
                 //Update the status/active
-                c[statAct] = bool;
-                console.log(`${c.name} ${statAct} updated to ${bool}.`);
+                c[parameter] = value;
+                console.log(`${c.name} ${parameter} updated to ${value}.`);
                 return;
+            }
+        }
+    }
+}
+
+function getGoal(character) {
+    //Iterate through goals
+    for (let g of goals) {
+        //Iterate through that goal's conditions
+        for (let c of g.conditions) {
+            //If a match is found
+            if (c.character == character) {
+                //Return that goal
+                return c;
             }
         }
     }
@@ -127,5 +153,7 @@ function toggleLive(message) {
     if (!live) message.reply('game has concluded...');
     return;
 }
-module.exports = { live, characters, toggleCharacter, toggleLive, checkLive,
-    database, addToDB, clearDB, findPlayer, gameReport, checkCondition, flipCondition, updateGoal };
+module.exports = { live, toggleLive, checkLive, 
+    characters, toggleCharacter, checkCondition, flipCondition,
+    database, addToDB, clearDB, findPlayer, findPlayerByCharacter, gameReport,
+    updateGoal, getGoal };
