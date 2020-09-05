@@ -23,8 +23,7 @@ module.exports = {
         message.reply(`Calculating final results...`)
         if (gambleGoal.active) { 
             const gambler = findPlayerByCharacter("Gambler").player;
-            //message.channel.send(`<@${gambler.user.id}>, who do you think is going to win?`+
-            message.channel.send(`Gambler ${gambler.user.username}, who do you think is going to win?`+ "\n 🟦 - Blue Team" + "\n 🟥 - Red Team" + "\n ⬜ - Neither")
+            message.channel.send(`Gambler <@${gambler.user.id}>, who do you think is going to win?`+ "\n 🟦 - Blue Team" + "\n 🟥 - Red Team" + "\n ⬜ - Neither")
             .then(sentMessage => {
                 sentMessage.react('🟦');
                 sentMessage.react('🟥');
