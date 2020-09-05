@@ -41,6 +41,7 @@ module.exports = {
             message.reply('No game is active, contact a moderator!');
             return;
         }
+        message.delete({ timeout: 1000 });
         let user = getUserFromArgs([...args]);
 
         // If statement checks for a mention instead of a user, and switches the mention for the mentioned user
