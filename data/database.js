@@ -81,7 +81,8 @@ function gameReport() {
 
     // For Loop constructs current player base
     for (let item of database) {
-        let {player, character, currChannel} = item;
+        let {player, character, currChannel, leader} = item;
+        let leaderText = leader ? ':regional_indicator_l:' : '';
         let alignment
         if (character.alignment === 'Red') { redCount++; alignment = '🟥'; };
         if (character.alignment === 'Blue') { blueCount++; alignment = '🟦'; };
@@ -89,6 +90,7 @@ function gameReport() {
         let roomNum;
         if (currChannel == channels.room1) roomNum = ':one:';
         if (currChannel == channels.room2) roomNum = ':two:';
+        playerReport = `${playerReport}${leaderText}`;
         playerReport = `${playerReport} ${alignment} **Role:** ${character.name.padEnd(15, ' ')} **Room:** ${roomNum.padEnd(10,' ')} **Player:** ${player.user.username.padEnd(20, ' ')}`;
         player.nickname !== null ? playerReport = `${playerReport} **Nickname:** ${player.nickname}\n` : playerReport = `${playerReport}\n`;
     }
@@ -147,11 +149,12 @@ function getGoal(character) {
     }
 }
 
-function toggleCharacter(name) {
+function toggleCharacter(name,message) {
     for (let c of characters) {
         if (c.name == name) {
             c.active = !c.active;
             console.log(`${name} has been set to ${c.active}`);
+            message.channel.send(`${name} has been set to ${c.active}`);
         }
     }
 }
@@ -185,7 +188,7 @@ function updateVoice(target,value) {
 
 function findLeader(room) {
     for (let entry in database) {
-        if (entry.leader && entry.currRoom == room) return entry
+        if (entry.leader && entry.currRoom == room) return entry;
     }
     return undefined;
 }
