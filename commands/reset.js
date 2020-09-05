@@ -26,6 +26,8 @@ module.exports = {
             .then(sentMessage => {
                 for (let member of sentMessage.guild.members.cache) {
                     let currMember = member[1];
+                    removeRole(currMember, roles.room1);
+                    removeRole(currMember, roles.room2);
                     removeRole(currMember, roles.red);
                     removeRole(currMember,roles.blue);
                     removeRole(currMember,roles.gray);

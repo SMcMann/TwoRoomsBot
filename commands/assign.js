@@ -1,7 +1,7 @@
 const getCharacters = require('../data/characters.json');
 // const characters = [getCharacters[6], getCharacters[11], getCharacters[10], getCharacters[9]]; //Temporary change for testing Psychologist
 const characters = require('../data/characters.json');
-const { roles } = require("../data/serverValues");
+const { roles, channels } = require("../data/serverValues");
 const specialChars = require('../data/specialroles.json');
 const { updateGoal, clearDB, addToDB, gameReport, live, toggleLive } = require('../data/database');
 const cards = require('../image/cards');
@@ -67,10 +67,21 @@ module.exports = {
             let currPlayer = players[rand];
             players.splice(rand,1);
 
-            //Add the assignment to the database for use in other commands
-            let voiceChannel = currPlayer.voice.channel;
-            //If voice is not undefined, set it to the channel name
-            if (voiceChannel) voiceChannel = voiceChannel.name;
+            let voiceChannel;
+            let voiceAlert = "You have been assigned to:";
+            if (players.length % 2 == 0) {
+                //Assign to room 1
+                console.log(`${currPlayer.player.user.username} has been assigned to Room 1`);
+                voiceChannel = channels.room1;
+                voiceAlert = `${voiceAlert} ${channels.room1}`;
+                currPlayer.player.roles.add(currPlayer.guild.roles.find(r => r.name == roles.room1));
+            } else {
+                //Assign to room 2
+                console.log(`${currPlayer.player.user.username} has been assigned to Room 2`);
+                voiceChannel = channels.room2;
+                voiceAlert = `${voiceAlert} ${channels.room2}`;
+                currPlayer.player.roles.add(currPlayer.guild.roles.find(r => r.name == roles.room2));
+            }
             addToDB({
                 player: currPlayer,
                 character: charPick,
@@ -82,7 +93,7 @@ module.exports = {
             let username
             currPlayer.nickname !== null ? username = currPlayer.nickname : username = currPlayer.user.username; //Gets current nickname or username
             currPlayer.send({files: [cards[charPick.name.toLowerCase().replace(/\s+/g, '')]]}).then(
-            currPlayer.send(`**Role:** ${charPick.name}\n**Share Color:** ${charPick.color}\n**Team:** ${charPick.alignment === 'Gray' ? 'None' : `${charPick.alignment} Team`}\n\n**[- ${charPick.name} Rules -]**\n${charPick.rules}\n\nGood luck, ${charPick.alignment === 'Gray' ? `may you achive your goals!` : `may fortune favor the ${charPick.alignment}!`}`))
+            currPlayer.send(`**Role:** ${charPick.name}\n**Share Color:** ${charPick.color}\n**Team:** ${charPick.alignment === 'Gray' ? 'None' : `${charPick.alignment} Team`}\n\n**[- ${charPick.name} Rules -]**\n${charPick.rules}\n\nGood luck, ${charPick.alignment === 'Gray' ? `may you achive your goals!` : `may fortune favor the ${charPick.alignment}!`}\n\n${voiceAlert}`))
                 .then(console.log(`  ${charPick.name} was assigned to ${username}...`))
                 .then(gameSize++) // Increases the player count
                 .catch(console.error); // Shows error if we have a send error
