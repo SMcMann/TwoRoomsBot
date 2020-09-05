@@ -1,7 +1,7 @@
 //const server = require("../data/server.json");
 const { roles } = require("../data/serverValues");
-const { findPlayer, checkLive } = require("../data/database");
-const { runSoloVote, runGroupVote, channelVoting } = require("../scripts/voting");
+const { findPlayer, checkLive, updateLeadership, updateVoice } = require("../data/database");
+const { runSoloVote, runGroupVote, channelVoting, findLeader } = require("../scripts/voting");
 const { getUserFromArgs } = require("../scripts/args");
 
 module.exports = {
@@ -26,8 +26,14 @@ module.exports = {
             console.log(`Mention detected, username now: ${user}`)
         }
 
-        let target = findPlayer(user).player; // Finds the DB save of the target
-        let initiator = findPlayer(message.author.username).player; // Finds the DB save of current user
+        let target = findPlayer(user); // Finds the DB save of the target
+        let initiator = findPlayer(message.author.username); // Finds the DB save of current user
+
+        //Update voice channels for these two, then update variables
+        updateVoice(target,target.voice.channel.name);
+        updateVoice(initiator,initiator.voice.channel.name);
+        target = findPlayer(user);
+        initiator = findPlayer(message.author.username);
 
         //Abort if invalid target
         if (!target) {
@@ -36,44 +42,43 @@ module.exports = {
         }
 
         //Abort if voting for someone not in the same room
-        if (target.voice.channel === null || target.voice.channel.id !== initiator.voice.channel.id) {
-            message.reply(`Sorry, you cannot vote ${target.user.username} as leader. You are not in the same room (Voice Channel).`);
+        if (target.currVoice === null || target.currVoice !== initiator.currVoice) {
+            message.reply(`Sorry, you cannot vote ${target.player.user.username} as leader. You are not in the same room (Voice Channel).`);
             return;
         }
 
         //Abort if there is already a vote going on in the room
-        if (channelVoting(initiator.voice.channel)) {
+        if (channelVoting(initiator.currVoice)) {
             message.reply("Sorry, you can't initialize another vote while there is a vote going on.");
             return;
         }
 
-        let curr_leader = initiator.voice.channel.members.find(p => p.roles.cache.some(r => r.name == roles.leader));
+        let curr_leader = findLeader(initiator.currVoice);
 
         if (!curr_leader) {
             //Initialize first leader
-            if (target.user.id == initiator.user.id) {
+            if (target.player.user.id == initiator.player.user.id) {
                 message.reply(`Sorry, you cannot nominate yourself to be the first leader. Try getting someone to nominate you!`);
                 return;
             } else {
-                message.channel.send(`${initiator.user.username} has nominated ${target.user.username} as the first leader of this room.\n`+
-                    `<@!${target.user.id}>, do you accept the position?`)
-                    .then(console.log(`${initiator.user.username} started initial vote in ${initiator.voice.channel.name}`))
+                message.channel.send(`${initiator.player.user.username} has nominated ${target.player.user.username} as the first leader of this room.\n`+
+                    `<@${target.player.user.id}>, do you accept the position?`)
+                    .then(console.log(`${initiator.player.user.username} started initial vote in ${initiator.player.currVoice}`))
                     .then(sentMessage => { runSoloVote(sentMessage, target) })
                     .catch(console.error);
             }
-        } else if (initiator.roles.cache.some(r => r.name == roles.leader)) {
+        } else if (initiator.player.roles.cache.some(r => r.name == roles.leader)) {
             //The current leader is abdicating their position
-            message.channel.send(`${initiator.user.username} is abdicating their position! They are offering it to ${target.user.username}.\n`+
-                `<@!${target.user.id}>, do you accept?`)
-                .then(console.log(`${initiator.user.username} abdicated leadership in ${initiator.voice.channel.name}`))
+            message.channel.send(`${initiator.player.user.username} is abdicating their position! They are offering it to ${target.player.user.username}.\n`+
+                `<@${target.player.user.id}>, do you accept?`)
+                .then(console.log(`${initiator.player.user.username} abdicated leadership in ${initiator.currVoice}`))
                 .then(sentMessage => { runSoloVote(sentMessage, target, curr_leader) })
                 .catch(console.error);
         } else {
             //Nomination for ursupring
-            let posVotes = 0;
-            message.channel.send(`${initiator.user.username} has nominated ${target.user.username} to ursurp the leader.\n`+
+            message.channel.send(`${initiator.player.user.username} has nominated ${target.player.user.username} to ursurp the leader.\n`+
                 "Cast your vote by reacting to this message.")
-                .then(console.log(`${initiator.user.username} started vote in ${initiator.voice.channel.name}`))
+                .then(console.log(`${initiator.player.user.username} started vote in ${initiator.currVoice}`))
                 .then(sentMessage => { runGroupVote(sentMessage, target, curr_leader) })
                 .catch(console.error);
         }

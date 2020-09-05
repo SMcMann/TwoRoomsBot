@@ -74,6 +74,7 @@ module.exports = {
             addToDB({
                 player: currPlayer,
                 character: charPick,
+                leader: false,
                 currChannel: voiceChannel
             });
             //DM the player their role
