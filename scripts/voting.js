@@ -1,4 +1,4 @@
-const { channels, roles } = require("../data/server.json");
+const { channels } = require("../data/server.json");
 const { findLeader, updateLeadership } = require("../data/database");
 
 let voting = {
@@ -26,7 +26,7 @@ function runSoloVote(sentMessage, target, curr_leader) {
         if (r.emoji.name === '👍') {
             sentMessage.channel.send(`${target.player.user.username} accepted! Roles have been updated.`)
             if (curr_leader) updateLeadership(curr_leader,false);
-            updateLeadership(target,false);
+            updateLeadership(target,true);
         }
         if (r.emoji.name === '👎') {
             sentMessage.channel.send(`${target.player.user.username} has declined the nomination.`);
@@ -61,7 +61,7 @@ function runGroupVote(sentMessage, target, curr_leader) {
         if (posVotes >= majority) {
             sentMessage.channel.send(`${target.player.user.username} has been elected as the new leader of this room! Roles have been updated`);
             if (curr_leader) updateLeadership(curr_leader,false);
-            updateLeadership(target,false);
+            updateLeadership(target,true);
         } else {
             sentMessage.channel.send(`${target.player.user.username} did not receive enough votes to be elected leader.`);
         }

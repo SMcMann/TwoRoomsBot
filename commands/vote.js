@@ -29,10 +29,10 @@ module.exports = {
         let initiator = findPlayer(message.author.username); // Finds the DB save of current user
 
         //Update voice channels for these two, then update variables
-        updateVoice(target,target.voice.channel.name);
+        /*updateVoice(target,target.voice.channel.name);
         updateVoice(initiator,initiator.voice.channel.name);
         target = findPlayer(user);
-        initiator = findPlayer(message.author.username);
+        initiator = findPlayer(message.author.username);*/
 
         //Abort if invalid target
         if (!target) {
