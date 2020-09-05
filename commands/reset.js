@@ -2,14 +2,10 @@ const { clearDB, live, checkLive, toggleLive }= require("../data/database");
 //const server = require("../data/server.json");
 const { roles } = require("../data/serverValues");
 
-function removeRole (player,roleName) {
-    let removal = new Promise(resolve => {
-        if (player.roles.cache.some(r => r.name == roleName)) {
-            player.roles.remove(player.guild.roles.cache.filter(r => r.name == roleName));
-        }
-        resolve("Removed");//Idk?
-    })
-    return removal;
+function removeRole(player,roleName) {
+    if (player.roles.cache.some(r => r.name == roleName)) {
+        player.roles.remove(player.guild.roles.cache.filter(r => r.name == roleName));
+    }
 }
 
 module.exports = {
@@ -25,15 +21,18 @@ module.exports = {
             return;
         } */  
         message.delete({ timeout: 500 })
-        //Reset roles
-        for (let member of message.guild.members.cache) {
-            let currMember = member[1];
-            removeRole(currMember, roles.red)
-                .then(removeRole(currMember,roles.blue))
-                .then(removeRole(currMember,roles.gray))
-                .then(removeRole(currMember,roles.leader))
-                .catch(console.error);
-        }
+        
+        message.reply("resetting game.")
+            .then(sentMessage => {
+                for (let member of sentMessage.guild.members.cache) {
+                    let currMember = member[1];
+                    removeRole(currMember, roles.red);
+                    removeRole(currMember,roles.blue);
+                    removeRole(currMember,roles.gray);
+                    removeRole(currMember,roles.leader);
+                }
+            })
+        
 
         //Reset database
         clearDB();
