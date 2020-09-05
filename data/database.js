@@ -54,16 +54,25 @@ function gameReport() {
     let groupCount = 0;
 
     for (let goal of goals) {
+        if (groupCount > 0) goalReport = `${goalReport}\n`
         let { group, conditions } = goal;
-        let alignment
+        /*let alignment;
         group === 'Red' ? alignment = '🟥' : 
             group === 'Blue' ? alignment = '🟦' :
-                alignment = '⬜';
-        if (groupCount > 0) goalReport = `${goalReport}\n`
+                alignment = '⬜';*/
+        let goalColor = ""; //
+        if (group === "Red") goalColor = "Red:";
+        else if (group === "Blue") goalColor = "Blue:";
+        else goalColor = "Gray:";
 
+        let colorAdded = false;
         for (let condition of conditions) {
             if (condition.active) {
-                goalReport = `${goalReport} ${format.addCheckmark(condition.status)} ${condition.name} [${group}]`
+                if (!colorAdded) {
+                    goalReport = `${goalReport} ${goalColor}`;
+                    colorAdded = true;
+                }
+                goalReport = `${goalReport} <${format.addCheckmark(condition.status)} ${condition.name}>`
             }
         }
         groupCount++
