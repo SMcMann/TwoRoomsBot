@@ -34,6 +34,7 @@ module.exports = {
                     removeRole(currMember,roles.leader);
                 }
             })
+            .catch(console.error);
         
 
         //Reset database
