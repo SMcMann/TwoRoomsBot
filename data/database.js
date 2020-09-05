@@ -2,6 +2,7 @@ const format = require('../scripts/formatting')
 const winConditions = require("../data/winConditions.json");
 const importChars = require("../data/characters.json");
 const importSpecial = require("../data/specialroles.json");
+const { channels } = require('./serverValues');
 let database = [];
 let goals = [...winConditions];
 let characters = [...importChars,...importSpecial];
@@ -80,12 +81,15 @@ function gameReport() {
 
     // For Loop constructs current player base
     for (let item of database) {
-        let {player, character} = item;
+        let {player, character, currChannel} = item;
         let alignment
         if (character.alignment === 'Red') { redCount++; alignment = '🟥'; };
         if (character.alignment === 'Blue') { blueCount++; alignment = '🟦'; };
         if (character.alignment === 'Gray') { grayCount++; alignment = '⬜'; };
-        playerReport = `${playerReport} ${alignment} **Role:** ${character.name.padEnd(20, ' ')} **Player:** ${player.user.username.padEnd(20, ' ')}`;
+        let roomNum;
+        if (currChannel == channels.room1) roomNum = ':one:';
+        if (currChannel == channels.room2) roomNum = ':two:';
+        playerReport = `${playerReport} ${alignment} **Role:** ${character.name.padEnd(15, ' ')} **Room:** ${roomNum.padEnd(10,' ')} **Player:** ${player.user.username.padEnd(20, ' ')}`;
         player.nickname !== null ? playerReport = `${playerReport} **Nickname:** ${player.nickname}\n` : playerReport = `${playerReport}\n`;
     }
 

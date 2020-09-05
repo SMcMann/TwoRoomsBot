@@ -32,6 +32,7 @@ module.exports = {
         const playerCount = players.length;
         let assigned = [];
         let gamblerN = 0;//Flag for whether the gambler is needed on even or odd
+        let inRoom1 = 0;//Counter for determining room assignment
         while (players.length > 0) {
             let charPick = activeChars[assigned.length];
             if (players.length == 1 && assigned.length % 2 == gamblerN) {
@@ -69,18 +70,19 @@ module.exports = {
 
             let voiceChannel;
             let voiceAlert = "You have been assigned to:";
-            if (players.length % 2 == 0) {
+            if ((Math.random() < 0.5 && inRoom1 < playerCount/2) || players.length < playerCount/2 - inRoom1) {
                 //Assign to room 1
-                console.log(`${currPlayer.player.user.username} has been assigned to Room 1`);
+                inRoom1++;
+                console.log(`${currPlayer.user.username} has been assigned to Room 1`);
                 voiceChannel = channels.room1;
                 voiceAlert = `${voiceAlert} ${channels.room1}`;
-                currPlayer.player.roles.add(currPlayer.guild.roles.find(r => r.name == roles.room1));
+                currPlayer.roles.add(currPlayer.guild.roles.cache.find(r => r.name == roles.room1));
             } else {
                 //Assign to room 2
-                console.log(`${currPlayer.player.user.username} has been assigned to Room 2`);
+                console.log(`${currPlayer.user.username} has been assigned to Room 2`);
                 voiceChannel = channels.room2;
                 voiceAlert = `${voiceAlert} ${channels.room2}`;
-                currPlayer.player.roles.add(currPlayer.guild.roles.find(r => r.name == roles.room2));
+                currPlayer.roles.add(currPlayer.guild.roles.cache.find(r => r.name == roles.room2));
             }
             addToDB({
                 player: currPlayer,
