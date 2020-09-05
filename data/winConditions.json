@@ -46,11 +46,35 @@
         "conditions": [
             {
                 "name": "Wild Guess",
-                "desc": "The Gambler makes a correct prediction",
+                "desc": "The Gambler makes a correct prediction.",
                 "status": false,
                 "active": false,
                 "value": "",
                 "character": "Gambler"
+            },
+            {
+                "name": "Target Practice",
+                "desc": "The Sniper hits his mark.",
+                "status": false,
+                "active": false,
+                "value": "",
+                "character": "Sniper"
+            },
+            {
+                "name": "Target Evasion",
+                "desc": "The Sniper misses his mark.",
+                "status": false,
+                "active": false,
+                "value": "",
+                "character": "Target"
+            },
+            {
+                "name": "Target Distraction",
+                "desc": "The Sniper misses his mark, and hits the Decoy.",
+                "status": false,
+                "active": false,
+                "value": "",
+                "character": "Decoy"
             }
         ]
     }
