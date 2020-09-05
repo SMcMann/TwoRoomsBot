@@ -48,7 +48,7 @@ function winConFunc () {
     const bombGoal = getGoal("Bomber");
     const engGoal = getGoal("Engineer");
     const gambleGoal = getGoal("Gambler");
-    const gambleGoal = getGoal("Sniper");
+    const sniperGoal = getGoal("Sniper");
 
     //President/Bomber
     if (checkCondition(findPlayerByCharacter("President"),"dead")) {
