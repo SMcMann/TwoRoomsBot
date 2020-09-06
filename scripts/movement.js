@@ -2,7 +2,7 @@ const { roles, channels } = require("../data/serverValues");
 const { updateVoice } = require("../data/database");
 
 function moveFunc (message,target) {
-    if (!target.player.voice) {
+    if (target.player.voice.channelID === undefined) {
         message.channel.send(`Cannot move ${target.player.user.username} because they are not in voice.`);
         return;
     }

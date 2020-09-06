@@ -1,11 +1,12 @@
 const getCharacters = require('../data/characters.json');
-const characters = [getCharacters[6], getCharacters[11], getCharacters[10], getCharacters[9]]; //Temporary change for testing Psychologist
+const characters = [getCharacters[0], getCharacters[1], getCharacters[6], getCharacters[11], getCharacters[10], getCharacters[9]]; //Temporary change for testing Psychologist
 // const characters = require('../data/characters.json');
 const { roles, channels } = require("../data/serverValues");
 const specialChars = require('../data/specialroles.json');
 const { updateGoal, clearDB, addToDB, gameReport, live, toggleLive } = require('../data/database');
 const cards = require('../image/cards');
 const { resetRoles } = require("../scripts/resetting");
+const { moveFunc } = require("../scripts/movement");
 
 module.exports = {
     name: 'assign', //THIS MUST BE THE SAME NAME OF THE FILE/COMMAND
@@ -95,7 +96,7 @@ module.exports = {
             currPlayer.nickname !== null ? username = currPlayer.nickname : username = currPlayer.user.username; //Gets current nickname or username
             currPlayer.send({files: [cards[charPick.name.toLowerCase().replace(/\s+/g, '')]]}).then(
             currPlayer.send(`**Role:** ${charPick.name}\n**Share Color:** ${charPick.color}\n**Team:** ${charPick.alignment === 'Gray' ? 'None' : `${charPick.alignment} Team`}\n\n**[- ${charPick.name} Rules -]**\n${charPick.rules}\n\nGood luck, ${charPick.alignment === 'Gray' ? `may you achive your goals!` : `may fortune favor the ${charPick.alignment}!`}\n\n${voiceAlert}`))
-                .then(moveFunc(message,currPlayer))
+                .then(moveFunc(message,{player: currPlayer}))
                 .then(console.log(`  ${charPick.name} was assigned to ${username}...`))
                 .then(gameSize++) // Increases the player count
                 .catch(console.error); // Shows error if we have a send error
