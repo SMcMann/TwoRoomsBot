@@ -2,6 +2,7 @@ const format = require('../scripts/formatting')
 const winConditions = require("../data/winConditions.json");
 const importChars = require("../data/characters.json");
 const importSpecial = require("../data/specialroles.json");
+const avatar = 'https://scontent.fsac1-2.fna.fbcdn.net/v/t1.0-9/117854855_3357840704261597_5605760858299843730_o.png?_nc_cat=102&_nc_sid=09cbfe&_nc_ohc=qDELSZGVMKsAX_vrV_P&_nc_ht=scontent.fsac1-2.fna&oh=fdd55030c3a4d47eeb3471893e9547e2&oe=5F7AB71B'
 const { channels } = require('./serverValues');
 let database = [];
 let goals = [...winConditions];
@@ -73,16 +74,31 @@ function gameReport() {
                     goalReport = `${goalReport} ${goalColor}`;
                     colorAdded = true;
                 }
-                goalReport = `${goalReport} <${format.addCheckmark(condition.status)} ${condition.name}>`
+                goalReport = `${goalReport} [${format.addCheckmark(condition.status)} ${condition.name}]`
             }
         }
         groupCount++
     }
 
+    let reportEmbed = {
+        color: 0x0099ff,
+        title: 'Two Rooms & Boom - Game Report',
+        author: {
+            name: 'Test Author',
+            icon_url: avatar,
+        },
+        description: '',
+        fields: [],
+        timestamp: new Date(),
+        footer: {
+            text: `What team won???`,
+            icon_url: avatar,
+        },
+    };
+
     // For Loop constructs current player base
     for (let item of database) {
         let {player, character, currChannel, leader} = item;
-        let leaderText = leader ? ':regional_indicator_l:' : '';
         let alignment
         if (character.alignment === 'Red') { redCount++; alignment = '🟥'; };
         if (character.alignment === 'Blue') { blueCount++; alignment = '🟦'; };
@@ -90,17 +106,20 @@ function gameReport() {
         let roomNum;
         if (currChannel == channels.room1) roomNum = ':one:';
         if (currChannel == channels.room2) roomNum = ':two:';
-        playerReport = `${playerReport}${leaderText}`;
-        playerReport = `${playerReport} ${alignment} **Role:** ${character.name.padEnd(15, ' ')} **Room:** ${roomNum.padEnd(10,' ')} **Player:** ${player.user.username.padEnd(20, ' ')}`;
+
         player.nickname !== null ? playerReport = `${playerReport} **Nickname:** ${player.nickname}\n` : playerReport = `${playerReport}\n`;
+
+        reportEmbed.fields.push({ 
+            name: `${alignment} ${character.name} | Room: ${roomNum}${leader ? '👑' : ''}`, 
+            value: `**Player:** ${player.user.username} | **Nickname:** ${player.nickname !== null ? `${player.nickname}` : 'None'}`
+        })
     }
 
-    let report = `**[- Two Rooms and a Boom Game report -]**`; // Makes Headers
-    report = `${report}\nPlayer Count: ${database.length} | Blue: ${blueCount} | Red: ${redCount} | Gray: ${grayCount}`; // Makes player count report
-    report = `${report}\n\n${goalReport}` // Adds goal repor
-    report = `${report}\n\n${playerReport}`; // Adds player report
+    let report = `Player Count: ${database.length} | Blue: ${blueCount} | Red: ${redCount} | Gray: ${grayCount}`; // Makes player count report
+    reportEmbed.description = `${report}\n${goalReport}` // Adds goal repor
+    // report = `${report}\n\n${playerReport}`; // Adds player report
 
-    return report;
+    return reportEmbed;
 }
 
 function flipCondition(target, condition) {
