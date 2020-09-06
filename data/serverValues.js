@@ -14,9 +14,10 @@ const channels = {
         room2: "Room 2 - Main",
         room2A: "Room 2 - Breakout A",
         room2B: "Room 2 - Breakout B",
+        neutral: "Neutral Lobby",
         text1: "room-1",
         text2: "room-2",
-        lobby: "lobby-two-rooms"
+        textLobby: "lobby-two-rooms"
 };
 
 function getRole(guild, roleName) {
