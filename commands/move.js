@@ -53,6 +53,11 @@ module.exports = {
 
         let target = findPlayer(user); // Finds the DB save of the target
 
+        if (target.leader) { 
+            message.reply(`Cannot move ${target.player.user.username} because they are the leader.`);
+            return;
+        }
+
         moveFunc(message,target);
 
     }//execute
