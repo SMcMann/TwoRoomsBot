@@ -12,11 +12,11 @@ module.exports = {
         message.delete({ timeout: 2000 })
 
         if (!checkLive()) {
-            message.reply('No game is active, I have nothing to reveal!');
+            message.reply('No game is active, I have nothing to expose!');
             return;
         };
 
-        console.log("Starting reset...\nChecking win conditions.");
+        console.log("Starting exposure of results...\nChecking win conditions.");
 
         //Initiate all win con checks (starting with Gambler)
         let gambleGoal = getGoal("Gambler");
