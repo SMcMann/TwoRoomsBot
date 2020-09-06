@@ -149,9 +149,10 @@ function getGoal(character) {
     }
 }
 
-function toggleCharacter(name,message) {
+function toggleCharacter(name, message) {
+    console.log('I did a thing!')
     for (let c of characters) {
-        if (c.name == name) {
+        if (c.name.toLocaleLowerCase() === name) {
             c.active = !c.active;
             console.log(`${name} has been set to ${c.active}`);
             message.channel.send(`${name} has been set to ${c.active}`);

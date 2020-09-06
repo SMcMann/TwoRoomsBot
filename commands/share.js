@@ -1,23 +1,24 @@
-const { findPlayer, checkLive } = require('../data/database');
+const { findPlayer, checkCondition, checkLive } = require('../data/database');
 const { getUserFromArgs } = require('../scripts/args');
 const { shareColor, shareCard } = require('../scripts/shareFuctions');
+const dice = require('../scripts/dice');
 
-const cmdError = `**Command Stucture:** \`!share card <user>\`\nYou must specify what type of share you want to do.\n - color\n - card`
+const cmdError = `**Command Stucture:** \`!exchange card <user>\`\nYou must specify what type of share you want to do.\n - color\n - card`
 const cardAliases = ['role', 'all'];
 const colorAliases = ['colour', 'team'];
 
 module.exports = {
     name: 'share', //THIS MUST BE THE SAME NAME OF THE FILE/COMMAND
-    aliases: ['show', 'send', 'whisper'],
+    aliases: ['trade'],
     cooldown: 0,
     description: 'Share your team or color with another user in your room.',
     args: true, 
     execute(message, args){
-        if (message.channel.type !== 'dm') message.delete({ timeout: 2000 })
+        if (message.channel.type !== 'dm') message.delete({ timeout: 500 });
         if (!checkLive()) {
-            message.reply('No game is active, contact a moderator to get a game started!');
+            message.reply('No game is active, contact a moderator!');
             return;
-        };
+        }
         if (args.length < 2) {
             message.author.send(cmdError);
             return;
@@ -48,18 +49,50 @@ module.exports = {
             message.author.send(`${user} is not a valid share target!`);
             return;
         }
-        
-        // Switch statement checks for share type and executes
-        switch (cmd) {
-            case('color'):
-                shareColor(initiator, target, false);
-                break;
-            case('card'):
-                shareCard(initiator, target, false);
-                break;
-            default:
-                message.author.send(cmdError)
+
+        let rejection = (message, user) => {
+            message.author.send(`${user} has rejected your offer to exchange ${cmd} information!`)
+            console.log(`${user} has been forced to reject the exchange of ${cmd} information with ${message.author.username}!`)
         }
+
+        let seconds = dice.d6() + 4
+        if (checkCondition(target, 'shy')) {
+            target.player.user.send(`${message.author.username} wants exchange ${cmd} information with you... but you are too shy! You will automatically reject the offer in ${seconds} seconds.`)
+            setTimeout(rejection, seconds*1000, message, user)
+            return;
+        }
+
+        if (cmd === 'card' && checkCondition(target, 'coy')) {
+            target.player.user.send(`${message.author.username} wants exchange ${cmd} information with you... but you are too coy! You will automatically reject the offer in ${seconds} seconds.`)
+            setTimeout(rejection, seconds*1000, message, user)
+            return;
+        }
+
+        target.player.user.send(`${message.author.username} wants exchange ${cmd} information with you...\n\n Would like to accept?\n✅ Exchange Card Information\n ⛔ Reject the Offer`)
+        .then(sentMessage => {
+            sentMessage.react('✅');
+            sentMessage.react('⛔');
+            const filter = (reaction, user) => user.id === target.player.id// 
+            const collector = sentMessage.createReactionCollector(filter, { time: 600000, max: 1 });
+            collector.on('collect', r => {
+                if (r.emoji.name === '✅') {
+                    if (cmd === 'card') {
+                        shareCard(initiator, target, true);
+                        shareCard(target, initiator, true);
+                    }
+                    if (cmd === 'color') {
+                        shareColor(initiator, target, true);
+                        shareColor(target, initiator, true);
+                    }
+                    console.log(`${message.author.username} and ${user} have exchanged ${cmd} information`)
+                }
+                if (r.emoji.name === '⛔') {
+                    console.log(`${user} has rejected your offer to exchange ${cmd} information with ${message.author.username}!`)
+                    message.author.send(`${user} has rejected your offer to exchange ${cmd} information!`)
+                }
+            }) // End collector
+        }) // End Reaction listner
+        .catch(console.error);
         return;
     }//execute
 }

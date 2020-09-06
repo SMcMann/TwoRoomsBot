@@ -1,6 +1,6 @@
 const getCharacters = require('../data/characters.json');
-// const characters = [getCharacters[6], getCharacters[11], getCharacters[10], getCharacters[9]]; //Temporary change for testing Psychologist
-const characters = require('../data/characters.json');
+const characters = [getCharacters[6], getCharacters[11], getCharacters[10], getCharacters[9]]; //Temporary change for testing Psychologist
+// const characters = require('../data/characters.json');
 const { roles, channels } = require("../data/serverValues");
 const specialChars = require('../data/specialroles.json');
 const { updateGoal, clearDB, addToDB, gameReport, live, toggleLive } = require('../data/database');
@@ -17,7 +17,7 @@ module.exports = {
         if (message.channel.type === 'dm') return;
         message.delete({ timeout: 500 })
         clearDB(); // Clears the old game
-        resetRoles();
+        // resetRoles();
         console.log(`Assigning Roles...`)
 
         let activeChars = [];
