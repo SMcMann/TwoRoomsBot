@@ -1,4 +1,4 @@
-const { characters, toggleCharacter } = require("../data/database");
+const { characters, toggleCharacter, checkLive } = require("../data/database");
 
 module.exports = {
     name: 'activate', //THIS MUST BE THE SAME NAME OF THE FILE/COMMAND
@@ -8,8 +8,8 @@ module.exports = {
     args: true, 
     execute(message, args){
         if (message.channel.type !== 'dm') message.delete({ timeout: 500 });
-        if (!checkLive()) {
-            message.reply('No game is active, contact a moderator!');
+        if (checkLive()) {
+            message.reply('Game is active, no switchy for you!');
             return;
         }
 
@@ -24,7 +24,7 @@ module.exports = {
             }
         }
 
-        if (!charFound) {
+        if (charFound) {
             message.reply(`${char} is not a valid character.`);
             return;
         }
