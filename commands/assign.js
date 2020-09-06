@@ -91,7 +91,6 @@ module.exports = {
                 currChannel: voiceChannel
             });
             //DM the player their role
-            /*
             let username
             currPlayer.nickname !== null ? username = currPlayer.nickname : username = currPlayer.user.username; //Gets current nickname or username
             currPlayer.send({files: [cards[charPick.name.toLowerCase().replace(/\s+/g, '')]]}).then(
@@ -99,7 +98,6 @@ module.exports = {
                 .then(console.log(`  ${charPick.name} was assigned to ${username}...`))
                 .then(gameSize++) // Increases the player count
                 .catch(console.error); // Shows error if we have a send error
-            */
         }
         message.reply(`${gameSize} roles assigned for this game!`);
         message.author.send(gameReport())
