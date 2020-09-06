@@ -1,3 +1,5 @@
+const { roles } = require("../data/serverValues");
+
 function removeRole(player,roleName) {
     if (player.roles.cache.some(r => r.name == roleName)) {
         player.roles.remove(player.guild.roles.cache.filter(r => r.name == roleName));
