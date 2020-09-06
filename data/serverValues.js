@@ -4,13 +4,19 @@ const roles = {
         gray: "Gray Team",
         room1: "Room 1",
         room2: "Room 2",
-        player: "OMG Con Player"
+        player: "Player [Two Rooms]",
+        admin: "Admin [Two Rooms]"
 };
 const channels = {
-        room1: "Two Rooms Room 1",
-        room2: "Two Rooms Room 2",
-        text1: "two-rooms-1",
-        text2: "two-rooms-2"
+        room1: "Room 1 - Main",
+        room1A: "Room 1 - Breakout A",
+        room1B: "Room 1 - Breakout B",
+        room2: "Room 2 - Main",
+        room2A: "Room 2 - Breakout A",
+        room2B: "Room 2 - Breakout B",
+        text1: "room-1",
+        text2: "room-2",
+        lobby: "lobby-two-rooms"
 };
 
 function getRole(guild, roleName) {
