@@ -17,7 +17,7 @@ module.exports = {
         if (message.channel.type === 'dm') return;
         message.delete({ timeout: 500 })
         clearDB(); // Clears the old game
-        // resetRoles();
+        resetRoles(message);
         console.log(`Assigning Roles...`)
 
         let activeChars = [];
@@ -76,15 +76,13 @@ module.exports = {
                 //Assign to room 1
                 inRoom1++;
                 console.log(`${currPlayer.user.username} has been assigned to Room 1`);
-                voiceChannel = channels.room1;
+                voiceChannel = channels.room2;//Opposite because moveFunc will move to correct
                 voiceAlert = `${voiceAlert} ${channels.room1}`;
-                currPlayer.roles.add(currPlayer.guild.roles.cache.find(r => r.name == roles.room1));
             } else {
                 //Assign to room 2
                 console.log(`${currPlayer.user.username} has been assigned to Room 2`);
-                voiceChannel = channels.room2;
+                voiceChannel = channels.room1;
                 voiceAlert = `${voiceAlert} ${channels.room2}`;
-                currPlayer.roles.add(currPlayer.guild.roles.cache.find(r => r.name == roles.room2));
             }
             addToDB({
                 player: currPlayer,
@@ -97,6 +95,7 @@ module.exports = {
             currPlayer.nickname !== null ? username = currPlayer.nickname : username = currPlayer.user.username; //Gets current nickname or username
             currPlayer.send({files: [cards[charPick.name.toLowerCase().replace(/\s+/g, '')]]}).then(
             currPlayer.send(`**Role:** ${charPick.name}\n**Share Color:** ${charPick.color}\n**Team:** ${charPick.alignment === 'Gray' ? 'None' : `${charPick.alignment} Team`}\n\n**[- ${charPick.name} Rules -]**\n${charPick.rules}\n\nGood luck, ${charPick.alignment === 'Gray' ? `may you achive your goals!` : `may fortune favor the ${charPick.alignment}!`}\n\n${voiceAlert}`))
+                .then(moveFunc(message,currPlayer))
                 .then(console.log(`  ${charPick.name} was assigned to ${username}...`))
                 .then(gameSize++) // Increases the player count
                 .catch(console.error); // Shows error if we have a send error
