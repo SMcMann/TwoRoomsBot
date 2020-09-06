@@ -5,6 +5,7 @@ const { roles, channels } = require("../data/serverValues");
 const specialChars = require('../data/specialroles.json');
 const { updateGoal, clearDB, addToDB, gameReport, live, toggleLive } = require('../data/database');
 const cards = require('../image/cards');
+const { resetRoles } = require("../scripts/resetting");
 
 module.exports = {
     name: 'assign', //THIS MUST BE THE SAME NAME OF THE FILE/COMMAND
@@ -16,6 +17,7 @@ module.exports = {
         if (message.channel.type === 'dm') return;
         message.delete({ timeout: 500 })
         clearDB(); // Clears the old game
+        resetRoles();
         console.log(`Assigning Roles...`)
 
         let activeChars = [];
