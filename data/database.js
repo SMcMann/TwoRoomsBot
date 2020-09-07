@@ -8,7 +8,7 @@ const { channels } = require('./serverValues');
 let database = [];
 let goals = [...winConditions];
 let characters = [...importChars,...importSpecial];
-let debriefed = false;
+let debrief = false;
 
 let live = false;
 
@@ -53,12 +53,12 @@ function getDB() {
 }
 
 function getDebrief() {
-    return debriefed;
+    return debrief;
 }
 
 function toggleDebrief() {
-    debriefed = !debriefed;
-    console.log(`Debrief set to ${debriefed}`);
+    debrief = !debrief;
+    console.log(`Debrief set to ${debrief}`);
 }
 
 function gameReport() {
@@ -76,7 +76,7 @@ function gameReport() {
         group === 'Red' ? alignment = '🟥' : 
             group === 'Blue' ? alignment = '🟦' :
                 alignment = '⬜';*/
-        let goalColor = `${group}:`;
+        let goalColor = `**${group}:**`;
         /*if (group === "Red") goalColor = "Red:";
         else if (group === "Blue") goalColor = "Blue:";
         else goalColor = "Gray:";*/
@@ -92,7 +92,7 @@ function gameReport() {
             }
         }
         if (groupActive) {
-            if (groupWin && debriefed) currReport = `:crown: ${currReport}`;
+            if (groupWin && debrief) currReport = `:crown: ${currReport}`;
             currReport = `${goalColor} ${currReport}`;
             goalReport = `${goalReport} ${currReport}`;
         }
@@ -123,8 +123,8 @@ function gameReport() {
         if (character.alignment === 'Blue') { blueCount++; alignment = '🟦'; };
         if (character.alignment === 'Gray') { grayCount++; alignment = '⬜'; };
         let roomNum;
-        if (currChannel == channels.room1) roomNum = ':one:';
-        if (currChannel == channels.room2) roomNum = ':two:';
+        if (currChannel == channels.room1) roomNum = `${live ? ':one:' : ':two:'}`;
+        if (currChannel == channels.room2) roomNum = `${live ? ':two:' : ':one:'}`;
 
         player.nickname !== null ? playerReport = `${playerReport} **Nickname:** ${player.nickname}\n` : playerReport = `${playerReport}\n`;
 
