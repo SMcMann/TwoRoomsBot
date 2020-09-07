@@ -13,7 +13,7 @@ function shareColor(initiator, target, response) {
                 const collector = sentMessage.createReactionCollector(filter, { time: 600000, max: 2 });
                 collector.on('collect', r => {
                     if (r.emoji.name === '📇') {
-                        shareCard(target, initiator, true);
+                        shareCard(initiator, target, true);
                     }
                 }) // End collector
             })
