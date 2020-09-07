@@ -2,7 +2,7 @@ const { characters, toggleCharacter, checkLive } = require("../data/database");
 
 module.exports = {
     name: 'activate', //THIS MUST BE THE SAME NAME OF THE FILE/COMMAND
-    aliases: ['deactivate'],
+    aliases: ['deactivate','toggle','active'],
     cooldown: 0,
     description: 'Turn on or off characters in the database.',
     args: true, 
@@ -12,6 +12,8 @@ module.exports = {
             message.reply('Game is active, no switchy for you!');
             return;
         }
+
+        let alreadyChanged = [];
 
         for (let char of args) {
             let charFound = undefined;
@@ -31,10 +33,14 @@ module.exports = {
                 continue;
             }
 
+            if (alreadyChanged.some(el => el === charFound.name)) continue;
+
             for (let link of charFound.links) {
                 toggleCharacter(link,message);
+                alreadyChanged.push(link);
             }
             toggleCharacter(charFound.name,message);
+            alreadyChanged.push(charFound.name);
         }
     }
 }
