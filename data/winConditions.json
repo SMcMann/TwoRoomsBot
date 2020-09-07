@@ -42,7 +42,7 @@
         ]
     },
     {
-        "group": "Gray",
+        "group": "Gambler",
         "conditions": [
             {
                 "name": "Wild Guess",
@@ -51,7 +51,12 @@
                 "active": false,
                 "value": "",
                 "character": "Gambler"
-            },
+            }
+        ]
+    },
+    {
+        "group": "Sniper",
+        "conditions": [
             {
                 "name": "Target Practice",
                 "desc": "The Sniper hits his mark.",
@@ -59,7 +64,12 @@
                 "active": false,
                 "value": "",
                 "character": "Sniper"
-            },
+            }
+        ]
+    },
+    {
+        "group": "Target",
+        "conditions": [
             {
                 "name": "Target Evasion",
                 "desc": "The Sniper misses his mark.",
@@ -67,7 +77,13 @@
                 "active": false,
                 "value": "",
                 "character": "Target"
-            },
+            }
+        ]
+    },
+    
+    {
+        "group": "Decoy",
+        "conditions": [
             {
                 "name": "Target Distraction",
                 "desc": "The Sniper misses his mark, and hits the Decoy.",
