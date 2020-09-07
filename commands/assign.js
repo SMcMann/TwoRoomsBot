@@ -96,7 +96,7 @@ module.exports = {
             currPlayer.nickname !== null ? username = currPlayer.nickname : username = currPlayer.user.username; //Gets current nickname or username
             currPlayer.send({files: [cards[charPick.name.toLowerCase().replace(/\s+/g, '')]]}).then(
             currPlayer.send(`**Role:** ${charPick.name}\n**Share Color:** ${charPick.color}\n**Team:** ${charPick.alignment === 'Gray' ? 'None' : `${charPick.alignment} Team`}\n\n**[- ${charPick.name} Rules -]**\n${charPick.rules}\n\nGood luck, ${charPick.alignment === 'Gray' ? `may you achive your goals!` : `may fortune favor the ${charPick.alignment}!`}\n\n${voiceAlert}`))
-                .then(moveFunc(message,{player: currPlayer}))
+                .then(toggleRoom(message,{player: currPlayer}))
                 .then(console.log(`  ${charPick.name} was assigned to ${username}...`))
                 .then(gameSize++) // Increases the player count
                 .catch(console.error); // Shows error if we have a send error

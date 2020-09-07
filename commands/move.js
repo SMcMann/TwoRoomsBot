@@ -1,6 +1,6 @@
 const { getUserFromArgs } = require("../scripts/args");
 const { findPlayer, checkLive } = require("../data/database");
-const { moveFunc } = require("../scripts/movement");
+const { toggleRoom } = require("../scripts/movement");
 
 
 module.exports = {
@@ -32,7 +32,7 @@ module.exports = {
             return;
         }
 
-        moveFunc(message,target);
+        toggleRoom(message,target);
 
     }//execute
 }
