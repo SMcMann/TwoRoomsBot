@@ -1,9 +1,10 @@
-const format = require('../scripts/formatting')
 const winConditions = require("../data/winConditions.json");
 const importChars = require("../data/characters.json");
 const importSpecial = require("../data/specialroles.json");
+const { addCheckmark } = require('../scripts/formatting');
 const avatar = 'https://scontent.fsac1-2.fna.fbcdn.net/v/t1.0-9/117854855_3357840704261597_5605760858299843730_o.png?_nc_cat=102&_nc_sid=09cbfe&_nc_ohc=qDELSZGVMKsAX_vrV_P&_nc_ht=scontent.fsac1-2.fna&oh=fdd55030c3a4d47eeb3471893e9547e2&oe=5F7AB71B'
 const { channels } = require('./serverValues');
+
 let database = [];
 let goals = [...winConditions];
 let characters = [...importChars,...importSpecial];
@@ -36,7 +37,6 @@ function findPlayer (payload) {
     } else {
         return undefined;
     }
-
 }
 
 function addToDB (payload) {
@@ -74,7 +74,7 @@ function gameReport() {
                     goalReport = `${goalReport} ${goalColor}`;
                     colorAdded = true;
                 }
-                goalReport = `${goalReport} [${format.addCheckmark(condition.status)} ${condition.name}]`
+                goalReport = `${goalReport} [${addCheckmark(condition.status)} ${condition.name}]`
             }
         }
         groupCount++
@@ -110,16 +110,44 @@ function gameReport() {
         player.nickname !== null ? playerReport = `${playerReport} **Nickname:** ${player.nickname}\n` : playerReport = `${playerReport}\n`;
 
         reportEmbed.fields.push({ 
-            name: `${alignment} ${character.name} | Room: ${roomNum}${leader ? '👑' : ''}`, 
+            name: `${alignment} ${character.name} | Room: ${roomNum}${leader ? '👑' : ''}${character.dead ? '💀' : ''}`, 
             value: `**Player:** ${player.user.username} | **Nickname:** ${player.nickname !== null ? `${player.nickname}` : 'None'}`
         })
     }
 
     let report = `Player Count: ${database.length} | Blue: ${blueCount} | Red: ${redCount} | Gray: ${grayCount}`; // Makes player count report
-    reportEmbed.description = `${report}\n${goalReport}` // Adds goal repor
-    // report = `${report}\n\n${playerReport}`; // Adds player report
+    reportEmbed.description = `${report}\n${goalReport}` // Adds goal report
 
     return reportEmbed;
+}
+
+function characterReport(all) {
+    let roleEmbed = {
+        color: 0x0099ff,
+        title: 'Two Rooms & Boom - Active Role Report',
+        author: {
+            name: 'Two Rooms Bot',
+            icon_url: avatar,
+        },
+        description: `${all ? 'This is a list of all the roles availible to the bot and their current status for the next game.' : `This is a list of the ACTIVE roles for the next game.`}`,
+        fields: [],
+        timestamp: new Date(),
+        footer: {
+            text: `If this report needs adjustment, contract John Cleveland`,
+            icon_url: avatar,
+        },
+    };
+
+    for (role of characters) {
+        let field = {
+            name: `${addCheckmark(role.active)} ${role.name} | Color: ${role.color === 'Red' ? '🟥' : role.color === 'Blue' ? '🟦' : '⬜'} ${role.alignment === 'Red' ? '| Alignment: 🟥' : role.alignment === 'Blue' ? '| Alignment: 🟦' : ''}`,
+            value: `**Rules:** ${role.rules}`
+        }
+        if (role.active) roleEmbed.fields.push(field); // Push to the report if the role is active
+        if (!role.active && all) roleEmbed.fields.push(field); // Push to the report only if they have requested all roles
+    }
+
+    return roleEmbed
 }
 
 function flipCondition(target, condition) {
@@ -215,6 +243,6 @@ function findLeader(room) {
 
 module.exports = { live, toggleLive, checkLive, 
     characters, toggleCharacter, checkCondition, flipCondition,
-    database, addToDB, clearDB, findPlayer, findPlayerByCharacter, gameReport,
+    database, addToDB, clearDB, findPlayer, findPlayerByCharacter, gameReport, characterReport,
     updateGoal, getGoal,
     updateLeadership, updateVoice, findLeader };
