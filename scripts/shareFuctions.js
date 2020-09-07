@@ -1,11 +1,11 @@
-const { flipCondition, checkCondition, updateGoal } = require("../data/database");
-const database = require("../data/database");
+const { flipCondition, checkCondition, updateGoal, getDB } = require("../data/database");
+const { getCard } = require("../image/cards");
 
 function shareColor(initiator, target, response) {
     let targetName = target.player.nickname === null ? target.player.user.username : target.player.nickname;
     let initiatorName = initiator.player.nickname === null ? initiator.player.user.username : initiator.player.nickname;
 
-    if (database.length >= 10) {
+    if (getDB().length <= 10) {
         initiator.player.user.send("Sorry, this game has less then 10 players. You can only show your CARD with other players. If you would like to show your card hit the 📇 reaction!")
             .then(sentMessage => {
                 sentMessage.react('📇');
@@ -18,16 +18,16 @@ function shareColor(initiator, target, response) {
                 }) // End collector
             })
             .catch(console.error);
-        break;
+        return;
     }
     
     // Block users with SHY boolean TRUE
     if (checkCondition(initiator, 'shy')) {
-        initiator.player.user.send("Sorry, you are too shy to share. You have the 'shy' condition. Try seeing a Psychologist.");
+        initiator.player.user.send("Sorry, you are too shy to show your color. You have the 'shy' condition. Try seeing a Psychologist.");
         return;
     }
 
-    target.player.user.send(`${initiatorName} has shared their color with you!\n**Color:** ${initiator.character.color}${!response ? `!\n\n if you would like to recepricate?\n📇 Share Card\n 🖌️ Share Color` : `!`}`)
+    target.player.user.send(`${initiatorName} has showed their color with you!\n**Color:** ${initiator.character.color}${!response ? `!\n\n if you would like to recepricate?\n📇 Share Card\n 🖌️ Share Color` : `!`}`)
         .then(sentMessage => {
             if (!response) {
                 sentMessage.react('📇');
@@ -44,7 +44,7 @@ function shareColor(initiator, target, response) {
                 }) // End collector
             } // End Response
         }) // End Reaction listner
-        .then(console.log(`${initiatorName} shared their color with ${targetName}`))
+        .then(console.log(`${initiatorName} showed their color with ${targetName}`))
     
 }
 
@@ -62,11 +62,11 @@ function shareCard(initiator, target, response) {
     }
 
     if (!psychCheck && checkCondition(initiator,'coy')) {
-        initiator.player.user.send("That's not very coy... try sharing your color instead! You have the 'Coy' condition seeing a Psychologist could also help.");
+        initiator.player.user.send("That's not very coy... try showing your color instead! You have the 'Coy' condition seeing a Psychologist could also help.");
         return;
     };
 
-    target.player.user.send(`${initiatorName} has shared their card with you!\n**Role:** ${initiator.character.name}\n**Color:** ${initiator.character.color}${!response ? `!\n\n if you would like to recepricate?\n📇 Share Card\n 🖌️ Share Color` : `!`}`)
+    target.player.user.send(`${initiatorName} has exposed their card with you${!response ? `!\n\n if you would like to recepricate?\n📇 Share Card\n 🖌️ Share Color` : `!`}`, { embed: getCard(initiator.character, true) })
         .then(sentMessage => {
             if (!response) {
                 sentMessage.react('📇');
@@ -83,8 +83,8 @@ function shareCard(initiator, target, response) {
                 }) // End collector
             } // End Response
         }) // End Reaction listner
-        .then(console.log(`${initiatorName} shared their card with ${targetName}`))
-        .then(initiator.player.user.send(`Your card was successfully shared with ${targetName}`))
+        .then(console.log(`${initiatorName} exposed their card with ${targetName}`))
+        .then(initiator.player.user.send(`Your card was successfully exposed with ${targetName}`))
         .then(() => {//Check card interractions
             if ((initiator.character.name == "President" && target.character.name == "Doctor")
                 || (target.character.name == "President" && initiator.character.name == "Doctor")) {
