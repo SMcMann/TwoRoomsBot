@@ -34,6 +34,7 @@ module.exports = {
         if (playerCount < 10 && characters[6].active) {
             message.channel.send("Deactivating Coyboys due to small game. Reactivate them with the `!activate` command.");
             toggleCharacter("Red Coyboy",message);
+            toggleCharacter("Blue Coyboy",message);
         }
 
         let activeChars = [];
