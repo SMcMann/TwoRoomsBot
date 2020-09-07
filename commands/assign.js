@@ -1,12 +1,10 @@
-const getCharacters = require('../data/characters.json');
-// const characters = []; //Temporary change for testing Psychologist
 const characters = require('../data/characters.json');
 const { roles, channels } = require("../data/serverValues");
 const specialChars = require('../data/specialroles.json');
-const { updateGoal, clearDB, addToDB, gameReport, live, toggleLive } = require('../data/database');
+const { updateGoal, clearDB, addToDB, gameReport, toggleLive, checkLive } = require('../data/database');
 const cards = require('../image/cards');
 const { resetRoles } = require("../scripts/resetting");
-const { moveFunc } = require("../scripts/movement");
+const { toggleRoom } = require("../scripts/movement");
 const avatar = 'https://scontent.fsac1-2.fna.fbcdn.net/v/t1.0-9/117854855_3357840704261597_5605760858299843730_o.png?_nc_cat=102&_nc_sid=09cbfe&_nc_ohc=qDELSZGVMKsAX_vrV_P&_nc_ht=scontent.fsac1-2.fna&oh=fdd55030c3a4d47eeb3471893e9547e2&oe=5F7AB71B'
 
 
@@ -132,6 +130,6 @@ module.exports = {
         message.reply(`${gameSize} roles assigned for this game!`);
         message.author.send({ embed: gameReport() })
         console.log(`${gameSize} roles assigned for this game...`);
-        if (!live) toggleLive(message);
+        if (!checkLive()) toggleLive(message);
     }//execute
 }
