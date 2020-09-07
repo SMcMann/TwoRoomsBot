@@ -34,8 +34,7 @@ module.exports = {
                 sentMessage.react('🟦');
                 sentMessage.react('🟥');
                 sentMessage.react('⬜');
-                //const filter = (reaction,user) => user.id === gambler.user.id;
-                const filter = (reaction,user) => !user.bot;
+                const filter = (reaction,user) => user.id === gambler.user.id;
                 const collector = sentMessage.createReactionCollector(filter, { max: 1 });
                 collector.on('collect', r => {
                     if (r.emoji.name === '🟦') updateGoal("Gambler","value","Blue");
