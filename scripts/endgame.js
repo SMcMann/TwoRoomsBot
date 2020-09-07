@@ -16,16 +16,18 @@ function sniperFunc(message) {
                 updateGoal("Sniper","value",r.mentions.members.first().user.username);
                 bombFunc() // We don't want to trigger until we have gotten a response!!!
                 winConFunc()
-                resetMembersFunc(message)
-                message.channel.send(gameReport())
+                message.channel.send({embed: gameReport()})
+                    .then(resetMembersFunc(message))
+                    .catch(console.error);
             });
         })
         .catch(console.error);
     } else {
         bombFunc() // Blows everyone up
         winConFunc() // Checks all win conditions
-        resetMembersFunc(message) // Our reset FOR loop
-        message.channel.send(gameReport())
+        message.channel.send({embed: gameReport()})
+            .then(resetMembersFunc(message))
+            .catch(console.error);
     }
 }
 
