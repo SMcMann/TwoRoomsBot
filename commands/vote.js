@@ -12,6 +12,7 @@ module.exports = {
     args: true,
     execute(message, args){
         if (message.channel.type === 'dm') return;
+        message.delete({ timeout: 500 })
         if (!(message.channel.name === channels.text1 || message.channel.name === channels.text2)) {
             message.reply("sorry! Make sure you are voting in your room's text channel");
             return;
