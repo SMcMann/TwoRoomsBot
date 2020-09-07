@@ -1,8 +1,25 @@
 const { flipCondition, checkCondition, updateGoal } = require("../data/database");
+const database = require("../data/database");
 
 function shareColor(initiator, target, response) {
     let targetName = target.player.nickname === null ? target.player.user.username : target.player.nickname;
     let initiatorName = initiator.player.nickname === null ? initiator.player.user.username : initiator.player.nickname;
+
+    if (database.length >= 10) {
+        initiator.player.user.send("Sorry, this game has less then 10 players. You can only show your CARD with other players. If you would like to show your card hit the 📇 reaction!")
+            .then(sentMessage => {
+                sentMessage.react('📇');
+                const filter = (reaction, user) => user.id === initiator.player.id 
+                const collector = sentMessage.createReactionCollector(filter, { time: 600000, max: 2 });
+                collector.on('collect', r => {
+                    if (r.emoji.name === '📇') {
+                        shareCard(target, initiator, true);
+                    }
+                }) // End collector
+            })
+            .catch(console.error);
+        break;
+    }
     
     // Block users with SHY boolean TRUE
     if (checkCondition(initiator, 'shy')) {
@@ -14,7 +31,7 @@ function shareColor(initiator, target, response) {
         .then(sentMessage => {
             if (!response) {
                 sentMessage.react('📇');
-                sentMessage.react('🖌️');
+                if (database.length >= 10) sentMessage.react('🖌️');
                 const filter = (reaction, user) => user.id === target.player.id// 
                 const collector = sentMessage.createReactionCollector(filter, { time: 600000, max: 2 });
                 collector.on('collect', r => {
@@ -28,8 +45,7 @@ function shareColor(initiator, target, response) {
             } // End Response
         }) // End Reaction listner
         .then(console.log(`${initiatorName} shared their color with ${targetName}`))
-        .then(initiator.player.user.send(`Your color was successfully shared with ${targetName}`)) 
-    .catch(console.error);
+    
 }
 
 function shareCard(initiator, target, response) {
@@ -54,7 +70,7 @@ function shareCard(initiator, target, response) {
         .then(sentMessage => {
             if (!response) {
                 sentMessage.react('📇');
-                sentMessage.react('🖌️');
+                if (database.length >= 10) sentMessage.react('🖌️');
                 const filter = (reaction, user) => user.id === target.player.id;
                 const collector = sentMessage.createReactionCollector(filter, { time: 600000, max: 2 });
                 collector.on('collect', r => {
