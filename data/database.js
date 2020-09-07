@@ -189,7 +189,7 @@ function updateVoice(target,value) {
 
 function findLeader(room) {
     for (let entry of database) {
-        if (entry.leader && entry.currRoom == room) return entry;
+        if (entry.leader && entry.currChannel == room) return entry;
     }
     return undefined;
 }
