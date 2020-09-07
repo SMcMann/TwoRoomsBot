@@ -1,7 +1,7 @@
 const characters = require('../data/characters.json');
 const { roles, channels } = require("../data/serverValues");
 const specialChars = require('../data/specialroles.json');
-const { updateGoal, clearDB, addToDB, gameReport, toggleLive, checkLive } = require('../data/database');
+const { updateGoal, clearDB, addToDB, gameReport, toggleLive, checkLive, toggleCharacter } = require('../data/database');
 const cards = require('../image/cards');
 const { resetRoles } = require("../scripts/resetting");
 const { toggleRoom } = require("../scripts/movement");
@@ -19,12 +19,7 @@ module.exports = {
         message.delete({ timeout: 500 })
         clearDB(); // Clears the old game
         resetRoles(message);
-        console.log(`Assigning Roles...`)
-
-        let activeChars = [];
-        for (let c of characters) {
-            if (c.active) activeChars.push(c);
-        }
+        console.log(`Assigning Roles...`);
 
         //Make a Collection of members with the Player role
         let gameSize = 0
@@ -36,6 +31,17 @@ module.exports = {
         let assigned = [];
         let gamblerN = 0;//Flag for whether the gambler is needed on even or odd
         let inRoom1 = 0;//Counter for determining room assignment
+
+        if (playerCount < 10 && characters[6].active) {
+            message.channel.send("Deactivating Coyboys due to small game. Reactivate them with the `!activate` command.");
+            toggleCharacter("Red Coyboy",message);
+        }
+
+        let activeChars = [];
+        for (let c of characters) {
+            if (c.active) activeChars.push(c);
+        }
+
         while (players.length > 0) {
             let charPick = activeChars[assigned.length];
             if (players.length == 1 && assigned.length % 2 == gamblerN) {
@@ -44,7 +50,6 @@ module.exports = {
             }
             if (assigned.length < activeChars.length) {
                 if (charPick.linked > 0) {
-                    gamblerN = 1 - gamblerN;//Swap even/odd (only important for Decoy/Target/Sniper)
                     //Check for links in assigned
                     let linksLeft = charPick.linked.length;
                     for (let l of charPick.linked) {
@@ -54,7 +59,7 @@ module.exports = {
                         //There's not enough room to put this one and all of its links
                         assigned.push(""); //Increment assigned to go to next activeChar
                         continue;
-                    }
+                    } else gamblerN = 1 - gamblerN;//Swap even/odd (only important for Decoy/Target/Sniper)
                 }
             } else {
                 //The rest of the players are regular teammembers
