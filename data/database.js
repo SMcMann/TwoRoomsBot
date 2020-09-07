@@ -8,6 +8,7 @@ const { channels } = require('./serverValues');
 let database = [];
 let goals = [...winConditions];
 let characters = [...importChars,...importSpecial];
+let debriefed = false;
 
 let live = false;
 
@@ -51,6 +52,15 @@ function getDB() {
     return database;
 }
 
+function getDebrief() {
+    return debriefed;
+}
+
+function toggleDebrief() {
+    debriefed = !debriefed;
+    console.log(`Debrief set to ${debriefed}`);
+}
+
 function gameReport() {
     let playerReport = '';
     let goalReport = '';
@@ -82,7 +92,7 @@ function gameReport() {
             }
         }
         if (groupActive) {
-            if (groupWin) currReport = `:crown: ${currReport}`;
+            if (groupWin && debriefed) currReport = `:crown: ${currReport}`;
             currReport = `${goalColor} ${currReport}`;
             goalReport = `${goalReport} ${currReport}`;
         }
@@ -219,7 +229,6 @@ function toggleCharacter(name, message) {
 function checkLive() {
     return live;
 }
-
 function toggleLive(message) {
     live = !live
     if (live) message.reply('game is now live!');
@@ -236,6 +245,7 @@ function updateLeadership(target,value) {
 }
 
 function updateVoice(target,value) {
+    console.log(`Updating ${target.player.user.username}'s currChannel to ${value}`)
     let index = database.findIndex(el => el.player.user.id === target.player.id);
     let currentUser = database.find(el => el.player.id === target.player.id);
     currentUser.currChannel = value;
@@ -253,5 +263,5 @@ function findLeader(room) {
 module.exports = { live, toggleLive, checkLive, 
     characters, toggleCharacter, checkCondition, flipCondition,
     database, addToDB, clearDB, findPlayer, findPlayerByCharacter, gameReport, characterReport,
-    updateGoal, getGoal, getDB,
+    updateGoal, getGoal, getDB, toggleDebrief, getDebrief,
     updateLeadership, updateVoice, findLeader };

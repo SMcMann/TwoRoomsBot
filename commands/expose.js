@@ -1,4 +1,4 @@
-const { database, checkLive, getGoal, updateGoal, findPlayerByCharacter } = require("../data/database");
+const { database, toggleDebrief, getDebrief, checkLive, getGoal, updateGoal, findPlayerByCharacter } = require("../data/database");
 const { sniperFunc } = require("../scripts/endgame");
 const { channels } = require("../data/serverValues");
 
@@ -18,6 +18,8 @@ module.exports = {
         };
 
         console.log("Starting exposure of results...\nChecking win conditions.");
+
+        if (!getDebrief()) toggleDebrief();
 
         //Move everyone to the Neutral room
         for (let entry of database) {
