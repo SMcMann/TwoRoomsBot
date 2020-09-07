@@ -1,11 +1,11 @@
 const { roles, channels } = require("../data/serverValues");
-const { updateVoice } = require("../data/database");
+const { updateVoice, getDebrief } = require("../data/database");
 
 function moveVoice (message,target,room) {
     message.channel.send(`Moving ${target.player.user.username} to ${room}`)
         .then(() => {
             //Update currChannel
-            updateVoice(target,room);
+            if (!getDebrief()) updateVoice(target,room);
             //Move
             if (target.player.voice.channelID === undefined) {
                 // message.channel.send(`Cannot move ${target.player.user.username} because they are not in voice.`);
