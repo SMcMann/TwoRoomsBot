@@ -1,4 +1,4 @@
-const { flipCondition, checkCondition } = require("../data/database");
+const { flipCondition, checkCondition, updateGoal } = require("../data/database");
 
 function shareColor(initiator, target, response) {
     let targetName = target.player.nickname === null ? target.player.user.username : target.player.nickname;
@@ -35,14 +35,17 @@ function shareColor(initiator, target, response) {
 function shareCard(initiator, target, response) {
     let targetName = target.player.nickname === null ? target.player.user.username : target.player.nickname;
     let initiatorName = initiator.player.nickname === null ? initiator.player.user.username : initiator.player.nickname;
-
+    
+    //psychCheck is true when the initiator is being shown a psychologist card
+    let psychCheck = (target.character.name == "Red Psychologist" || target.character.name == "Blue Psychologist") && response;
+    
     // Block users with SHY boolean TRUE
-    if (checkCondition(initiator, 'shy')) {
+    if (!psychCheck && checkCondition(initiator, 'shy')) {
         initiator.player.user.send("Sorry, you are too shy to share. You have the 'shy' condition. Try seeing a Psychologist.");
         return;
     }
 
-    if (checkCondition(initiator,'coy')) {
+    if (!psychCheck && checkCondition(initiator,'coy')) {
         initiator.player.user.send("That's not very coy... try sharing your color instead! You have the 'Coy' condition seeing a Psychologist could also help.");
         return;
     };
@@ -66,9 +69,17 @@ function shareCard(initiator, target, response) {
         }) // End Reaction listner
         .then(console.log(`${initiatorName} shared their card with ${targetName}`))
         .then(initiator.player.user.send(`Your card was successfully shared with ${targetName}`))
-        .then(() => {
-            if (initiator.character.name == "Red Psychologist" || initiator.character.name == "Blue Psychologist") {
-                console.log(`${initiatorName} is conducting counsling...`);
+        .then(() => {//Check card interractions
+            if ((initiator.character.name == "President" && target.character.name == "Doctor")
+                || (target.character.name == "President" && initiator.character.name == "Doctor")) {
+                updateGoal("Doctor","status",true);
+            }
+            if ((initiator.character.name == "Bomber" && target.character.name == "Engineer")
+                || (target.character.name == "Bomber" && initiator.character.name == "Engineer")) {
+                updateGoal("Engineer","status",true);
+            }
+            if (psychCheck) {
+                console.log(`${initiatorName} is responding to counsling...`);
                 if (target.character.coy) flipCondition(target, 'coy');
                 if (target.character.shy) flipCondition(target, 'shy');
             }
