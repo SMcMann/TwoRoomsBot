@@ -2,11 +2,9 @@ const characters = require('../data/characters.json');
 const { roles, channels } = require("../data/serverValues");
 const specialChars = require('../data/specialroles.json');
 const { updateGoal, clearDB, addToDB, gameReport, toggleLive, checkLive } = require('../data/database');
-const cards = require('../image/cards');
 const { resetRoles } = require("../scripts/resetting");
 const { toggleRoom } = require("../scripts/movement");
-const avatar = 'https://scontent.fsac1-2.fna.fbcdn.net/v/t1.0-9/117854855_3357840704261597_5605760858299843730_o.png?_nc_cat=102&_nc_sid=09cbfe&_nc_ohc=qDELSZGVMKsAX_vrV_P&_nc_ht=scontent.fsac1-2.fna&oh=fdd55030c3a4d47eeb3471893e9547e2&oe=5F7AB71B'
-
+const { getCard } = require('../image/cards');
 
 module.exports = {
     name: 'assign', //THIS MUST BE THE SAME NAME OF THE FILE/COMMAND
@@ -72,7 +70,7 @@ module.exports = {
             players.splice(rand,1);
 
             let voiceChannel;
-            let voiceAlert = "**Room:**";
+            let voiceAlert = "You have been assigned to";
             if ((Math.random() < 0.5 && inRoom1 < playerCount/2) || players.length < playerCount/2 - inRoom1) {
                 //Assign to room 1
                 inRoom1++;
@@ -96,32 +94,7 @@ module.exports = {
             let username
             currPlayer.nickname !== null ? username = currPlayer.nickname : username = currPlayer.user.username; //Gets current nickname or username
 
-            // Creates the embed for the card
-            let cardEmbed = {
-                color: charPick.color === 'Red' ? 0xFF0000 : charPick.color === 'Blue' ? 0x0099ff : 0x808080,
-                title: `You have been delt the ${charPick.name} Card`,
-                author: {
-                    name: 'Watcher Bot',
-                    icon_url: avatar,
-                },
-                description: `**Share Color:** ${charPick.color}\n**Team:** ${charPick.alignment === 'Gray' ? 'None' : `${charPick.alignment} Team`}\n${voiceAlert}`,
-                fields: [
-                    {
-                        name: `${charPick.name} Rules`,
-                        value: `${charPick.rules}`,
-                    }
-                ],
-                image: {
-                    url: cards[charPick.name.toLowerCase().replace(/\s+/g, '')],
-                },
-                timestamp: new Date(),
-                footer: {
-                    text: `Good luck, ${charPick.alignment === 'Gray' ? `may you achive your goals!` : `may fortune favor the ${charPick.alignment}!`}`,
-                    icon_url: avatar,
-                },
-            };
-
-            currPlayer.send({ embed: cardEmbed })
+            currPlayer.send(`${voiceAlert}`, { embed: getCard(charPick, false) })
                 .then(toggleRoom(message,{player: currPlayer}))
                 .then(console.log(`  ${charPick.name} was assigned to ${username}...`))
                 .then(gameSize++) // Increases the player count
