@@ -1,25 +1,22 @@
-const rolesArray = require('../data/characters.json');
-const specialRoles = require('../data/specialroles.json');
-
-let roles = [...rolesArray, ...specialRoles];
+const { characterReport } = require('../data/database');
 
 module.exports = {
     name: 'roles', //THIS MUST BE THE SAME NAME OF THE FILE/COMMAND
     aliases: [],
     cooldown: 0,
     description: 'This command returns the availible roles.',
-    args: false, 
+    args: true, 
     execute(message, args){
         if (message.channel.type !== 'dm') return;
-        message.reply('here are the Two Room and a Boom Roles: \n')
-        for (role of roles) {
-            let embed = {
-                color: 0x0099ff,
-                title: `Role: ${role.name}`,
-                description: `${role.rules}`,
-                timestamp: new Date()
-            };
-            message.channel.send({ embed }); // this is how you send a Private message
+
+        if (args.length < 1 || args[0] === 'active') {
+            message.channel.send({ embed: characterReport(false) });
+            return;
+        }
+
+        if (args[0].toLowerCase() === 'all') {
+            message.channel.send({ embed: characterReport(true) });
+            return;
         }
     }//execute
 }
