@@ -13,7 +13,7 @@ module.exports = {
             return;
         };
         console.log(`${message.author.username} has requested the game report...`)
-        message.author.send(gameReport())
+        message.author.send({ embed: gameReport() })
             .then(console.log(`${message.author.username} has been sent the game report...`))
             .catch(console.error);
     }//execute
