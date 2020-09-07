@@ -2,7 +2,6 @@ const characters = require('../data/characters.json');
 const { roles, channels } = require("../data/serverValues");
 const specialChars = require('../data/specialroles.json');
 const { updateGoal, clearDB, addToDB, gameReport, toggleLive, checkLive, toggleCharacter } = require('../data/database');
-const cards = require('../image/cards');
 const { resetRoles } = require("../scripts/resetting");
 const { toggleRoom } = require("../scripts/movement");
 const { getCard } = require('../image/cards');
@@ -13,8 +12,13 @@ module.exports = {
     cooldown: 0,
     description: 'Assign a character to every member with the Player role',
     args: false, 
-    execute(message, args){
+    execute(message, args) {
         if (message.channel.type === 'dm') return;
+        let adminRole = message.guild.roles.cache.find(el => el.name === roles.admin);
+        if (!message.member.roles.cache.some(el => el.id === adminRole.id)) {
+            message.reply('Only an admin can use this command.');
+            return;
+        }
         message.delete({ timeout: 500 })
         clearDB(); // Clears the old game
         resetRoles(message);
@@ -98,20 +102,21 @@ module.exports = {
                 currChannel: voiceChannel
             };
 
+            toggleRoom(message, newPlayer)
             addToDB(newPlayer);
 
             // DM the player their role
             let username
             currPlayer.nickname !== null ? username = currPlayer.nickname : username = currPlayer.user.username; //Gets current nickname or username
             currPlayer.send(`${voiceAlert}`, { embed: getCard(charPick, false) })
-                .then(toggleRoom(message, newPlayer))
                 .then(console.log(`  ${charPick.name} was assigned to ${username}...`))
                 .then(gameSize++) // Increases the player count
                 .catch(console.error); // Shows error if we have a send error
         }
-        message.reply(`${gameSize} roles assigned for this game!`);
-        message.author.send({ embed: gameReport() })
         console.log(`${gameSize} roles assigned for this game...`);
-        if (!checkLive()) toggleLive(message);
+        message.reply(`${gameSize} roles assigned for this game!`)
+            .then(message.author.send({ embed: gameReport() }))
+            .then(() => { if (!checkLive()) toggleLive(message) })
+            .catch(console.error);
     }//execute
 }
