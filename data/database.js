@@ -47,6 +47,10 @@ function clearDB () {
     database.length = 0;
 }
 
+function getDB() {
+    return database;
+}
+
 function gameReport() {
     let playerReport = '';
     let goalReport = '';
@@ -244,5 +248,5 @@ function findLeader(room) {
 module.exports = { live, toggleLive, checkLive, 
     characters, toggleCharacter, checkCondition, flipCondition,
     database, addToDB, clearDB, findPlayer, findPlayerByCharacter, gameReport, characterReport,
-    updateGoal, getGoal,
+    updateGoal, getGoal, getDB,
     updateLeadership, updateVoice, findLeader };

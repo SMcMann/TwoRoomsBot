@@ -4,7 +4,7 @@ module.exports = {
     name: 'activate', //THIS MUST BE THE SAME NAME OF THE FILE/COMMAND
     aliases: ['deactivate'],
     cooldown: 0,
-    description: 'Share your team or color with another user in your room.',
+    description: 'Turn on or off characters in the database.',
     args: true, 
     execute(message, args){
         if (message.channel.type !== 'dm') message.delete({ timeout: 500 });
@@ -36,7 +36,5 @@ module.exports = {
             }
             toggleCharacter(charFound.name,message);
         }
-
-        
     }
 }

@@ -68,7 +68,7 @@ module.exports = {
             return;
         }
 
-        target.player.user.send(`${message.author.username} wants exchange ${cmd} information with you...\n\n Would like to accept?\n✅ Exchange Card Information\n ⛔ Reject the Offer`)
+        target.player.user.send(`${message.author.username} wants exchange ${cmd} information with you...\n\n Would like to accept?\n✅ Exchange Card Information\n⛔ Reject the Offer`)
         .then(sentMessage => {
             sentMessage.react('✅');
             sentMessage.react('⛔');
