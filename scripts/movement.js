@@ -2,10 +2,6 @@ const { roles, channels } = require("../data/serverValues");
 const { updateVoice } = require("../data/database");
 
 function moveFunc (message,target) {
-    if (target.player.voice.channelID === undefined) {
-        message.channel.send(`Cannot move ${target.player.user.username} because they are not in voice.`);
-        return;
-    }
     let roomA, roomB;
     let roleA, roleB;
     if (target.currChannel == channels.room1) {
@@ -27,7 +23,11 @@ function moveFunc (message,target) {
             target.player.roles.add(target.player.guild.roles.cache.find(r => r.name == roleA));
             target.player.roles.remove(target.player.guild.roles.cache.find(r => r.name == roleB));
             //Move
-            target.player.edit({channel: target.player.guild.channels.cache.find(c => c.name == roomA)});
+            if (target.player.voice.channelID === undefined) {
+                message.channel.send(`Cannot move ${target.player.user.username} because they are not in voice.`);
+            } else {
+                target.player.edit({channel: target.player.guild.channels.cache.find(c => c.name == roomA)});
+            }
         })
         .catch(console.error);
 }
