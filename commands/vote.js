@@ -1,5 +1,5 @@
 //const server = require("../data/server.json");
-const { roles } = require("../data/serverValues");
+const { roles, channels } = require("../data/serverValues");
 const { findPlayer, checkLive, updateLeadership, updateVoice } = require("../data/database");
 const { runSoloVote, runGroupVote, channelVoting, findLeader } = require("../scripts/voting");
 const { getUserFromArgs } = require("../scripts/args");
@@ -12,6 +12,10 @@ module.exports = {
     args: true,
     execute(message, args){
         if (message.channel.type === 'dm') return;
+        if (!(message.channel.name === channels.text1 || message.channel.name === channels.text2)) {
+            message.reply("sorry! Make sure you are voting in your room's text channel");
+            return;
+        }
         if (!checkLive()) {
             message.reply('No game is active, there is nobody to vote on. Contact a moderator to get a game going!');
             return;

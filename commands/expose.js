@@ -1,5 +1,6 @@
-const { checkLive, getGoal, updateGoal, findPlayerByCharacter } = require("../data/database");
+const { database, checkLive, getGoal, updateGoal, findPlayerByCharacter } = require("../data/database");
 const { sniperFunc } = require("../scripts/endgame");
+const { channels } = require("../data/serverValues");
 
 module.exports = {
     name: 'expose', //THIS MUST BE THE SAME NAME OF THE FILE/COMMAND
@@ -17,6 +18,11 @@ module.exports = {
         };
 
         console.log("Starting exposure of results...\nChecking win conditions.");
+
+        //Move everyone to the Neutral room
+        for (let entry of database) {
+            moveVoice(message,entry,channels.neutral);
+        }
 
         //Initiate all win con checks (starting with Gambler)
         let gambleGoal = getGoal("Gambler");

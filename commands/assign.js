@@ -124,7 +124,7 @@ module.exports = {
             };
 
             currPlayer.send({ embed: cardEmbed })
-                .then(moveFunc(message,{player: currPlayer}))
+                .then(toggleRoom(message,{player: currPlayer}))
                 .then(console.log(`  ${charPick.name} was assigned to ${username}...`))
                 .then(gameSize++) // Increases the player count
                 .catch(console.error); // Shows error if we have a send error
