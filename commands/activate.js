@@ -13,22 +13,30 @@ module.exports = {
             return;
         }
 
-        const char = args[0];
-
-        let charFound = false;
-        for (let c in characters) {
-            if (c.name == char.toLowerCase()) {
-                char = c;
-                charFound = true;
-                break;
+        for (let char of args) {
+            let charFound = undefined;
+            for (let c of characters) {
+                if (c.name.toLowerCase() == char.toLowerCase()) {
+                    charFound = c;
+                    break;
+                } else if (c.name.toLowerCase() == `red ${char.toLowerCase()}`) {
+                    //Also check if they entered a double role (spy/coy/shy/psych)
+                    charFound = c;
+                    break;
+                }
             }
+    
+            if (charFound == undefined) {
+                message.reply(`${char} is not a valid character.`);
+                continue;
+            }
+
+            for (let link of charFound.links) {
+                toggleCharacter(link,message);
+            }
+            toggleCharacter(charFound.name,message);
         }
 
-        if (charFound) {
-            message.reply(`${char} is not a valid character.`);
-            return;
-        }
-
-        toggleCharacter(char.name,message);
+        
     }
 }
