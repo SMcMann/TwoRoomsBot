@@ -70,7 +70,7 @@ function shareCard(initiator, target, response) {
         .then(sentMessage => {
             if (!response) {
                 sentMessage.react('📇');
-                if (getBD().length >= 10) sentMessage.react('🖌️');
+                if (getDB().length >= 10) sentMessage.react('🖌️');
                 const filter = (reaction, user) => user.id === target.player.id;
                 const collector = sentMessage.createReactionCollector(filter, { time: 600000, max: 2 });
                 collector.on('collect', r => {
