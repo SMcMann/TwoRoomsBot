@@ -83,19 +83,21 @@ module.exports = {
                 voiceChannel = channels.room1;
                 voiceAlert = `${voiceAlert} ${channels.room2}`;
             }
-            addToDB({
+
+            let newPlayer = {
                 player: currPlayer,
                 character: charPick,
                 leader: false,
                 currChannel: voiceChannel
-            });
+            };
+
+            addToDB(newPlayer);
 
             // DM the player their role
             let username
             currPlayer.nickname !== null ? username = currPlayer.nickname : username = currPlayer.user.username; //Gets current nickname or username
-
             currPlayer.send(`${voiceAlert}`, { embed: getCard(charPick, false) })
-                .then(toggleRoom(message,{player: currPlayer}))
+                .then(toggleRoom(message, newPlayer))
                 .then(console.log(`  ${charPick.name} was assigned to ${username}...`))
                 .then(gameSize++) // Increases the player count
                 .catch(console.error); // Shows error if we have a send error
