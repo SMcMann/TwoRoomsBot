@@ -8,7 +8,8 @@ function moveVoice (message,target,room) {
             updateVoice(target,room);
             //Move
             if (target.player.voice.channelID === undefined) {
-                message.channel.send(`Cannot move ${target.player.user.username} because they are not in voice.`);
+                // message.channel.send(`Cannot move ${target.player.user.username} because they are not in voice.`);
+                console.log(`Cannot move ${target.player.user.username} because they are not in voice.`)
             } else {
                 target.player.edit({channel: target.player.guild.channels.cache.find(c => c.name == room)});
             }
@@ -39,7 +40,8 @@ function toggleRoom (message,target) {
             target.player.roles.remove(target.player.guild.roles.cache.find(r => r.name == roleB));
             //Move
             if (target.player.voice.channelID === undefined) {
-                message.channel.send(`Cannot move ${target.player.user.username} because they are not in voice.`);
+                // message.channel.send(`Cannot move ${target.player.user.username} because they are not in voice.`);
+                console.log(`Cannot move ${target.player.user.username} because they are not in voice.`)
             } else {
                 target.player.edit({channel: target.player.guild.channels.cache.find(c => c.name == roomA)});
             }
