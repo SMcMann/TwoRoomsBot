@@ -27,12 +27,6 @@ module.exports = {
 
         if (!getDebrief()) toggleDebrief();
 
-        //Move everyone to the Neutral room
-        for (let entry of database) {
-            moveVoice(message,entry,channels.neutral);
-            
-        }
-
         //Initiate all win con checks (starting with Gambler)
         let gambleGoal = getGoal("Gambler");
         message.reply(`Calculating final results...`)
@@ -55,6 +49,12 @@ module.exports = {
             .catch(console.error);
         } else {
             sniperFunc(message);
+        }
+
+        //Move everyone to the Neutral room
+        for (let entry of database) {
+            moveVoice(message,entry,channels.neutral);
+            
         }
     }//execute
 }
