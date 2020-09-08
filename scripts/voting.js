@@ -78,8 +78,8 @@ function runGroupVote(sentMessage, target, curr_leader) {
                         //First leadership
                         updateGoal("Mastermind","value",target.currChannel); 
                     } else if (masterGoal.value != target.currChannel) {
-                        //Second+ leadership
-                        updateGoal("Mastermind","value","both");
+                        //Mastermind has won the game, if they keep leadership until the end of the game
+                        updateGoal("Mastermind","status",true);
                     }
                 }
                 const minion = findPlayerByCharacter("Minion");

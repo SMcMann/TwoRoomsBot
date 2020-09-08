@@ -1,5 +1,5 @@
 const { getUserFromArgs } = require("../scripts/args");
-const { findPlayer, checkLive } = require("../data/database");
+const { findPlayer, checkLive, getGoal, findPlayerByCharacter, updateGoal, getRound } = require("../data/database");
 const { toggleRoom } = require("../scripts/movement");
 
 
@@ -34,5 +34,21 @@ module.exports = {
 
         toggleRoom(message,target);
 
+        //Traveler and Agoraphobe winCons
+        const travelGoal = getGoal("Traveler");
+        const agoraGoal = getGoal("Agoraphobe");
+        if (travelGoal.active) {
+            const traveler = findPlayerByCharacter("Traveler");
+            if (target.character.name == traveler.character.name) {
+                //Increment the traveler's move count
+                let moves = travelGoal.value[0] + 1;
+                updateGoal(traveler,"value",moves);
+            }
+            const agoraphobe = findPlayerByCharacter("Agoraphobe");
+            if (target.character.name == agoraphobe.character.name) {
+                //The agoraphobe fails
+                updateGoal(agoraphobe,"status",false);
+            }
+        }
     }//execute
 }

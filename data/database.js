@@ -12,6 +12,20 @@ let debrief = false;
 
 let live = false;
 
+let roundCount = 0;
+
+function incrementRound() {
+    roundCount++;
+}
+
+function getRound() {
+    return roundCount;
+}
+
+function resetRound() {
+    roundCount = 0;
+}
+
 function findPlayerByCharacter(character) {
     if (database.length > 0 && character !== null) {
         for (let record of database) {
@@ -267,4 +281,5 @@ module.exports = { live, toggleLive, checkLive,
     characters, toggleCharacter, checkCondition, flipCondition,
     database, addToDB, clearDB, findPlayer, findPlayerByCharacter, gameReport, characterReport,
     updateGoal, getGoal, getDB, toggleDebrief, getDebrief,
-    updateLeadership, updateVoice, findLeader };
+    updateLeadership, updateVoice, findLeader,
+    incrementRound, getRound, resetRound };

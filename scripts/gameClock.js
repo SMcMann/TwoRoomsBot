@@ -1,3 +1,5 @@
+const { incrementRound } = require("../data/database");
+
 let min = 0; // Starting minutes on master game clock
 let sec = 0; // Starting seconds on master game clock
 let deadline // Deadline for the round
@@ -63,6 +65,7 @@ function secondWarning() {
 }
 
 function startRound(minutes) {
+    incrementRound();
     min = minutes;
     roundLive = true;
     console.log(`${min} minute round has begun...`)

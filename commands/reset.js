@@ -1,4 +1,4 @@
-const { clearDB, live, checkLive, toggleLive }= require("../data/database");
+const { clearDB, live, checkLive, toggleLive, resetRound }= require("../data/database");
 //const server = require("../data/server.json");
 const { roles } = require("../data/serverValues");
 const { resetRoles } = require("../scripts/resetting");
@@ -21,6 +21,8 @@ module.exports = {
 
         //Reset database
         clearDB();
+        //Reset round counter
+        resetRound();
         if (checkLive()) toggleLive(message);
         message.reply('the game is fully reset!')
     }//execute

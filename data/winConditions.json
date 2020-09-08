@@ -112,11 +112,37 @@
         "conditions": [
             {
                 "name": "Follow the Leader",
-                "desc": "The Minion is a loyal follower.",
+                "desc": "The Minion is a loyal follower, their leader never was ursurped (at least, not while they were there).",
                 "status": true,
                 "active": false,
                 "value": "",
                 "character": "Minion"
+            }
+        ]
+    },
+    {
+        "group": "Agoraphobe",
+        "conditions": [
+            {
+                "name": "Home Sweet Home",
+                "desc": "The Agoraphobe never left their starting room.",
+                "status": true,
+                "active": false,
+                "value": "",
+                "character": "Agoraphobe"
+            }
+        ]
+    },
+    {
+        "group": "Traveler",
+        "conditions": [
+            {
+                "name": "Around the World",
+                "desc": "The Traveler was a hostage in a majority of exchanges.",
+                "status": false,
+                "active": false,
+                "value": 0,
+                "character": "Agoraphobe"
             }
         ]
     }

@@ -298,5 +298,29 @@
         "shy": false,
         "dead": false,
         "rules": "You have the THUG power: any player that card shares with you acquires the “coy” condition. Players with the “coy” condition may only color share unless a character’s power might force a card share."
+    },
+    {
+        "name": "Traveler",
+        "color": "Gray",
+        "alignment": "Gray",
+        "links": ["Agoraphobe"],
+        "winCon": true,
+        "active": false,
+        "coy": false,
+        "shy": false,
+        "dead": false,
+        "rules": "You win if you are sent to a different room as a hostage at the end of MOST rounds. For example, in a 3 round game, you must change rooms twice to win."
+    },
+    {
+        "name": "Agoraphobe",
+        "color": "Gray",
+        "alignment": "Gray",
+        "links": ["Traveler"],
+        "winCon": true,
+        "active": false,
+        "coy": false,
+        "shy": false,
+        "dead": false,
+        "rules": "You win as long as you never leave your initial room."
     }
 ]

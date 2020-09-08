@@ -1,4 +1,4 @@
-const { database, findPlayerByCharacter, checkCondition, updateGoal, getGoal, flipCondition, gameReport } = require("../data/database");
+const { database, findPlayerByCharacter, checkCondition, updateGoal, getGoal, flipCondition, gameReport, getRound } = require("../data/database");
 const { roles, getRole } = require("../data/serverValues");
 const { sniper } = require("../image/cards");
 
@@ -51,6 +51,8 @@ function winConFunc () {
     const engGoal = getGoal("Engineer");
     const gambleGoal = getGoal("Gambler");
     const sniperGoal = getGoal("Sniper");
+    const masterGoal = getGoal("Mastermind");
+    const travelGoal = getGoal("Traveler");
 
     //President/Bomber
     if (checkCondition(findPlayerByCharacter("President"),"dead")) {
@@ -75,6 +77,23 @@ function winConFunc () {
         if (sniperGoal.value == target.user.username) updateGoal("Sniper","status",true);
         else updateGoal("Target","status",true);
         if (sniperGoal.value == decoy.user.username) updateGoal("Decoy","status",true);
+    }
+
+    //Mastermind
+    if (masterGoal.active) {
+        let mastermind = findPlayerByCharacter("Mastermind");
+        if (!mastermind.leader) {
+            //Mastermind fails because they weren't the leader at the end of the game
+            updateGoal("Mastermind","status",false);
+        }
+    }
+
+    //Traveler
+    if (travelGoal.active) {
+        if (travelGoal.value > Math.ceil(getRound() / 2)) {
+            //Traveler wins the game
+            updateGoal("Traveler","status",true);
+        }
     }
 }
 
