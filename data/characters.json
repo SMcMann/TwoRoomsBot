@@ -250,5 +250,29 @@
         "shy": false,
         "dead": false,
         "rules": "You win if a leader is never usurped in the same room as you."
+    },
+    {
+        "name": "Red Criminal",
+        "color": "Red",
+        "alignment": "Red",
+        "links": ["Blue Criminal"],
+        "winCon": false,
+        "active": false,
+        "coy": false,
+        "shy": false,
+        "dead": false,
+        "rules": "You have the CRIMINAL power: any player that card shares with you gains the “shy” condition. Players with the “shy” condition may not reveal any part of their card to any player."
+    },
+    {
+        "name": "Blue Criminal",
+        "color": "Blue",
+        "alignment": "Blue",
+        "links": ["Red Criminal"],
+        "winCon": false,
+        "active": false,
+        "coy": false,
+        "shy": false,
+        "dead": false,
+        "rules": "You have the CRIMINAL power: any player that card shares with you gains the “shy” condition. Players with the “shy” condition may not reveal any part of their card to any player."
     }
 ]

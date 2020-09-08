@@ -51,10 +51,10 @@ function shareColor(initiator, target, response) {
 function shareCard(initiator, target, response) {
     let targetName = target.player.nickname === null ? target.player.user.username : target.player.nickname;
     let initiatorName = initiator.player.nickname === null ? initiator.player.user.username : initiator.player.nickname;
-    
-    //psychCheck is true when the initiator is being shown a psychologist card
+
+    //psychCheck is true when the initiator was just shown a psychologist card
     let psychCheck = (target.character.name == "Red Psychologist" || target.character.name == "Blue Psychologist") && response;
-    
+
     // Block users with SHY boolean TRUE
     if (!psychCheck && checkCondition(initiator, 'shy')) {
         initiator.player.user.send("Sorry, you are too shy to share. You have the 'shy' condition. Try seeing a Psychologist.");
@@ -65,6 +65,9 @@ function shareCard(initiator, target, response) {
         initiator.player.user.send("That's not very coy... try showing your color instead! You have the 'Coy' condition seeing a Psychologist could also help.");
         return;
     };
+
+    //crimCheck is true when the initiator is a criminal who is a) sharing with someone, or b) responding to a reveal
+    let crimCheck = (initiator.character.name == "Red Criminal" || initiator.character.name == "Blue Criminal") && response;
 
     target.player.user.send(`${initiatorName} has exposed their card with you${!response ? `!\n\n if you would like to recepricate?\n📇 Share Card\n 🖌️ Share Color` : `!`}`, { embed: getCard(initiator.character, true) })
         .then(sentMessage => {
@@ -85,7 +88,8 @@ function shareCard(initiator, target, response) {
         }) // End Reaction listner
         .then(console.log(`${initiatorName} exposed their card with ${targetName}`))
         .then(initiator.player.user.send(`Your card was successfully exposed with ${targetName}`))
-        .then(() => {//Check card interractions
+        .then(() => {
+            //Check card interractions
             if ((initiator.character.name == "President" && target.character.name == "Doctor")
                 || (target.character.name == "President" && initiator.character.name == "Doctor")) {
                 updateGoal("Doctor","status",true);
@@ -96,8 +100,12 @@ function shareCard(initiator, target, response) {
             }
             if (psychCheck) {
                 console.log(`${initiatorName} is responding to counsling...`);
-                if (target.character.coy) flipCondition(target, 'coy');
-                if (target.character.shy) flipCondition(target, 'shy');
+                if (initiator.character.coy) flipCondition(initiator, 'coy');
+                if (initiator.character.shy) flipCondition(initiator, 'shy');
+            }
+            if (crimCheck) {
+                console.log(`${targetName} is spooked by the criminal ${initiatorName}`);
+                if (!target.character.shy) flipCondition(target, 'shy');
             }
         })        
     .catch(console.error); // End send
