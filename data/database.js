@@ -4,6 +4,7 @@ const importSpecial = require("../data/specialroles.json");
 const { addCheckmark } = require('../scripts/formatting');
 const avatar = 'https://scontent.fsac1-2.fna.fbcdn.net/v/t1.0-9/117854855_3357840704261597_5605760858299843730_o.png?_nc_cat=102&_nc_sid=09cbfe&_nc_ohc=qDELSZGVMKsAX_vrV_P&_nc_ht=scontent.fsac1-2.fna&oh=fdd55030c3a4d47eeb3471893e9547e2&oe=5F7AB71B'
 const { channels } = require('./serverValues');
+const { getRooms } = require("../scripts/client");
 
 let database = [];
 let goals = [...winConditions];
@@ -59,17 +60,22 @@ function addToDB (payload) {
 }
 
 function clearDB () {
+    console.log('Clearing Database...');
     database.length = 0;
-    for (let g of goals) {
-        g.active = false;
-        if (g.group == "Traveler") g.value = 0;
-        else g.value = "";
-    }
-    for (let c of characters) {
-        c.dead = false;
-        if (c.name == "Red Shyguy" || c.name == "Blue Shyguy") c.shy = true;
-        if (c.name == "Red Coyboy" || c.name == "Blue Coyboy") c.coy = true;
-    }
+    goals = [...winConditions];
+    characters = [...importChars,...importSpecial];
+    return;
+    // for (let g of goals) {
+    //     g.active = false;
+    //     if (g.group == "Traveler") g.value = 0;
+    //     else g.value = "";
+    // }
+    // for (let c of characters) {
+    //     c.dead = false;
+    //     if (c.name == "Red Shyguy" || c.name == "Blue Shyguy") c.shy = true;
+    //     if (c.name == "Red Coyboy" || c.name == "Blue Coyboy") c.coy = true;
+    // }
+
 }
 
 function getDB() {
@@ -284,9 +290,18 @@ function findLeader(room) {
     return undefined;
 }
 
+function kill(target) {
+    let rooms = getRooms();
+    let index = database.findIndex(el => el.player.user.id === target.player.user.id);
+    let currentUser = database[index];
+    currentUser.character.dead = true;
+    rooms.lobby.send(`${currentUser.character.name} ${currentUser.player.user.username} died...`);
+    target.player.user.send(`You got blown up... you are dead!`);
+}
+
 module.exports = { live, toggleLive, checkLive, 
     characters, toggleCharacter, checkCondition, flipCondition,
     database, addToDB, clearDB, findPlayer, findPlayerByCharacter, gameReport, characterReport,
-    updateGoal, getGoal, getDB, toggleDebrief, getDebrief,
+    updateGoal, getGoal, getDB, toggleDebrief, getDebrief, kill,
     updateLeadership, updateVoice, findLeader,
     incrementRound, getRound, resetRound };
