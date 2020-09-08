@@ -274,5 +274,29 @@
         "shy": false,
         "dead": false,
         "rules": "You have the CRIMINAL power: any player that card shares with you gains the “shy” condition. Players with the “shy” condition may not reveal any part of their card to any player."
+    },
+    {
+        "name": "Blue Thug",
+        "color": "Blue",
+        "alignment": "Blue",
+        "links": ["Red Thug"],
+        "winCon": false,
+        "active": false,
+        "coy": false,
+        "shy": false,
+        "dead": false,
+        "rules": "You have the THUG power: any player that card shares with you acquires the “coy” condition. Players with the “coy” condition may only color share unless a character’s power might force a card share."
+    },
+    {
+        "name": "Red Thug",
+        "color": "Red",
+        "alignment": "Red",
+        "links": ["Blue Thug"],
+        "winCon": false,
+        "active": false,
+        "coy": false,
+        "shy": false,
+        "dead": false,
+        "rules": "You have the THUG power: any player that card shares with you acquires the “coy” condition. Players with the “coy” condition may only color share unless a character’s power might force a card share."
     }
 ]

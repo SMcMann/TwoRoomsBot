@@ -69,6 +69,9 @@ function shareCard(initiator, target, response) {
     //crimCheck is true when the initiator is a criminal who is a) sharing with someone, or b) responding to a reveal
     let crimCheck = (initiator.character.name == "Red Criminal" || initiator.character.name == "Blue Criminal") && response;
 
+    //thugCheck is true when the initiator is a thug who is a) sharing with someone, or b) responding to a reveal
+    let thugCheck = (initiator.character.name == "Red Thug" || initiator.character.name == "Blue Thug") && response;
+
     target.player.user.send(`${initiatorName} has exposed their card with you${!response ? `!\n\n if you would like to recepricate?\n📇 Share Card\n 🖌️ Share Color` : `!`}`, { embed: getCard(initiator.character, true) })
         .then(sentMessage => {
             if (!response) {
@@ -106,6 +109,10 @@ function shareCard(initiator, target, response) {
             if (crimCheck) {
                 console.log(`${targetName} is spooked by the criminal ${initiatorName}`);
                 if (!target.character.shy) flipCondition(target, 'shy');
+            }
+            if (crimCheck) {
+                console.log(`${targetName} is intimidated by the thug ${initiatorName}`);
+                if (!target.character.coy) flipCondition(target, 'coy');
             }
         })        
     .catch(console.error); // End send
