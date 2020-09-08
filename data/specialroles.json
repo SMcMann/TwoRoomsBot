@@ -29,7 +29,7 @@
         "alignment": "Gray",
         "links": [],
         "winCon": true,
-        "active": true,
+        "active": false,
         "coy": false,
         "shy": false,
         "dead": false,
