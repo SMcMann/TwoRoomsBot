@@ -5,6 +5,7 @@ const one = ['one', '1'];
 const two = ['two', '2'];
 const three = ['three', '3'];
 const four = ['four', '4'];
+const five = ['five', '5'];
 const options = [...one, ...two, ...three, ...four];
 
 module.exports = {
@@ -16,7 +17,7 @@ module.exports = {
     execute(message, args){
         if (message.channel.type !== 'dm') message.delete({ timeout: 500 });
         
-        if (checkLive()) {
+        if (!checkLive()) {
             message.channel.send('No game is live!');
             return;
         }
@@ -26,7 +27,9 @@ module.exports = {
             one.some(el => el === args[1].toLowerCase()) ? startRound(1) :
                 two.some(el => el === args[1].toLowerCase()) ? startRound(2) :
                     three.some(el => el === args[1].toLowerCase()) ? startRound(3) :
-                    message.channel.send(`${args} is not a valid time for the round.`)
+                        four.some(el => el === args[1].toLowerCase()) ? startRound(4) :
+                            five.some(el => el === args[1].toLowerCase()) ? startRound(5) :
+                                message.channel.send(`${args} is not a valid time for the round.`)
         };
 
         if (args[0] === 'time') {
