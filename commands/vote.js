@@ -71,7 +71,7 @@ module.exports = {
                     .then(sentMessage => { runSoloVote(sentMessage, target) })
                     .catch(console.error);
             }
-        } else if (initiator.player.roles.cache.some(r => r.name == roles.leader)) {
+        } else if (initiator.leader) {
             //The current leader is abdicating their position
             message.channel.send(`${initiator.player.user.username} is abdicating their position! They are offering it to ${target.player.user.username}.\n`+
                 `<@${target.player.user.id}>, do you accept?`)
