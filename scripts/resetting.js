@@ -1,9 +1,10 @@
 const { roles } = require("../data/serverValues");
 
-const keepRoles = [roles.omgPlayer, roles.omgVolunteer, roles.admin, roles.player, "@everyone"];
+const keepRoles = [roles.omgPlayer, roles.admin, roles.player, "@everyone"];
+const clearRoles = [roles.room1, roles.room2, roles.red, roles.blue, roles.gray];
 
 function keepRolesFilter(role) {
-    return keepRoles.some(k => k == role.name);
+    return clearRoles.some(k => k == role.name);
 }
 
 /*function removeRole(player,roleName) {
@@ -22,8 +23,9 @@ function resetRoles(message) {
             let currRoles = currMember.roles.cache;
             //I think there is still a problem with permissions.
             //This shouldn't mess with the "OMG Con Volunteers" role
-            filteredRoles = currRoles.filter(r => !keepRolesFilter(r));
-            currMember.roles.remove(filteredRoles);
+            filteredRoles = currRoles.filter(r => keepRolesFilter(r));
+            currMember.roles.remove(filteredRoles)
+                .catch(console.error);
         }
     })
     .catch(console.error);
