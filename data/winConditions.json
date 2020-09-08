@@ -93,5 +93,31 @@
                 "character": "Decoy"
             }
         ]
+    },
+    {
+        "group": "Mastermind",
+        "conditions": [
+            {
+                "name": "Under my Thumb",
+                "desc": "The Mastermind has controlled both rooms.",
+                "status": false,
+                "active": false,
+                "value": "",
+                "character": "Mastermind"
+            }
+        ]
+    },
+    {
+        "group": "Minion",
+        "conditions": [
+            {
+                "name": "Follow the Leader",
+                "desc": "The Minion is a loyal follower.",
+                "status": true,
+                "active": false,
+                "value": "",
+                "character": "Minion"
+            }
+        ]
     }
 ]

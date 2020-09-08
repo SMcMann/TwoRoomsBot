@@ -1,5 +1,5 @@
 const { channels } = require("../data/server.json");
-const { findLeader, updateLeadership } = require("../data/database");
+const { findLeader, updateLeadership, findPlayerByCharacter, getGoal } = require("../data/database");
 
 let voting = {
     room1: false,
@@ -27,6 +27,12 @@ function runSoloVote(sentMessage, target, curr_leader) {
             sentMessage.channel.send(`${target.player.user.username} accepted! Roles have been updated.`)
             if (curr_leader) updateLeadership(curr_leader,false);
             updateLeadership(target,true);
+            //Minion winCon check
+            const minion = findPlayerByCharacter("Minion");
+            if (minion.player.currChannel == target.player.currChannel) {
+                //Minion has failed
+                updateGoal("Mastermind","status",false);
+            }
         }
         if (r.emoji.name === '👎') {
             sentMessage.channel.send(`${target.player.user.username} has declined the nomination.`);
@@ -62,6 +68,26 @@ function runGroupVote(sentMessage, target, curr_leader) {
             sentMessage.channel.send(`${target.player.user.username} has been elected as the new leader of this room! Roles have been updated`);
             if (curr_leader) updateLeadership(curr_leader,false);
             updateLeadership(target,true);
+            //Mastermind and Minon winCon checks
+            const masterGoal = getGoal("Mastermind");
+            if (masterGoal.active) {
+                const mastermind = findPlayerByCharacter("Mastermind");
+                if (mastermind.player.user.username == target.player.user.username) {
+                    //The mastermind has taken controll of this room
+                    if (masterGoal.value == "") {
+                        //First leadership
+                        updateGoal("Mastermind","value",target.currChannel); 
+                    } else if (masterGoal.value != target.currChannel) {
+                        //Second+ leadership
+                        updateGoal("Mastermind","value","both");
+                    }
+                }
+                const minion = findPlayerByCharacter("Minion");
+                if (minion.player.currChannel == target.player.currChannel) {
+                    //Minion has failed
+                    updateGoal("Mastermind","status",false);
+                }
+            }
         } else {
             sentMessage.channel.send(`${target.player.user.username} did not receive enough votes to be elected leader.`);
         }
