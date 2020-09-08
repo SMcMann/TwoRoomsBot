@@ -1,6 +1,5 @@
-const { incrementRound } = require("../data/database");
+const { incrementRound, getRound } = require("../data/database");
 const { broadcast } = require("./broadcast");
-
 
 let min = 0; // Starting minutes on master game clock
 let sec = 0; // Starting seconds on master game clock
@@ -69,9 +68,10 @@ function secondWarning() {
         broadcast(`${sec} seconds remaining`);
     };
     if (sec <= 0 && roundLive) {
+        let roundNum = getRound();
         roundLive = false;
-        console.log(`Round has ended!`);
-        broadcast(`Round has ended!`);
+        console.log(`[- Round ${roundNum} has ended! -]`);
+        broadcast(`**[- Round ${roundNum} has ended -]**`);
         clearInterval(roundTimer);
         sec = 0;
         min = 0;
@@ -81,9 +81,10 @@ function secondWarning() {
 function startRound(minutes) {
     incrementRound();
     min = minutes;
+    let roundNum = getRound();
     roundLive = true;
     console.log(`${min} minute round has begun...`);
-    broadcast(`${min} minute round has begun...`);
+    broadcast(`**[- Round ${roundNum} has begun -]**`);
     currentTime = Date.parse(new Date());
     deadline = new Date(currentTime + (sec * 1000) + (min * 1000 * 60));
     minuteWarning();
