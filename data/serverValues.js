@@ -5,7 +5,9 @@ const roles = {
         room1: "Room 1",
         room2: "Room 2",
         player: "Player [Two Rooms]",
-        admin: "Admin [Two Rooms]"
+        admin: "Admin [Two Rooms]",
+        omgPlayer: "OMG Con Player",
+        omgVolunteer: "OMG Con Volunteers"
 };
 const channels = {
         room1: "Room 1 - Main",
