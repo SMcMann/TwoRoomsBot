@@ -1,10 +1,10 @@
 const fs = require('fs');
 const Discord = require('discord.js');
 const { prefix, token } = require('./config.json');
+const { setTextRooms } = require('./scripts/client');
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
-module.export = { client };
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
@@ -18,8 +18,8 @@ for (const file of commandFiles) {
 
 
 client.once('ready', () => {
-
   console.log('Ready!');
+  setTextRooms(client)
   client.user.setActivity("Two Rooms & a Boom", { type: 'WATCHING' });
  });
 
