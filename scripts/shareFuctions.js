@@ -72,7 +72,7 @@ function shareCard(initiator, target, response) {
     //thugCheck is true when the initiator is a thug who is a) sharing with someone, or b) responding to a reveal
     let thugCheck = (initiator.character.name == "Red Thug" || initiator.character.name == "Blue Thug") && response;
 
-    target.player.user.send(`${initiatorName} has exposed their card with you${!response ? `!\n\n if you would like to recepricate?\n📇 Share Card\n 🖌️ Share Color` : `!`}`, { embed: getCard(initiator.character, true) })
+    target.player.user.send(`${initiatorName} has exposed their card to you${!response ? `!\n\n if you would like to recepricate?\n📇 Share Card\n 🖌️ Share Color` : `!`}`, { embed: getCard(initiator.character, true) })
         .then(sentMessage => {
             if (!response) {
                 sentMessage.react('📇');
@@ -89,8 +89,8 @@ function shareCard(initiator, target, response) {
                 }) // End collector
             } // End Response
         }) // End Reaction listner
-        .then(console.log(`${initiatorName} exposed their card with ${targetName}`))
-        .then(initiator.player.user.send(`Your card was successfully exposed with ${targetName}`))
+        .then(console.log(`${initiatorName} exposed their card t0 ${targetName}`))
+        .then(initiator.player.user.send(`Your card was successfully exposed to ${targetName}`))
         .then(() => {
             //Check card interractions
             if ((initiator.character.name == "President" && target.character.name == "Doctor")
