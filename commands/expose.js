@@ -13,6 +13,11 @@ module.exports = {
         if (message.channel.type === 'dm') return;
         message.delete({ timeout: 2000 })
 
+        if (message.channel.name != channels.textLobby) {
+            message.reply("make sure you're doing this in the lobby so everyone can see it!");
+            return;
+        }
+
         if (!checkLive()) {
             message.reply('No game is active, I have nothing to expose!');
             return;
