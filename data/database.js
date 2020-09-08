@@ -46,6 +46,9 @@ function addToDB (payload) {
 
 function clearDB () {
     database.length = 0;
+    goals = [...winConditions];
+    characters = [...importChars,...importSpecial];
+
 }
 
 function getDB() {
