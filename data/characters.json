@@ -178,5 +178,77 @@
         "shy": false,
         "dead": false,
         "rules": "At the end of the last round, before all players reveal their character cards and after the Gambler has made their guess (if they are in the game), you must publicly announce which player you are shooting. The selected player does not have to be in the same room as you. You win if the player you selected is the Target."
+    },
+    {
+        "name": "Red Angel",
+        "color": "Red",
+        "alignment": "Red",
+        "links": ["Blue Angel"],
+        "winCon": false,
+        "active": false,
+        "coy": false,
+        "shy": false,
+        "dead": false,
+        "rules": "You begin with the “honest” condition. Players with the “honest” condition must always verbally tell the truth. This means that you are permitted to lie as long as it is not verbally."
+    },
+    {
+        "name": "Blue Angel",
+        "color": "Blue",
+        "alignment": "Blue",
+        "links": ["Red Angel"],
+        "winCon": false,
+        "active": false,
+        "coy": false,
+        "shy": false,
+        "dead": false,
+        "rules": "You begin with the “honest” condition. Players with the “honest” condition must always verbally tell the truth. This means that you are permitted to lie as long as it is not verbally."
+    },
+    {
+        "name": "Blue Demon",
+        "color": "Blue",
+        "alignment": "Blue",
+        "links": ["Red Demon"],
+        "winCon": false,
+        "active": false,
+        "coy": false,
+        "shy": false,
+        "dead": false,
+        "rules": "You begin with the “liar” condition. Players with the “liar” condition must always verbally tell lies. This means that you are permitted to tell the truth as long as it is not verbally."
+    },
+    {
+        "name": "Red Demon",
+        "color": "Red",
+        "alignment": "Red",
+        "links": ["Blue Demon"],
+        "winCon": false,
+        "active": false,
+        "coy": false,
+        "shy": false,
+        "dead": false,
+        "rules": "You begin with the “liar” condition. Players with the “liar” condition must always verbally tell lies. This means that you are permitted to tell the truth as long as it is not verbally."
+    },
+    {
+        "name": "Mastermind",
+        "color": "Gray",
+        "alignment": "Gray",
+        "links": ["Minion"],
+        "winCon": true,
+        "active": false,
+        "coy": false,
+        "shy": false,
+        "dead": false,
+        "rules": "You win if you are a room’s leader at the end AND you were the leader of the opposing room at some point during the game."
+    },
+    {
+        "name": "Minion",
+        "color": "Gray",
+        "alignment": "Gray",
+        "links": ["Mastermind"],
+        "winCon": true,
+        "active": false,
+        "coy": false,
+        "shy": false,
+        "dead": false,
+        "rules": "You win if a leader is never usurped in the same room as you."
     }
 ]
