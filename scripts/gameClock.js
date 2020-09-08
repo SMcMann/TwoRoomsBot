@@ -1,4 +1,6 @@
 const { incrementRound } = require("../data/database");
+const { broadcast } = require("./broadcast");
+
 
 let min = 0; // Starting minutes on master game clock
 let sec = 0; // Starting seconds on master game clock
@@ -13,7 +15,7 @@ let roundTimer; // Placeholder for current timer iteration
 
 function timeRemaining() {
     updateTime();
-    let minRemaining = `${min > 1 ? `${min} ${min > 1 ? 'minute' : 'minutes'} and ` : ''}`;
+    let minRemaining = `${min >= 1 ? `${min} ${min > 1 ? 'minute' : 'minutes'} and ` : ''}`;
     let secRemaining = `${sec > 0 ? `${sec} ${sec === 1 ? 'second' : 'seconds'}` : ''}`;
     sec <= 0 && min <= 0 ? res = `Round Over` : res = `${minRemaining}${secRemaining} remianing`; 
     return res;
@@ -42,7 +44,10 @@ function keepPaused() {
 
 function minuteWarning() {
     updateTime();
-    if (sec === 0) console.log(`${min} ${min === 1 ? 'minute' : 'minutes'} remianing`);
+    if (sec === 0) { 
+        console.log(`${min} ${min === 1 ? 'minute' : 'minutes'} remianing`);
+        broadcast(`${min} ${min === 1 ? 'minute' : 'minutes'} remianing`);
+    }
     if (min < 1) {
         clearInterval(roundTimer);
         roundTimer = setInterval(secondWarning, 1000);
@@ -51,13 +56,22 @@ function minuteWarning() {
 
 function secondWarning() {
     updateTime();
-    if (sec === 30) console.log(`${sec} seconds remaining`)
-    if (sec <= 10 && sec > 0) {
-        console.log(`${sec} seconds remaining`)
+    if (sec === 30) {
+        console.log(`${sec} seconds remaining`);
+        broadcast(`${sec} seconds remaining`);
+    }
+    if (sec === 10) {
+        console.log(`${sec} seconds remaining`);
+        broadcast(`${sec} seconds remaining`);
+    };
+    if (sec === 5) {
+        console.log(`${sec} seconds remaining`);
+        broadcast(`${sec} seconds remaining`);
     };
     if (sec <= 0 && roundLive) {
         roundLive = false;
-        console.log(`Round has ended!`)
+        console.log(`Round has ended!`);
+        broadcast(`Round has ended!`);
         clearInterval(roundTimer);
         sec = 0;
         min = 0;
@@ -68,7 +82,9 @@ function startRound(minutes) {
     incrementRound();
     min = minutes;
     roundLive = true;
-    console.log(`${min} minute round has begun...`)
+    console.log(`${min} minute round has begun...`);
+    broadcast(`${min} minute round has begun...`);
+    currentTime = Date.parse(new Date());
     deadline = new Date(currentTime + (sec * 1000) + (min * 1000 * 60));
     minuteWarning();
     roundTimer = setInterval(minuteWarning, 1000)
@@ -78,4 +94,4 @@ function getRoundStatus() {
     return roundLive;
 }
 
-module.exports = { startRound, pauseRound, unpauseRound, timeRemaining, getRoundStatus }
+module.exports = { startRound, pauseRound, unpauseRound, timeRemaining, getRoundStatus };
