@@ -1,7 +1,7 @@
-const characters = require('../data/characters.json');
+//const characters = require('../data/characters.json');
 const { roles, channels } = require("../data/serverValues");
 const specialChars = require('../data/specialroles.json');
-const { updateGoal, clearDB, addToDB, gameReport, toggleLive, checkLive, toggleCharacter } = require('../data/database');
+const { characters, updateGoal, clearDB, addToDB, gameReport, toggleLive, checkLive, toggleCharacter } = require('../data/database');
 const { resetRoles } = require("../scripts/resetting");
 const { toggleRoom } = require("../scripts/movement");
 const { getCard } = require('../image/cards');

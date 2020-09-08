@@ -60,9 +60,16 @@ function addToDB (payload) {
 
 function clearDB () {
     database.length = 0;
-    goals = [...winConditions];
-    characters = [...importChars,...importSpecial];
-
+    for (let g of goals) {
+        g.active = false;
+        if (g.group == "Traveler") g.value = 0;
+        else g.value = "";
+    }
+    for (let c of characters) {
+        c.dead = false;
+        if (c.name == "Red Shyguy" || c.name == "Blue Shyguy") c.shy = true;
+        if (c.name == "Red Coyboy" || c.name == "Blue Coyboy") c.coy = true;
+    }
 }
 
 function getDB() {

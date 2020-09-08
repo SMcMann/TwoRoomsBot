@@ -20,9 +20,10 @@ function resetRoles(message) {
         for (let member of sentMessage.guild.members.cache) {
             let currMember = member[1];
             let currRoles = currMember.roles.cache;
-            filteredRoles = currRoles.filter(r => keepRolesFilter(r));
-            currMember.roles.set(filteredRoles);
-            //Trows Permission error after a few seconds, but still works
+            //I think there is still a problem with permissions.
+            //This shouldn't mess with the "OMG Con Volunteers" role
+            filteredRoles = currRoles.filter(r => !keepRolesFilter(r));
+            currMember.roles.remove(filteredRoles);
         }
     })
     .catch(console.error);
