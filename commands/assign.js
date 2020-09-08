@@ -21,7 +21,7 @@ module.exports = {
         }
         message.delete({ timeout: 500 })
         clearDB(); // Clears the old game
-        resetRoles(message);
+        // resetRoles(message);
         console.log(`Assigning Roles...`);
 
         //Make a Collection of members with the Player role
