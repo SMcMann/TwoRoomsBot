@@ -1,4 +1,4 @@
-const { database, findPlayerByCharacter, checkCondition, updateGoal, getGoal, flipCondition, gameReport, getRound } = require("../data/database");
+const { database, findPlayerByCharacter, checkCondition, updateGoal, getGoal, flipCondition, gameReport, getRound, kill } = require("../data/database");
 const { roles, getRole } = require("../data/serverValues");
 const { sniper } = require("../image/cards");
 
@@ -37,8 +37,8 @@ function bombFunc() {
     if (true) {
         const bomber = findPlayerByCharacter("Bomber");
         for (let p of database) {
-            if (p.currChannel == bomber.currChannel) {
-                flipCondition(p,"dead");
+            if (p.currChannel === bomber.currChannel) {
+                kill(p);
             }
         }
     }
