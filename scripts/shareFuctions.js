@@ -110,7 +110,7 @@ function shareCard(initiator, target, response) {
                 console.log(`${targetName} is spooked by the criminal ${initiatorName}`);
                 if (!target.character.shy) flipCondition(target, 'shy');
             }
-            if (crimCheck) {
+            if (thugCheck) {
                 console.log(`${targetName} is intimidated by the thug ${initiatorName}`);
                 if (!target.character.coy) flipCondition(target, 'coy');
             }
