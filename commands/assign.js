@@ -51,7 +51,7 @@ module.exports = {
 
         let activeChars = [];
         for (let c of characters) {
-            if (c.active) activeChars.push(c);
+            if (c.active && !c.special) activeChars.push(c);
         }
 
         while (players.length > 0) {
