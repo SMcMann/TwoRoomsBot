@@ -133,7 +133,7 @@ function gameReport() {
         color: 0x0099ff,
         title: 'Two Rooms & Boom - Game Report',
         author: {
-            name: 'Test Author',
+            name: '2R1B Bot',
             icon_url: avatar,
         },
         description: '',
@@ -148,6 +148,7 @@ function gameReport() {
     // For Loop constructs current player base
     for (let item of database) {
         let {player, character, currChannel, leader} = item;
+        console.log(`${character.name} dead condition: ${character.dead}`);
         let alignment
         if (character.alignment === 'Red') { redCount++; alignment = '🟥'; };
         if (character.alignment === 'Blue') { blueCount++; alignment = '🟦'; };
@@ -295,6 +296,7 @@ function kill(target) {
     let index = database.findIndex(el => el.player.user.id === target.player.user.id);
     let currentUser = database[index];
     currentUser.character.dead = true;
+    console.log(`${currentUser.character.name} ${currentUser.player.user.username} died...`);
     rooms.lobby.send(`${currentUser.character.name} ${currentUser.player.user.username} died...`);
     target.player.user.send(`You got blown up... you are dead!`);
 }
