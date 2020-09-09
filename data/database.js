@@ -169,8 +169,8 @@ function gameReport() {
         if (character.alignment === 'Blue') { blueCount++; alignment = '🟦'; };
         if (character.alignment === 'Gray') { grayCount++; alignment = '⬜'; };
         let roomNum;
-        if (currChannel == channels.room1) roomNum = `${live ? ':one:' : ':two:'}`;
-        if (currChannel == channels.room2) roomNum = `${live ? ':two:' : ':one:'}`;
+        if (currChannel == channels.room1) roomNum = ':one:';
+        if (currChannel == channels.room2) roomNum = ':two:';
 
         player.nickname !== null ? playerReport = `${playerReport} **Nickname:** ${player.nickname}\n` : playerReport = `${playerReport}\n`;
 
