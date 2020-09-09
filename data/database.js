@@ -14,6 +14,7 @@ let debrief = false;
 let live = false;
 
 let roundCount = 0;
+let gameCount = 0;
 
 function incrementRound() {
     roundCount++;
@@ -21,6 +22,14 @@ function incrementRound() {
 
 function getRound() {
     return roundCount;
+}
+
+function getGameCount() {
+    return gameCount;
+}
+
+function incrementGame() {
+    gameCount++;
 }
 
 function resetRound() {
@@ -62,14 +71,20 @@ function addToDB (payload) {
 function clearDB () {
     console.log('Clearing Database...');
     database.length = 0;
-    goals = [...winConditions];
     characters = [...importChars,...importSpecial];
+    debrief = false;
+
+    for (let g of goals) {
+        for (c of g.conditions) {
+            c.active = false;
+            c.status = false;
+            if (c.character === 'President') c.status = true;
+            if (c.character == "Traveler") c.value = 0;
+            else g.value = "";
+
+        }
+    }
     return;
-    // for (let g of goals) {
-    //     g.active = false;
-    //     if (g.group == "Traveler") g.value = 0;
-    //     else g.value = "";
-    // }
     // for (let c of characters) {
     //     c.dead = false;
     //     if (c.name == "Red Shyguy" || c.name == "Blue Shyguy") c.shy = true;
@@ -131,7 +146,7 @@ function gameReport() {
 
     let reportEmbed = {
         color: 0x0099ff,
-        title: 'Two Rooms & Boom - Game Report',
+        title: `Two Rooms & Boom - Game ${gameCount} Report`,
         author: {
             name: '2R1B Bot',
             icon_url: avatar,
@@ -140,7 +155,7 @@ function gameReport() {
         fields: [],
         timestamp: new Date(),
         footer: {
-            text: `What team won???`,
+            text: `Game ${gameCount} game report - Hope you all had fun!`,
             icon_url: avatar,
         },
     };
@@ -309,7 +324,7 @@ function kill(target) {
     target.player.user.send(`You got blown up... you are dead!`);
 }
 
-module.exports = { live, toggleLive, checkLive, 
+module.exports = { live, toggleLive, checkLive, getGameCount, incrementGame,
     characters, toggleCharacter, checkCondition, flipCondition,
     database, addToDB, clearDB, findPlayer, findPlayerByCharacter, gameReport, characterReport,
     updateGoal, getGoal, getDB, toggleDebrief, getDebrief, kill,
