@@ -1,6 +1,6 @@
 const { database, toggleDebrief, getDebrief, checkLive, getGoal, updateGoal, findPlayerByCharacter } = require("../data/database");
 const { sniperFunc } = require("../scripts/endgame");
-const { channels } = require("../data/serverValues");
+const { channels, roles } = require("../data/serverValues");
 const { moveVoice } = require("../scripts/movement");
 
 module.exports = {
@@ -24,8 +24,6 @@ module.exports = {
                 });
             return;
         }
-
-
 
         if (message.channel.name != channels.textLobby) {
             message.reply("make sure you're doing this in the lobby so everyone can see it!")
