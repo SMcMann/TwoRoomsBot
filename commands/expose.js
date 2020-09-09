@@ -10,11 +10,28 @@ module.exports = {
     description: 'Changes member roles to one of Red Team/Blue Team/Gray Team for post game discussion.',
     args: false, 
     execute(message, args){
-        if (message.channel.type === 'dm') return;
-        message.delete({ timeout: 2000 })
+        if (message.channel.type === 'dm') {
+            message.reply(`The !debrief/!expose command must be done on server by an admin.`)            
+            return;
+        }
+
+        message.delete({ timeout: 500 })
+
+        if (!message.member.roles.cache.some(el => el.name === roles.admin)) {
+            message.reply('Only an admin can use this command.')
+                .then(sentMessage => {
+                    sentMessage.delete({ timeout: 5000 })
+                });
+            return;
+        }
+
+
 
         if (message.channel.name != channels.textLobby) {
-            message.reply("make sure you're doing this in the lobby so everyone can see it!");
+            message.reply("make sure you're doing this in the lobby so everyone can see it!")
+            .then(sentMessage => {
+                sentMessage.delete({ timeout: 4000 })
+            });
             return;
         }
 

@@ -1,7 +1,7 @@
 const { getUserFromArgs } = require("../scripts/args");
 const { findPlayer, checkLive, getGoal, findPlayerByCharacter, updateGoal, getRound } = require("../data/database");
 const { toggleRoom } = require("../scripts/movement");
-
+const { roles } = require("../data/serverValues");
 
 module.exports = {
     name: 'move', //THIS MUST BE THE SAME NAME OF THE FILE/COMMAND
@@ -10,12 +10,26 @@ module.exports = {
     description: 'Moves a player from their current room to the opposite',
     args: false, 
     execute(message, args){
-        if (message.channel.type === 'dm') return;
+        if (message.channel.type === 'dm') {
+            message.reply(`The !move command must be done on server by an admin.`)            
+            return;
+        }
+
+        message.delete({ timeout: 500 });
+
+        if (!message.member.roles.cache.some(el => el.name === roles.admin)) {
+            message.reply('Only an admin can use this command.')
+                .then(sentMessage => {
+                    sentMessage.delete({ timeout: 5000 })
+                });
+            return;
+        }
+
         if (!checkLive()) {
             message.reply('No game is active, contact a moderator!');
             return;
         }
-        message.delete({ timeout: 1000 });
+        
         let user = getUserFromArgs([...args]);
 
         // If statement checks for a mention instead of a user, and switches the mention for the mentioned user

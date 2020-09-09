@@ -1,7 +1,7 @@
 //const characters = require('../data/characters.json');
 const { roles, channels } = require("../data/serverValues");
 const specialChars = require('../data/specialroles.json');
-const { characters, clone, updateGoal, clearDB, addToDB, gameReport, toggleLive, checkLive, toggleCharacter } = require('../data/database');
+const { characters, clone, updateGoal, clearDB, addToDB, gameReport, toggleLive, checkLive, toggleCharacter, getGameCount, incrementGame } = require('../data/database');
 const { resetRoles } = require("../scripts/resetting");
 const { toggleRoom } = require("../scripts/movement");
 const { getCard } = require('../image/cards');
@@ -13,20 +13,27 @@ module.exports = {
     description: 'Assign a character to every member with the Player role',
     args: false, 
     execute(message, args) {
-        if (message.channel.type === 'dm') return;
-        let adminRole = message.guild.roles.cache.find(el => el.name === roles.admin);
-        if (!message.member.roles.cache.some(el => el.id === adminRole.id)) {
-            message.reply('Only an admin can use this command.');
+        if (message.channel.type === 'dm') {
+            message.reply(`The !assign command must be done on server by an admin.`)            
             return;
         }
+
         message.delete({ timeout: 500 })
+
+        if (!message.member.roles.cache.some(el => el.name === roles.admin)) {
+            message.reply('Only an admin can use this command.')
+                .then(sentMessage => {
+                    sentMessage.delete({ timeout: 5000 })
+                });
+            return;
+        }
+
         clearDB(); // Clears the old game
         // resetRoles(message);
         console.log(`Assigning Roles...`);
 
         //Make a Collection of members with the Player role
         let gameSize = 0
-        //const player_base = message.guild.members.cache.filter(p => p.roles.cache.some(r => r.name === "OMG Con Player" && p.presence.status === 'online'));
         const player_base = message.guild.members.cache.filter(p => p.roles.cache.some(r => r.name === roles.player && p.presence.status === 'online'));
         
         const players = [...player_base.values()];
@@ -102,8 +109,8 @@ module.exports = {
                 currChannel: voiceChannel
             };
 
-            toggleRoom(message, newPlayer)
             addToDB(newPlayer);
+            toggleRoom(message, newPlayer)
 
             // DM the player their role
             let username
@@ -113,8 +120,10 @@ module.exports = {
                 .then(gameSize++) // Increases the player count
                 .catch(console.error); // Shows error if we have a send error
         }
-        console.log(`${gameSize} roles assigned for this game...`);
-        message.reply(`${gameSize} roles assigned for this game!`)
+
+        incrementGame();
+        console.log(`${gameSize} roles assigned for game ${getGameCount()}...`);
+        message.reply(`${gameSize} roles assigned for game ${getGameCount()}!`)
             .then(message.author.send({ embed: gameReport() }))
             .then(() => { if (!checkLive()) toggleLive(message) })
             .catch(console.error);

@@ -1,5 +1,6 @@
 const { getRoundStatus, startRound, timeRemaining } = require("../scripts/gameClock");
 const { checkLive } = require("../data/database");
+const { roles } = require("../data/serverValues");
 
 const one = ['one', '1'];
 const two = ['two', '2'];
@@ -15,13 +16,27 @@ module.exports = {
     description: 'Works with the round timers.',
     args: true, 
     execute(message, args){
-        if (message.channel.type !== 'dm') message.delete({ timeout: 500 });
-        
+        if (message.channel.type === 'dm') {
+            message.reply(`The !round command must be done on server by an admin.`)            
+            return;
+        }
+
+        message.delete({ timeout: 500 });
+
+        if (!message.member.roles.cache.some(el => el.name === roles.admin)) {
+            message.reply('Only an admin can use this command.')
+                .then(sentMessage => {
+                    sentMessage.delete({ timeout: 5000 })
+                });
+            return;
+        }
+
+
         if (!checkLive()) {
             message.channel.send('No game is live!');
             return;
         }
-
+        
         if (args[0] === 'start' && args.length > 1 && options.some(el => el === args[1])) {
             if (getRoundStatus()) message.channel.send(`Round is already live: ${timeRemaining()}`)
             one.some(el => el === args[1].toLowerCase()) ? startRound(1) :
