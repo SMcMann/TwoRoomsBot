@@ -55,6 +55,11 @@ module.exports = {
             console.log(`${user} has been forced to reject the exchange of ${cmd} information with ${message.author.username}!`)
         }
 
+        if (checkCondition(initiator,"shy")) {
+            message.author.send("Sorry, you are too shy to share your card. You have the 'shy' condition. Try seeing a Psychologist.");
+            return;
+        }
+
         let seconds = dice.d6() + 4
         if (checkCondition(target, 'shy')) {
             target.player.user.send(`${message.author.username} wants exchange ${cmd} information with you... but you are too shy! You will automatically reject the offer in ${seconds} seconds.`)
