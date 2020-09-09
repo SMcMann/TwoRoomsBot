@@ -89,7 +89,7 @@ function shareCard(initiator, target, response) {
                 }) // End collector
             } // End Response
         }) // End Reaction listner
-        .then(console.log(`${initiatorName} exposed their card t0 ${targetName}`))
+        .then(console.log(`${initiatorName} exposed their card to ${targetName}`))
         .then(initiator.player.user.send(`Your card was successfully exposed to ${targetName}`))
         .then(() => {
             //Check card interractions
