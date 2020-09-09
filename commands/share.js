@@ -9,7 +9,7 @@ const colorAliases = ['colour', 'team'];
 
 module.exports = {
     name: 'share', //THIS MUST BE THE SAME NAME OF THE FILE/COMMAND
-    aliases: ['trade'],
+    aliases: ['trade','exchange'],
     cooldown: 0,
     description: 'Share your team or color with another user in your room.',
     args: true, 
