@@ -16,19 +16,23 @@ function keepRolesFilter(role) {
 }*/
 
 function resetRoles(message) {
-    message.channel.send("Resetting roles")
-    .then(sentMessage => {
-        for (let member of sentMessage.guild.members.cache) {
-            let currMember = member[1];
-            let currRoles = currMember.roles.cache;
-            //I think there is still a problem with permissions.
-            //This shouldn't mess with the "OMG Con Volunteers" role
-            filteredRoles = currRoles.filter(r => keepRolesFilter(r));
-            currMember.roles.remove(filteredRoles)
-                .catch(console.error);
-        }
-    })
-    .catch(console.error);
+    const player_base = message.guild.members.cache.filter(p => p.roles.cache.some(r => r.name === roles.player));
+    const online = message.guild.members.cache.filter(p => p.roles.cache.some(r => r.name === roles.player && p.presence.status === 'online'));
+    message.channel.send("Resetting Server roles...")
+        .then(sentMessage => {
+            for (let member of player_base) {
+                let currMember = member[1];
+                let currRoles = currMember.roles.cache;
+                //I think there is still a problem with permissions.
+                //This shouldn't mess with the "OMG Con Volunteers" role
+                filteredRoles = currRoles.filter(r => keepRolesFilter(r));
+                currMember.roles.remove(filteredRoles)
+                    .catch(console.error);
+            }
+            console.log(`Roles finally reset...`)
+        })
+        .then(message.channel.send(`${player_base.size} players currently tagged to play!\n${online.size} players currently active...`))
+        .catch(console.error);
 }
 
 module.exports = { resetRoles }
