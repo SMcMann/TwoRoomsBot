@@ -1,17 +1,21 @@
+const avatar = 'https://scontent.fsac1-2.fna.fbcdn.net/v/t1.0-9/117854855_3357840704261597_5605760858299843730_o.png?_nc_cat=102&_nc_sid=09cbfe&_nc_ohc=qDELSZGVMKsAX_vrV_P&_nc_ht=scontent.fsac1-2.fna&oh=fdd55030c3a4d47eeb3471893e9547e2&oe=5F7AB71B'
+
 const admincmds = [
-    `:white_small_square: \`!assign\` - Resets and starts a game.`,
-    `:white_small_square: \`!reset\` - Removes all roles and clears DB.`,
-    `:white_small_square: \`!expose\` - Tags all players as their team color`,
-    `:white_small_square: \`!report\` - Pulls the current game report to your DM`
+    { cmd: '!assign', aliases: [],  desc: 'Resets and assigns roles for new game.'},
+    { cmd: '!reset', aliases: [],  desc: 'Removes all roles and clears DB.'},
+    { cmd: '!debrief', aliases: [],  desc: 'Tags all players as their team color, starts end game sequence and report.'},
+    { cmd: '!report', aliases: [],  desc: 'Pulls the current game report to your DM'},
+    { cmd: '!round start <num>', aliases: [],  desc: 'Starts a round <num> minutes on the clock'},
 ]
 
 const playercmds = [
-    `:white_small_square: \`!reveal color <user>\`- Sends your color to specified user privately`,
-    `:white_small_square: \`!reveal card <user>\` - Sends your role name and color to specified user privately`,
-    `:white_small_square: \`!share color <user>\` - Sends a request to share color simultaniously to the specified user privately`,
-    `:white_small_square: \`!share card <user>\` - Sends a request to share card simultaniously to the specified user privately`,
-    `:white_small_square: \`!roles\` - Floods you with all roles in the game.`,
-    `:white_small_square: \`!vote <user>\` - Nominates the user to become the room leader.`
+    { cmd: '!share color <user>', aliases: [],  desc: 'Sends a request to share color simultaniously to the specified user privately.'},
+    { cmd: '!share card <user>', aliases: [],  desc: 'Sends a request to share card simultaniously to the specified user privately.'},
+    { cmd: '!show color <user>', aliases: [],  desc: 'Sends your color to specified user privately.'},
+    { cmd: '!show card <user>', aliases: [],  desc: 'Sends your card to specified user privately'},
+    { cmd: '!nominate <user>', aliases: [],  desc: 'Nominates the user to become the room leader.'},
+    { cmd: '!roles', aliases: [],  desc: 'Shows you the active roles and their rules in DM.'},
+    { cmd: '!roles all', aliases: [],  desc: 'Shows you the all roles in the bot and their rules in DM.'}
 ]
 
 module.exports = {
@@ -22,17 +26,36 @@ module.exports = {
     args: false, 
     execute(message, args){
         if (message.channel.type !== 'dm') message.delete({ timeout: 2000 })
-        let header = `**[- Bot Command List -]**\nThanks for asking for help, the answer is 42 and below are the bot commands.\n`
-        let adminHeader = `:small_red_triangle_down: Admin Commands\n`
-        let adminBody = ''
-        let playerHeader = `:small_red_triangle_down: Player Commands\n`
-        let playerBody =''
-        for (let acmd of admincmds) {
-            adminBody = `${adminBody}${acmd}\n`
-        }
+
+        let helpEmbed = {
+            color: 0xFF0000,
+            title: `[- 2R1B Bot Command List -]`,
+            author: {
+                name: '2R1B Bot',
+                icon_url: avatar,
+            },
+            description: 'These are the commands for the bot, if you have any questions just ask!',
+            fields: [],
+            timestamp: new Date(),
+            footer: {
+                text: `If there are any issues with this report contact John Cleveland!`,
+                icon_url: avatar,
+            },
+        };
+
+        helpEmbed.fields.push({ name: '[- Player Commands -]'});
         for (let pcmd of playercmds) {
-            playerBody = `${playerBody}${pcmd}\n`
+            let field = { name: `${pcmd.cmd}`, value: `${pcmd.desc}`}
+            helpEmbed.fields.push(field);
         }
-        message.author.send(`${header}\n${adminHeader}${adminBody}\n${playerHeader}${playerBody}`);
+        helpEmbed.fields.push({ name: '\u200B', value: '\u200B' });
+        helpEmbed.fields.push({ name: '[- Admin Commands -]'})
+        for (let acmd of admincmds) {
+            let field = { name: `${acmd.cmd}`, value: `${acmd.desc}`}
+            helpEmbed.fields.push(field);
+        }
+        
+
+        message.author.send({ embed: helpEmbed });
     }//execute
 }
