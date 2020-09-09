@@ -290,6 +290,14 @@ function findLeader(room) {
     return undefined;
 }
 
+function clone(object) {
+    let newClone = {};
+    for (let [key, value] of Object.entries(object)) {
+        newClone[key] = value;
+    }
+    return newClone;
+}
+
 function kill(target) {
     let rooms = getRooms();
     let index = database.findIndex(el => el.player.user.id === target.player.user.id);
@@ -303,5 +311,5 @@ module.exports = { live, toggleLive, checkLive,
     characters, toggleCharacter, checkCondition, flipCondition,
     database, addToDB, clearDB, findPlayer, findPlayerByCharacter, gameReport, characterReport,
     updateGoal, getGoal, getDB, toggleDebrief, getDebrief, kill,
-    updateLeadership, updateVoice, findLeader,
+    updateLeadership, updateVoice, findLeader, clone, 
     incrementRound, getRound, resetRound };
