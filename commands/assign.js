@@ -1,7 +1,7 @@
 //const characters = require('../data/characters.json');
 const { roles, channels } = require("../data/serverValues");
 const specialChars = require('../data/specialroles.json');
-const { characters, updateGoal, clearDB, addToDB, gameReport, toggleLive, checkLive, toggleCharacter } = require('../data/database');
+const { characters, clone, updateGoal, clearDB, addToDB, gameReport, toggleLive, checkLive, toggleCharacter } = require('../data/database');
 const { resetRoles } = require("../scripts/resetting");
 const { toggleRoom } = require("../scripts/movement");
 const { getCard } = require('../image/cards');
@@ -97,7 +97,7 @@ module.exports = {
 
             let newPlayer = {
                 player: currPlayer,
-                character: charPick,
+                character: clone(charPick),
                 leader: false,
                 currChannel: voiceChannel
             };
