@@ -1,7 +1,8 @@
 const fs = require('fs');
 const Discord = require('discord.js');
 const { prefix, token } = require('./config.json');
-const { setTextRooms } = require('./scripts/client');
+const { setTextRooms, getRooms } = require('./scripts/client');
+const { resetRoles } = require('./scripts/resetting');
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
@@ -19,8 +20,13 @@ for (const file of commandFiles) {
 
 client.once('ready', () => {
   console.log('Ready!');
-  setTextRooms(client)
   client.user.setActivity("Two Rooms & a Boom", { type: 'WATCHING' });
+  setTextRooms(client)
+  let rooms = getRooms();
+  rooms.lobby.send('2R1B Bot is ready to play!').
+    then(sentMessage => {
+      resetRoles(sentMessage);
+    });
  });
 
  
