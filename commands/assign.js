@@ -2,9 +2,9 @@
 const { roles, channels } = require("../data/serverValues");
 const specialChars = require('../data/specialroles.json');
 const { characters, clone, updateGoal, clearDB, addToDB, gameReport, toggleLive, checkLive, toggleCharacter, getGameCount, incrementGame } = require('../data/database');
-const { resetRoles } = require("../scripts/resetting");
 const { toggleRoom } = require("../scripts/movement");
 const { getCard } = require('../image/cards');
+const { getRooms } = require("../scripts/client");
 
 module.exports = {
     name: 'assign', //THIS MUST BE THE SAME NAME OF THE FILE/COMMAND
@@ -36,6 +36,7 @@ module.exports = {
         let gameSize = 0
         const player_base = message.guild.members.cache.filter(p => p.roles.cache.some(r => r.name === roles.player && p.presence.status === 'online'));
         
+        const rooms = getRooms();
         const players = [...player_base.values()];
         const playerCount = players.length;
         let assigned = [];
@@ -93,11 +94,13 @@ module.exports = {
                 //Assign to room 1
                 inRoom1++;
                 console.log(`${currPlayer.user.username} has been assigned to Room 1`);
+                rooms.room1.send(`${currPlayer.user.username} has been assigned to Room 1`)
                 voiceChannel = channels.room2;//Opposite because moveFunc will move to correct
                 voiceAlert = `${voiceAlert} ${channels.room1}`;
             } else {
                 //Assign to room 2
                 console.log(`${currPlayer.user.username} has been assigned to Room 2`);
+                rooms.room2.send(`${currPlayer.user.username} has been assigned to Room 2`);
                 voiceChannel = channels.room1;
                 voiceAlert = `${voiceAlert} ${channels.room2}`;
             }
