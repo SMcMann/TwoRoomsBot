@@ -5,7 +5,7 @@ function shareColor(initiator, target, response) {
     let targetName = target.player.nickname === null ? target.player.user.username : target.player.nickname;
     let initiatorName = initiator.player.nickname === null ? initiator.player.user.username : initiator.player.nickname;
 
-    if (getDB().length <= 10) {
+    if (getDB().length < 10) {
         initiator.player.user.send("Sorry, this game has less then 10 players. You can only show your CARD with other players. If you would like to show your card hit the 📇 reaction!")
             .then(sentMessage => {
                 sentMessage.react('📇');
