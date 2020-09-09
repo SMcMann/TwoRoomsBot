@@ -28,10 +28,13 @@ function runSoloVote(sentMessage, target, curr_leader) {
             if (curr_leader) updateLeadership(curr_leader,false);
             updateLeadership(target,true);
             //Minion winCon check
-            const minion = findPlayerByCharacter("Minion");
-            if (minion.player.currChannel == target.player.currChannel) {
-                //Minion has failed
-                updateGoal("Mastermind","status",false);
+            const minionGoal = getGoal("Minion");
+            if (minionGoal.active) {
+                const minion = findPlayerByCharacter("Minion");
+                if (minion.player.currChannel == target.player.currChannel) {
+                    //Minion has failed
+                    updateGoal("Minion","status",false);
+                }
             }
         }
         if (r.emoji.name === '👎') {
