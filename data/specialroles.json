@@ -9,6 +9,7 @@
         "coy": false,
         "shy": false,
         "dead": false,
+        "special": true,
         "rules": "You are on Red Team. You win if the President gains the \"dead\" condition."
     },
     {
@@ -21,6 +22,7 @@
         "coy": false,
         "shy": false,
         "dead": false,
+        "special": true,
         "rules": "You are on Blue Team. You win if the President does not gain the \"dead\" condition."
     },
     {
@@ -33,6 +35,7 @@
         "coy": false,
         "shy": false,
         "dead": false,
+        "special": true,
         "rules": "At the end of the last round, before all players (including the Sniper if they are in the game) reveal their cards, you must publicly announce which team (Red Team, Blue Team, or neither) you think won the game. Win only if you are correct."
     }
 ]

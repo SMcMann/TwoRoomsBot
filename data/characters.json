@@ -9,6 +9,7 @@
         "coy": false,
         "shy": false,
         "dead": false,
+        "special": false,
         "rules": "­You are a primary character. Blue Team wins if you do not gain the “dead” condition."
     },
     {
@@ -21,6 +22,7 @@
         "coy": false,
         "shy": false,
         "dead": false,
+        "special": false,
         "rules": "­You are a primary character. Everyone in the same room as you at the end of the game gains the “dead” condition. The Red Team wins if the President gains the “dead” condition. \n\n**Note:** It is possible that the Bomber receives the “dead” condition before the end of the game. If this happens, then the Bomber does not detonate, failing to provide the \"dead” condition to everyone in the same room at the end of the game."
     },
     {
@@ -33,6 +35,7 @@
         "coy": false,
         "shy": false,
         "dead": false,
+        "special": false,
         "rules": "When playing with the Doctor, the Blue Team has the following additional win condition: the President must card share with the Doctor before the end of the game or the Blue Team loses. At the end of the game, the President will be asked if he/she card shared with the Doctor. At that time both players will verify or deny having card shared."
     },
     {
@@ -45,6 +48,7 @@
         "coy": false,
         "shy": false,
         "dead": false,
+        "special": false,
         "rules": "When playing with the Engineer, the Red Team has the following additional win condition: the Bomber must card share with the Engineer before the end of the game or the Red Team loses. At the end of the game, the Bomber will be asked if he/she card shared with the Engineer. At that time both players will verify or deny having card shared."
     },
     {
@@ -57,6 +61,7 @@
         "coy": false,
         "shy": false,
         "dead": false,
+        "special": false,
         "rules": "This is a special character card that is the color of the opposite team. This means that the red Spy has an allegiance to the Red Team, but their card is blue."
     },
     {
@@ -69,6 +74,7 @@
         "coy": false,
         "shy": false,
         "dead": false,
+        "special": false,
         "rules": "This is a special character card that is the color of the opposite team. This means that the blue Spy has an allegiance to the Blue Team, but their card is red."
     },
     {
@@ -81,6 +87,7 @@
         "coy": true,
         "shy": false,
         "dead": false,
+        "special": false,
         "rules": "You begin with the “coy” condition. Players with the “coy” condition may ONLY color share unless a character’s power forces otherwise. Note: The “coy” condition is a psych condition and can be cured by a Psychologist."
     },
     {
@@ -93,6 +100,7 @@
         "coy": true,
         "shy": false,
         "dead": false,
+        "special": false,
         "rules": "You begin with the “coy” condition. Players with the “coy” condition may ONLY color share unless a character’s power forces otherwise. Note: The “coy” condition is a psych condition and can be cured by a Psychologist."
     },
     {
@@ -105,6 +113,7 @@
         "coy": false,
         "shy": true,
         "dead": false,
+        "special": false,
         "rules": "You begin with the “shy” condition. Players with the “shy” condition may not reveal any part of their card to any player. Note: The “shy” condition is a psych condition and can be cured by a Psychologist."
     },
     {
@@ -117,6 +126,7 @@
         "coy": false,
         "shy": true,
         "dead": false,
+        "special": false,
         "rules": "You begin with the “shy” condition. Players with the “shy” condition may not reveal any part of their card to any player. Note: The “shy” condition is a psych condition and can be cured by a Psychologist."
     },
     {
@@ -129,6 +139,7 @@
         "coy": false,
         "shy": false,
         "dead": false,
+        "special": false,
         "rules": "When you privately reveal your card to a character with a psych condition (e.g. “shy”, “coy”, etc.), that character may then immediately card share with you. If they do, their psych condition is removed."
     },
     {
@@ -141,6 +152,7 @@
         "coy": false,
         "shy": false,
         "dead": false,
+        "special": false,
         "rules": "When you privately reveal your card to a character with a psych condition (e.g. “shy”, “coy”, etc.), that character may then immediately card share with you. If they do, their psych condition is removed."
     },
     {
@@ -153,6 +165,7 @@
         "coy": false,
         "shy": false,
         "dead": false,
+        "special": false,
         "rules": "You win if the Sniper shoots you at the end of the last round."
     },
     {
@@ -165,6 +178,7 @@
         "coy": false,
         "shy": false,
         "dead": false,
+        "special": false,
         "rules": "You win if the Sniper does not shoot you at the end of the last round."
     },
     {
@@ -177,6 +191,7 @@
         "coy": false,
         "shy": false,
         "dead": false,
+        "special": false,
         "rules": "At the end of the last round, before all players reveal their character cards and after the Gambler has made their guess (if they are in the game), you must publicly announce which player you are shooting. The selected player does not have to be in the same room as you. You win if the player you selected is the Target."
     },
     {
@@ -189,6 +204,7 @@
         "coy": false,
         "shy": false,
         "dead": false,
+        "special": false,
         "rules": "You begin with the “honest” condition. Players with the “honest” condition must always verbally tell the truth. This means that you are permitted to lie as long as it is not verbally."
     },
     {
@@ -201,6 +217,7 @@
         "coy": false,
         "shy": false,
         "dead": false,
+        "special": false,
         "rules": "You begin with the “honest” condition. Players with the “honest” condition must always verbally tell the truth. This means that you are permitted to lie as long as it is not verbally."
     },
     {
@@ -213,6 +230,7 @@
         "coy": false,
         "shy": false,
         "dead": false,
+        "special": false,
         "rules": "You begin with the “liar” condition. Players with the “liar” condition must always verbally tell lies. This means that you are permitted to tell the truth as long as it is not verbally."
     },
     {
@@ -225,6 +243,7 @@
         "coy": false,
         "shy": false,
         "dead": false,
+        "special": false,
         "rules": "You begin with the “liar” condition. Players with the “liar” condition must always verbally tell lies. This means that you are permitted to tell the truth as long as it is not verbally."
     },
     {
@@ -237,6 +256,7 @@
         "coy": false,
         "shy": false,
         "dead": false,
+        "special": false,
         "rules": "You win if you are a room’s leader at the end AND you were the leader of the opposing room at some point during the game."
     },
     {
@@ -249,6 +269,7 @@
         "coy": false,
         "shy": false,
         "dead": false,
+        "special": false,
         "rules": "You win if a leader is never usurped in the same room as you."
     },
     {
@@ -261,6 +282,7 @@
         "coy": false,
         "shy": false,
         "dead": false,
+        "special": false,
         "rules": "You have the CRIMINAL power: any player that card shares with you gains the “shy” condition. Players with the “shy” condition may not reveal any part of their card to any player."
     },
     {
@@ -273,6 +295,7 @@
         "coy": false,
         "shy": false,
         "dead": false,
+        "special": false,
         "rules": "You have the CRIMINAL power: any player that card shares with you gains the “shy” condition. Players with the “shy” condition may not reveal any part of their card to any player."
     },
     {
@@ -285,6 +308,7 @@
         "coy": false,
         "shy": false,
         "dead": false,
+        "special": false,
         "rules": "You have the THUG power: any player that card shares with you acquires the “coy” condition. Players with the “coy” condition may only color share unless a character’s power might force a card share."
     },
     {
@@ -297,6 +321,7 @@
         "coy": false,
         "shy": false,
         "dead": false,
+        "special": false,
         "rules": "You have the THUG power: any player that card shares with you acquires the “coy” condition. Players with the “coy” condition may only color share unless a character’s power might force a card share."
     },
     {
@@ -309,6 +334,7 @@
         "coy": false,
         "shy": false,
         "dead": false,
+        "special": false,
         "rules": "You win if you are sent to a different room as a hostage at the end of MOST rounds. For example, in a 3 round game, you must change rooms twice to win."
     },
     {
@@ -321,6 +347,7 @@
         "coy": false,
         "shy": false,
         "dead": false,
+        "special": false,
         "rules": "You win as long as you never leave your initial room."
     }
 ]
