@@ -21,7 +21,7 @@ function runSoloVote(sentMessage, target, curr_leader) {
     sentMessage.react('👍');
     sentMessage.react('👎');
     const filter = (reaction, user) => user.id == target.player.user.id;
-    const collector = sentMessage.createReactionCollector(filter, { max: 1, time: 15000 });
+    const collector = sentMessage.createReactionCollector(filter, { max: 1, time: 25000 });
     collector.on('collect', r => {
         if (r.emoji.name === '👍') {
             sentMessage.channel.send(`${target.player.user.username} accepted! Roles have been updated.`)
@@ -58,7 +58,7 @@ function runGroupVote(sentMessage, target, curr_leader) {
     const majority = Math.ceil(voteRoom.size / 2);
     const filter = (reaction, user) => !user.bot && voteRoom.get(user.id).voice.channel.id == target.player.voice.channel.id;
     let posVotes = 0;
-    const collector = sentMessage.createReactionCollector(filter, { max: majority, time: 15000 });
+    const collector = sentMessage.createReactionCollector(filter, { max: majority, time: 25000 });
     collector.on('collect', r => {
         if (r.emoji.name === '👍') {
             posVotes++;
