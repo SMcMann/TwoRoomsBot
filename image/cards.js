@@ -23,7 +23,7 @@ function getCard(character, share) {
     // Creates the embed for the card
     let cardEmbed = {
         color: character.color === 'Red' ? 0xFF0000 : character.color === 'Blue' ? 0x0099ff : 0x808080,
-        title: `${share ? `The ${character.name} Card was revealed to you!` : `You have been delt the ${character.name} Card!`}`,
+        title: `${share ? `The ${character.name} Card was revealed to you!` : `You have been dealt the ${character.name} Card!`}`,
         author: {
             name: 'Two Rooms Bot',
             icon_url: avatar,
