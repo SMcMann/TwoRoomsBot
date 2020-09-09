@@ -2,19 +2,15 @@ const { roles, channels } = require("../data/serverValues");
 const { updateVoice, getDebrief } = require("../data/database");
 
 function moveVoice (message,target,room) {
-    message.channel.send(`Moving ${target.player.user.username} to ${room}`)
-        .then(() => {
-            //Update currChannel
-            if (!getDebrief()) updateVoice(target,room);
-            //Move
-            if (target.player.voice.channelID === undefined) {
-                // message.channel.send(`Cannot move ${target.player.user.username} because they are not in voice.`);
-                console.log(`Cannot move ${target.player.user.username} because they are not in voice.`)
-            } else {
-                target.player.edit({channel: target.player.guild.channels.cache.find(c => c.name == room)});
-            }
-        })
-        .catch(console.error);
+    if (!getDebrief()) updateVoice(target,room); //Update currChannel
+    if (target.player.voice.channelID === undefined) {
+        // message.channel.send(`Cannot move ${target.player.user.username} because they are not in voice.`);
+        console.log(`Cannot move ${target.player.user.username} because they are not in voice.`)
+    } else {
+        console.log(`Moving ${target.player.user.username} to ${room}`);
+        target.player.edit({channel: target.player.guild.channels.cache.find(c => c.name == room)}) //Move
+            .catch(console.error);
+    }   
 }
 
 function toggleRoom (message,target) {
@@ -31,22 +27,19 @@ function toggleRoom (message,target) {
         roomB = channels.room2;
         roleB = roles.room2;
     }
-    message.channel.send(`Moving ${target.player.user.username} to ${roomA}`)
-        .then(sentMessage => {
-            //Update currChannel
-            updateVoice(target,roomA);
-            //Update role
-            target.player.roles.add(target.player.guild.roles.cache.find(r => r.name == roleA));
-            target.player.roles.remove(target.player.guild.roles.cache.find(r => r.name == roleB));
-            //Move
-            if (target.player.voice.channelID === undefined) {
-                // message.channel.send(`Cannot move ${target.player.user.username} because they are not in voice.`);
-                console.log(`Cannot move ${target.player.user.username} because they are not in voice.`)
-            } else {
-                target.player.edit({channel: target.player.guild.channels.cache.find(c => c.name == roomA)});
-            }
-        })
-        .catch(console.error);
+    console.log(`Moving ${target.player.user.username} to ${roomA}`)
+    updateVoice(target,roomA); //Update currChannel
+
+    target.player.roles.add(target.player.guild.roles.cache.find(r => r.name == roleA)); //Update role
+    target.player.roles.remove(target.player.guild.roles.cache.find(r => r.name == roleB)); //Update role
+
+    if (target.player.voice.channelID === undefined) {
+        // message.channel.send(`Cannot move ${target.player.user.username} because they are not in voice.`);
+        console.log(`Cannot move ${target.player.user.username} because they are not in voice.`)
+    } else {
+        target.player.edit({channel: target.player.guild.channels.cache.find(c => c.name == roomA)}) //Move
+        .catch(console.error);             
+    }
 }
 
 module.exports = { toggleRoom, moveVoice };
