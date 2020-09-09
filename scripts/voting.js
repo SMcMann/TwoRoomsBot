@@ -17,7 +17,7 @@ function channelVoting(channel) {
 }
 
 function runSoloVote(sentMessage, target, curr_leader) {
-    setVoting(target.player.voice.channel,true);
+    setVoting(target.currChannel,true);
     sentMessage.react('👍');
     sentMessage.react('👎');
     const filter = (reaction, user) => user.id == target.player.user.id;
@@ -51,7 +51,7 @@ function runSoloVote(sentMessage, target, curr_leader) {
 }
 
 function runGroupVote(sentMessage, target, curr_leader) {
-    setVoting(target.player.voice.channel,true);
+    setVoting(target.currChannel,true);
     sentMessage.react('👍');
     sentMessage.react('👎');
     const voteRoom = target.player.voice.channel.members;
