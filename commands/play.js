@@ -8,12 +8,13 @@ module.exports = {
     args: false, 
     execute(message, args){
         const player = message.author;
-        if (player.roles.cache.some(r => r.name == roles.player)) {
+        const role = message.guild.roles.cache.find(role => role.name === 'Player [Two Rooms]');
+        if (message.member.roles.cache.some(r => r.name === role.name)) {
             //Remove role
-            player.roles.add(message.guild.roles.filter(r => r.name == roles.player));
+            message.member.roles.remove(role);
         } else {
             //Add role
-            player.roles.remove(message.guild.roles.filter(r => r.name == roles.player));
+            message.member.roles.add(role);
         }
     }//execute
 }
