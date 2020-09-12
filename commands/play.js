@@ -7,6 +7,7 @@ module.exports = {
     description: 'Toggle Player [Two Rooms] role',
     args: false, 
     execute(message, args){
+        if (message.channel.type !== 'dm') message.delete({ timeout: 2000 })
         const player = message.author;
         const role = message.guild.roles.cache.find(role => role.name === 'Player [Two Rooms]');
         if (message.member.roles.cache.some(r => r.name === role.name)) {
