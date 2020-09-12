@@ -1,4 +1,4 @@
-const { getRoundStatus, startRound, timeRemaining } = require("../scripts/gameClock");
+const { getRoundStatus, startRound, timeRemaining, pauseRound, unpauseRound } = require("../scripts/gameClock");
 const { checkLive } = require("../data/database");
 const { roles } = require("../data/serverValues");
 
@@ -7,7 +7,7 @@ const two = ['two', '2'];
 const three = ['three', '3'];
 const four = ['four', '4'];
 const five = ['five', '5'];
-const options = [...one, ...two, ...three, ...four];
+const options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
 
 module.exports = {
     name: 'round', //THIS MUST BE THE SAME NAME OF THE FILE/COMMAND
@@ -36,15 +36,18 @@ module.exports = {
             message.channel.send('No game is live!');
             return;
         }
+
+        if (args[0] === 'pause') {
+            pauseRound();
+        }
+
+        if (args[0] === 'unpause') {
+            unpauseRound()
+        }
         
-        if (args[0] === 'start' && args.length > 1 && options.some(el => el === args[1])) {
+        if (args[0] === 'start' && args.length > 1 && options.some(el => el === parseInt(args[1]))) {
             if (getRoundStatus()) message.channel.send(`Round is already live: ${timeRemaining()}`)
-            one.some(el => el === args[1].toLowerCase()) ? startRound(1) :
-                two.some(el => el === args[1].toLowerCase()) ? startRound(2) :
-                    three.some(el => el === args[1].toLowerCase()) ? startRound(3) :
-                        four.some(el => el === args[1].toLowerCase()) ? startRound(4) :
-                            five.some(el => el === args[1].toLowerCase()) ? startRound(5) :
-                                message.channel.send(`${args} is not a valid time for the round.`)
+            startRound(parseInt(args[1].toLowerCase()));
         };
 
         if (args[0] === 'time') {
