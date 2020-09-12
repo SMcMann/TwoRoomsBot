@@ -1,5 +1,6 @@
 const { incrementRound, getRound } = require("../data/database");
 const { broadcast } = require("./broadcast");
+const { getRooms } = require("./client");
 
 let min = 0; // Starting minutes on master game clock
 let sec = 0; // Starting seconds on master game clock
@@ -28,15 +29,19 @@ function updateTime() {
 }
 
 function pauseRound() {
-    pause = setInterval(keepPaused(), 1000);
+    let rooms = getRooms()
+    rooms.lobby.send('Game is paused');
+    pause = setInterval(keepPaused, 1000);
 };
 
 function unpauseRound() {
+    let rooms = getRooms()
+    updateTime();
+    rooms.lobby.send('Game is unpaused!');
     clearInterval(pauseRound);
 };
 
 function keepPaused() {
-    currentTime = Date.parse(new Date());
     deadline = new Date(currentTime + (sec * 1000) + (min * 1000 * 60));
     return;
 };
